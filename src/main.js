@@ -4,16 +4,45 @@ import { workProjects, personalProjects } from './data/projects.js'
 // Main entry point
 
 const init = () => {
+  // Mobile Navigation Logic
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  if (mobileBtn && mobileNav) {
+    mobileBtn.addEventListener('click', () => {
+      const isHidden = mobileNav.style.display === 'none';
+      mobileNav.style.display = isHidden ? 'flex' : 'none';
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.style.display = 'none';
+      });
+    });
+  }
+
+  // Service Worker Registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('SW registered: ', registration);
+      }).catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+    });
+  }
+
   // Render Work Projects (hide button, make image clickable)
-  renderGrid('work-grid', workProjects, { showLinkButton: false });
+  renderGrid('work-grid', workProjects, { showLinkButton: false, isWork: true });
 
   // Render Personal Projects (show button)
-  renderGrid('projects-grid', personalProjects, { showLinkButton: true });
+  renderGrid('projects-grid', personalProjects, { showLinkButton: true, isWork: false });
 
   setupScrollReveal();
 };
 
-const renderGrid = (elementId, data, config = { showLinkButton: true }) => {
+const renderGrid = (elementId, data, config = { showLinkButton: true, isWork: false }) => {
   const grid = document.getElementById(elementId);
   if (!grid) return;
 
@@ -21,11 +50,14 @@ const renderGrid = (elementId, data, config = { showLinkButton: true }) => {
 
   grid.innerHTML = data.map(project => `
         <article class="glass-panel project-card" style="overflow: hidden; display: flex; flex-direction: column; height: 100%;">
-            <div style="height: 200px; overflow: hidden; position: relative;">
-                ${!config.showLinkButton ? `<a href="${project.link}" target="_blank" style="display:block; height:100%;">` : ''}
-                <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;">
+            <div class="skeleton" style="height: 200px; overflow: hidden; position: relative; border-radius: 8px 8px 0 0;">
+                ${config.isWork ? `<a href="${project.link}" target="_blank" style="display:block; height:100%;">` : ''}
+                <img src="${project.image}" alt="${project.title}" loading="lazy" class="img-loading"
+                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;"
+                     onload="this.classList.add('img-loaded'); this.parentElement.closest('.skeleton').classList.remove('skeleton');"
+                     onerror="this.src='https://via.placeholder.com/400x225?text=No+Preview'; this.parentElement.closest('.skeleton').classList.remove('skeleton');">
                 <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); pointer-events: none;"></div>
-                ${!config.showLinkButton ? `</a>` : ''}
+                ${config.isWork ? `</a>` : ''}
             </div>
             
             <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
@@ -56,7 +88,8 @@ const renderGrid = (elementId, data, config = { showLinkButton: true }) => {
   grid.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
       const img = card.querySelector('img');
-      if (img) img.style.transform = 'scale(1.1)';
+      // Only scale if image is loaded to avoid jumping
+      if (img && img.classList.contains('img-loaded')) img.style.transform = 'scale(1.1)';
     });
     card.addEventListener('mouseleave', () => {
       const img = card.querySelector('img');
@@ -66,21 +99,18 @@ const renderGrid = (elementId, data, config = { showLinkButton: true }) => {
 };
 
 const setupScrollReveal = () => {
-  // Simple intersection observer for fade-in
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.01, rootMargin: '0px 0px -50px 0px' });
 
   const sections = document.querySelectorAll('section');
   sections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    section.classList.add('reveal-init');
     observer.observe(section);
   });
 };
