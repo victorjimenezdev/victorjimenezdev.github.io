@@ -193,3 +193,11 @@ ul {
     transition: none;
   }
 }
+
+/* Back to Top Button Hover */
+#back-to-top:hover {
+  transform: translateY(-5px);
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 8px 16px rgba(108, 92, 231, 0.4);
+}

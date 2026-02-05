@@ -39,6 +39,34 @@ const init = () => {
   // Render Personal Projects (show button)
   renderGrid('projects-grid', personalProjects, { showLinkButton: true, isWork: false });
 
+  // Back to Top Logic
+  const backToTopBtn = document.getElementById('back-to-top');
+
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.style.display = 'block';
+        requestAnimationFrame(() => {
+          backToTopBtn.style.opacity = '1';
+          backToTopBtn.style.transform = 'translateY(0)';
+        });
+      } else {
+        backToTopBtn.style.opacity = '0';
+        backToTopBtn.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          if (window.scrollY <= 300) backToTopBtn.style.display = 'none';
+        }, 300);
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
   setupScrollReveal();
 };
 
