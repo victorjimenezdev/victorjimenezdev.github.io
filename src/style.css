@@ -208,56 +208,7 @@ ul {
 }
 
 /* Back to Top Button Hover */
-/* Tech Stack Marquee */
-.tech-marquee-container {
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 4rem 0;
-  position: relative;
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--card-border);
-  border-bottom: 1px solid var(--card-border);
-}
 
-.tech-marquee-track {
-  display: inline-block;
-  animation: marquee 120s linear infinite;
-}
-
-.tech-icon {
-  display: inline-flex;
-  flex-direction: column;
-  /* Icons on top of text */
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 2.5rem;
-  color: var(--text-primary);
-  /* brighter for potential visibility issues */
-  transition: color 0.3s;
-}
-
-.tech-icon svg {
-  width: 40px;
-  height: 40px;
-  fill: currentColor;
-  margin-bottom: 0.5rem;
-}
-
-.tech-icon:hover {
-  color: var(--primary);
-}
-
-
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
 /* Modals */
 dialog {

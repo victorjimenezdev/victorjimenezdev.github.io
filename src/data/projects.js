@@ -7,7 +7,8 @@ export const workProjects = [
     "tags": [
       "Drupal Decoupled",
       "React",
-      "Node.js"
+      "Node.js",
+      "AWS Suite"
     ],
     "link": "https://www.hbomax.com/",
     "image": "/images/projects/hbomax.jpg",
@@ -20,7 +21,7 @@ export const workProjects = [
     "tags": [
       "Drupal Decoupled",
       "React",
-      "Interactive"
+      "AWS Suite"
     ],
     "link": "https://www.cartoonnetwork.ca/",
     "image": "/images/projects/cartoon-network.jpg",
@@ -31,8 +32,9 @@ export const workProjects = [
     "title": "Sonesta Hotels",
     "description": "Hospitality and hotel booking platform.",
     "tags": [
-      "Drupal",
+      "Drupal Decoupled",
       "Acquia Cloud",
+      "Netlify",
       "React"
     ],
     "link": "https://www.sonesta.com/",
@@ -44,8 +46,9 @@ export const workProjects = [
     "title": "Turner Classic Movies",
     "description": "Movie entertainment website.",
     "tags": [
-      "Entertainment",
-      "Media"
+      "Drupal Decoupled",
+      "AWS Suite",
+      "React"
     ],
     "link": "https://www.tcm.com/",
     "image": "/images/projects/tcm.jpg",
@@ -56,12 +59,27 @@ export const workProjects = [
     "title": "Adult Swim",
     "description": "Where to Watch - Entertainment portal.",
     "tags": [
-      "Entertainment",
-      "Media"
+      "Drupal Decoupled",
+      "AWS Suite",
+      "React"
     ],
     "link": "https://www.adultswim.com/where-to-watch",
     "image": "/images/projects/adult-swim.jpg",
     "featured": true
+  },
+  {
+    "id": "iadb",
+    "title": "Inter-American Development Bank",
+    "description": "International financial organization website.",
+    "tags": [
+      "Drupal Decoupled",
+      "Pantheon",
+      "Storybook",
+      "Finance"
+    ],
+    "link": "https://www.iadb.org/",
+    "image": "/images/projects/iadb.jpg",
+    "featured": false
   },
   {
     "id": "arcadia",
@@ -320,19 +338,7 @@ export const workProjects = [
     "link": "https://www.pensions.org/",
     "image": "/images/projects/pensions.jpg"
   },
-  {
-    "id": "iadb",
-    "title": "Inter-American Development Bank",
-    "description": "International financial organization website.",
-    "tags": [
-      "Drupal",
-      "Pantheon",
-      "Finance"
-    ],
-    "link": "https://www.iadb.org/",
-    "image": "/images/projects/iadb.jpg",
-    "featured": false
-  },
+
   {
     "id": "paho",
     "title": "PAHO / WHO",
