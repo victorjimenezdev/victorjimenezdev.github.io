@@ -72,6 +72,9 @@ const init = () => {
   // Render Work Projects (hide button, make image clickable)
   renderGrid('work-grid', workProjects, { showLinkButton: false, isWork: true });
 
+  // Render Personal Projects (show button)
+  renderGrid('projects-grid', personalProjects, { showLinkButton: true, isWork: false });
+
   // Scroll Progress Logic
   const progressBar = document.getElementById('scroll-progress');
   if (progressBar) {

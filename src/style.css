@@ -254,6 +254,15 @@ dialog {
   max-width: 600px;
   width: 90%;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+  /* Centering Logic */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 dialog::backdrop {
