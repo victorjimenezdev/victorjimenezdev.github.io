@@ -732,7 +732,7 @@ export const personalProjects = [
       "Google Cloud"
     ],
     "link": "https://github.com/victorjimenezdev/gtm-api",
-    "image": "/images/projects/nano-banana-neon.png",
+    "image": "/images/projects/gtm-api.png",
     "featured": false
   },
   {
@@ -745,7 +745,7 @@ export const personalProjects = [
       "Security"
     ],
     "link": "https://github.com/victorjimenezdev/project-context-connector-wp",
-    "image": "/images/projects/nano-banana-circuit.png",
+    "image": "/images/projects/project-context-connector-wp.png",
     "featured": false
   },
   {
@@ -758,7 +758,7 @@ export const personalProjects = [
       "Vanilla JS"
     ],
     "link": "https://github.com/victorjimenezdev/videotube",
-    "image": "/images/projects/nano-banana-neon.png",
+    "image": "/images/projects/videotube.png",
     "featured": false
   },
   {
@@ -771,21 +771,20 @@ export const personalProjects = [
       "Automation"
     ],
     "link": "https://github.com/victorjimenezdev/jiraextractor",
-    "image": "/images/projects/nano-banana-circuit.png",
+    "image": "/images/projects/jiraextractor.png",
     "featured": false
   },
   {
     "id": "project-context-connector",
     "title": "Project Context Connector",
     "description": "Maintainer of this security-focused, read-only JSON snapshot endpoint for Drupal sites. Used in automation and CI workflows to provide context for AI agents and external tools.",
-    "image": "https://via.placeholder.com/600x400/1e1e2e/6c5ce7?text=Context+Connector",
+    "image": "/images/projects/project-context-connector.png",
     "tags": [
       "Drupal 10 Module",
       "Security",
       "CI/CD"
     ],
     "link": "https://github.com/victorjimenezdev/project_context_connector",
-    "image": "/images/projects/nano-banana-circuit.png",
     "featured": false
   },
   {
@@ -798,7 +797,7 @@ export const personalProjects = [
       "API"
     ],
     "link": "https://github.com/victorjimenezdev/social-tools",
-    "image": "/images/projects/nano-banana-circuit.png",
+    "image": "/images/projects/social-tools.png",
     "featured": false
   },
   {
@@ -811,7 +810,7 @@ export const personalProjects = [
       "JavaScript"
     ],
     "link": "https://github.com/victorjimenezdev/link-saver",
-    "image": "/images/projects/nano-banana-neon.png",
+    "image": "/images/projects/link-saver.png",
     "featured": false
   },
   {
@@ -824,7 +823,7 @@ export const personalProjects = [
       "AI Integration"
     ],
     "link": "https://github.com/victorjimenezdev/chatgptextension",
-    "image": "/images/projects/nano-banana-neon.png",
+    "image": "/images/projects/chatgptextension.png",
     "featured": false
   },
   {
@@ -837,7 +836,7 @@ export const personalProjects = [
       "Open Source"
     ],
     "link": "https://www.drupal.org/user/3593952/",
-    "image": "/images/projects/nano-banana-circuit.png",
+    "image": "/images/projects/drupal-profile.png",
     "featured": true
   }
 ];
