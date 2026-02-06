@@ -206,17 +206,17 @@ const renderGrid = (elementId, data, config = { showLinkButton: true, isWork: fa
                     ${project.description}
                 </p>
                 
-                <div style="display: flex; gap: 0.5rem; margin-top: auto;">
-                    <button class="btn" onclick='window.openProjectModal(${JSON.stringify(project).replace(/'/g, "&#39;")})'
-                        style="background: rgba(255,255,255,0.05); justify-content: center; flex: 1; border: 1px solid var(--card-border); font-size: 0.9rem;">
-                        Details
-                    </button>
-                    ${config.showLinkButton ? `
-                    <a href="${project.link}" target="_blank" rel="nofollow noreferrer noopener" class="btn" style="background: rgba(255,255,255,0.05); justify-content: center; flex: 1; border: 1px solid var(--card-border); font-size: 0.9rem;" aria-label="View Code for ${project.title}">
-                        Code
-                    </a>
-                    ` : ''}
-                </div>
+        <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+            <button class="btn" onclick='window.openProjectModal(${JSON.stringify(project).replace(/'/g, "&#39;")})'
+                style="background: rgba(255,255,255,0.05); color: var(--text-primary); justify-content: center; flex: 1; border: 1px solid var(--card-border); font-size: 0.9rem;">
+                Details
+            </button>
+            ${config.showLinkButton ? `
+            <a href="${project.link}" target="_blank" rel="nofollow noreferrer noopener" class="btn" style="background: rgba(255,255,255,0.05); color: var(--text-primary); justify-content: center; flex: 1; border: 1px solid var(--card-border); font-size: 0.9rem;" aria-label="View Code for ${project.title}">
+                Code
+            </a>
+            ` : ''}
+        </div>
             </div>
         </article>
     `).join('');
