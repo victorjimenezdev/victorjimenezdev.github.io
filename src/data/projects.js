@@ -5,8 +5,9 @@ export const workProjects = [
     "title": "HBO Max",
     "description": "Streaming service landing and support pages.",
     "tags": [
-      "Entertainment",
-      "Streaming"
+      "Drupal Decoupled",
+      "React",
+      "Node.js"
     ],
     "link": "https://www.hbomax.com/",
     "image": "/images/projects/hbomax.jpg",
@@ -17,8 +18,9 @@ export const workProjects = [
     "title": "Cartoon Network Canada",
     "description": "Interactive kids entertainment portal.",
     "tags": [
-      "Entertainment",
-      "Media"
+      "Drupal Decoupled",
+      "React",
+      "Interactive"
     ],
     "link": "https://www.cartoonnetwork.ca/",
     "image": "/images/projects/cartoon-network.jpg",
@@ -29,8 +31,9 @@ export const workProjects = [
     "title": "Sonesta Hotels",
     "description": "Hospitality and hotel booking platform.",
     "tags": [
-      "Web App",
-      "Hospitality"
+      "Drupal 9",
+      "Acquia Cloud",
+      "React"
     ],
     "link": "https://www.sonesta.com/",
     "image": "/images/projects/sonesta.jpg",
@@ -65,8 +68,9 @@ export const workProjects = [
     "title": "Arcadia University",
     "description": "University website platform.",
     "tags": [
-      "Education",
-      "Drupal"
+      "Drupal 9",
+      "Pantheon",
+      "Higher Ed"
     ],
     "link": "https://www.arcadia.edu/",
     "image": "/images/projects/arcadia.jpg"
@@ -76,8 +80,9 @@ export const workProjects = [
     "title": "Grounds For Sculpture",
     "description": "Arts and museum website.",
     "tags": [
-      "Arts",
-      "Culture"
+      "WordPress",
+      "Cloudflare",
+      "Arts"
     ],
     "link": "https://www.groundsforsculpture.org/",
     "image": "/images/projects/grounds-sculpture.jpg"
@@ -87,8 +92,9 @@ export const workProjects = [
     "title": "Philadelphia Cultural Alliance",
     "description": "Cultural organization portal.",
     "tags": [
-      "Non-profit",
-      "Culture"
+      "Drupal 9",
+      "Bootstrap",
+      "Non-profit"
     ],
     "link": "https://www.philaculture.org/",
     "image": "/images/projects/philaculture.jpg"
@@ -98,8 +104,9 @@ export const workProjects = [
     "title": "Fox Chase Cancer Center",
     "description": "Healthcare and research facility.",
     "tags": [
-      "Health",
-      "Research"
+      "Drupal",
+      "Acquia Cloud",
+      "Health"
     ],
     "link": "https://www.foxchase.org/",
     "image": "/images/projects/foxchase.jpg"
@@ -109,8 +116,9 @@ export const workProjects = [
     "title": "Temple Health",
     "description": "Academic health system.",
     "tags": [
-      "Health",
-      "Hospital"
+      "Drupal 9",
+      "Acquia Cloud",
+      "Health"
     ],
     "link": "https://www.templehealth.org/",
     "image": "/images/projects/temple-health.jpg"
@@ -120,8 +128,9 @@ export const workProjects = [
     "title": "Eastern Standard",
     "description": "Agency website.",
     "tags": [
-      "Agency",
-      "Corporate"
+      "WordPress",
+      "Pantheon",
+      "Agency"
     ],
     "link": "https://www.easternstandard.com/",
     "image": "/images/projects/eastern-standard.jpg"
@@ -186,8 +195,9 @@ export const workProjects = [
     "title": "Brickworks Supply",
     "description": "Building materials catalog.",
     "tags": [
-      "Construction",
-      "Commerce"
+      "WordPress",
+      "Commerce",
+      "B2B"
     ],
     "link": "http://brickworkssupply.com",
     "image": "/images/projects/brickworks.jpg"
@@ -197,8 +207,9 @@ export const workProjects = [
     "title": "Fairleigh Dickinson University",
     "description": "Private university website.",
     "tags": [
-      "Education",
-      "University"
+      "WordPress",
+      "Pantheon",
+      "Higher Ed"
     ],
     "link": "https://www.fdu.edu/",
     "image": "/images/projects/fdu.jpg"
@@ -208,8 +219,9 @@ export const workProjects = [
     "title": "Glen-Gery",
     "description": "Brick and stone manufacturer.",
     "tags": [
-      "Manufacturing",
-      "Corporate"
+      "Drupal",
+      "Pantheon",
+      "Manufacturing"
     ],
     "link": "https://www.glengery.com/",
     "image": "/images/projects/glengery.jpg"
@@ -219,8 +231,9 @@ export const workProjects = [
     "title": "Accion International",
     "description": "Non-profit organization.",
     "tags": [
-      "Non-profit",
-      "Global"
+      "WordPress",
+      "Pantheon",
+      "Non-profit"
     ],
     "link": "https://www.accion.org/",
     "image": "/images/projects/accion.jpg"
@@ -230,8 +243,9 @@ export const workProjects = [
     "title": "PMC Property Group",
     "description": "Property management.",
     "tags": [
-      "Real Estate",
-      "B2B"
+      "Drupal",
+      "Pantheon",
+      "Real Estate"
     ],
     "link": "https://www.pmcpropertygroup.com/",
     "image": "/images/projects/pmc-property.jpg"
@@ -241,8 +255,9 @@ export const workProjects = [
     "title": "CHILD USA",
     "description": "Think tank for child protection.",
     "tags": [
-      "Non-profit",
-      "Advocacy"
+      "WordPress",
+      "Cloudflare",
+      "Non-profit"
     ],
     "link": "https://childusa.org/",
     "image": "/images/projects/child-usa.jpg"
@@ -252,8 +267,9 @@ export const workProjects = [
     "title": "Cohen, Placitella & Roth",
     "description": "Law firm website.",
     "tags": [
-      "Legal",
-      "B2C"
+      "WordPress",
+      "Cloudflare",
+      "Legal"
     ],
     "link": "https://cprlaw.com/",
     "image": "/images/projects/cpr-law.jpg"
@@ -263,8 +279,9 @@ export const workProjects = [
     "title": "Guildhall School",
     "description": "Music and drama school.",
     "tags": [
-      "Education",
-      "Arts"
+      "WordPress",
+      "Pantheon",
+      "Arts Ed"
     ],
     "link": "https://www.guildhall.org/",
     "image": "/images/projects/guildhall.jpg"
@@ -274,8 +291,9 @@ export const workProjects = [
     "title": "Knowles Teacher Initiative",
     "description": "Education support organization.",
     "tags": [
-      "Education",
-      "Non-profit"
+      "WordPress",
+      "Pantheon",
+      "Education"
     ],
     "link": "https://knowlesteachers.org/",
     "image": "/images/projects/knowles.jpg"
@@ -307,7 +325,8 @@ export const workProjects = [
     "title": "Inter-American Development Bank",
     "description": "International financial organization website.",
     "tags": [
-      "Corporate",
+      "Drupal",
+      "Pantheon",
       "Finance"
     ],
     "link": "https://www.iadb.org/",
@@ -319,8 +338,9 @@ export const workProjects = [
     "title": "PAHO / WHO",
     "description": "Pan American Health Organization platform.",
     "tags": [
-      "Health",
-      "International"
+      "Drupal 9",
+      "Pantheon",
+      "Health"
     ],
     "link": "https://rna.paho.org/",
     "image": "/images/projects/paho.jpg",
@@ -331,8 +351,9 @@ export const workProjects = [
     "title": "Banco Pichincha Panama",
     "description": "Banking and financial services portal.",
     "tags": [
-      "Banking",
-      "Finance"
+      "Drupal",
+      "Pantheon",
+      "Banking"
     ],
     "link": "https://www.pichinchapanama.com/",
     "image": "/images/projects/pichincha.jpg",
