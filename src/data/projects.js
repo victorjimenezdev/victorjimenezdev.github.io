@@ -379,6 +379,8 @@ export const workProjects = [
     "title": "BAC Credomatic",
     "description": "Regional banking services platform.",
     "tags": [
+      "Drupal",
+      "AWS",
       "Banking",
       "Finance"
     ],
@@ -391,6 +393,8 @@ export const workProjects = [
     "title": "Canon Panama",
     "description": "Product catalog and corporate site for Canon.",
     "tags": [
+      "Drupal",
+      "Pantheon",
       "E-commerce",
       "Corporate"
     ],
@@ -767,6 +771,7 @@ export const workProjects = [
     "title": "NRVCC",
     "description": "Government/Health organization portal.",
     "tags": [
+      "ASP.NET",
       "Government",
       "Health"
     ],
