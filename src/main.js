@@ -127,7 +127,7 @@ const init = () => {
   if (marqueeTrack) {
     const icons = TECH_STACK.map(tech => `
       <div class="tech-icon">
-        <span style="font-size: 2.5rem; height: 40px; display: flex; align-items: center;">${tech.icon}</span>
+        ${tech.icon}
         <span style="font-size: 0.9rem; font-weight: 500;">${tech.name}</span>
       </div>
     `).join('');
