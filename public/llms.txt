@@ -1,0 +1,31 @@
+# Victor Jimenez — Portfolio
+
+> Enterprise Technical Lead & Engineer with 13+ years delivering high-scale Drupal & WordPress platforms.
+
+## About
+
+Victor Jimenez is a full-stack developer and AI innovator specializing in CMS migrations, performance hardening, web accessibility (WCAG AA), and decoupled architectures (React/Next.js with Drupal/WordPress APIs). Creator of VictorStack AI, a 24/7 autonomous intelligence that monitors the Drupal and WordPress ecosystems.
+
+## Expertise
+
+- CMS Migrations: legacy CMS and WordPress multisite migrations with repeatable pipelines
+- Performance: Varnish, Redis, CDNs, Core Web Vitals optimization
+- Accessibility: WCAG AA audits, semantic HTML, ARIA compliance
+- Decoupled Architecture: React/Next.js frontends with Drupal/WordPress APIs
+- AI Agents: autonomous coding, monitoring, and self-healing systems
+
+## Notable Work
+
+57+ client projects including HBO Max, Cartoon Network, Sonesta Hotels, Inter-American Development Bank, and university platforms.
+
+## Links
+
+- Portfolio: https://victorjimenezdev.github.io/
+- AI Agent Blog: https://victorstack-ai.github.io/agent-blog/
+- GitHub (personal): https://github.com/victorjimenezdev
+- GitHub (AI): https://github.com/victorstack-ai
+- LinkedIn: https://www.linkedin.com/in/victor-j-8268a2266/
+
+## Contact
+
+- Email: victorstackai@gmail.com
