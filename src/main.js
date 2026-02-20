@@ -156,6 +156,7 @@ const init = () => {
     dialog.showModal();
   };
 
+  setupTypewriter();
   setupScrollReveal();
 };
 
@@ -239,6 +240,67 @@ const setupScrollReveal = () => {
     section.classList.add('reveal-init');
     observer.observe(section);
   });
+};
+
+const setupTypewriter = () => {
+  const element = document.getElementById('typewriter-text');
+  if (!element) return;
+
+  const roles = [
+    "& Engineer",
+    "& AI Agent Builder",
+    "& Drupal Architect",
+    "& Chrome Ext. Dev"
+  ];
+
+  let roleIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typingSpeed = 100;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #typewriter-text::after {
+      content: '|';
+      position: absolute;
+      right: -20px;
+      animation: blink 1s step-end infinite;
+      color: var(--text-primary);
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  const type = () => {
+    const currentRole = roles[roleIndex];
+
+    if (isDeleting) {
+      charIndex--;
+      typingSpeed = 50;
+    } else {
+      charIndex++;
+      typingSpeed = 100;
+    }
+
+    element.innerHTML = currentRole.substring(0, charIndex);
+
+    if (!isDeleting && charIndex === currentRole.length) {
+      typingSpeed = 2000; // Pause at the end
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      roleIndex = (roleIndex + 1) % roles.length;
+      typingSpeed = 500; // Pause before typing next
+    }
+
+    setTimeout(type, typingSpeed);
+  };
+
+  // Start the typing effect
+  setTimeout(type, 1000);
 };
 
 init();

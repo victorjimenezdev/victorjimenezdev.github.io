@@ -21,6 +21,8 @@
   --font-main: 'Inter', system-ui, -apple-system, sans-serif;
 
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --theme-invert: 1;
+  /* Invert black logos on dark mode */
 }
 
 [data-theme="light"] {
@@ -33,6 +35,8 @@
   --card-bg: rgba(240, 240, 250, 0.5);
   --card-border: rgba(0, 0, 0, 0.1);
   --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --theme-invert: 0;
+  /* Keep black logos on light mode */
 }
 
 * {
@@ -234,4 +238,53 @@ dialog {
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
+}
+
+/* Infinite Tech Marquee */
+.marquee-wrapper {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4rem;
+  min-width: 100%;
+  animation: scroll 30s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.tech-item img {
+  height: 35px;
+  width: auto;
+  object-fit: contain;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }

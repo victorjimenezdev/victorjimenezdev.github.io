@@ -6,7 +6,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B0GQS2GS37"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-B0GQS2GS37');
@@ -118,9 +118,11 @@
     <section id="hero"
       style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
       <div class="container" style="text-align: center; z-index: 1;">
-        <h1 style="font-size: 4rem; margin-bottom: 1.5rem; line-height: 1.1;">
-          Enterprise <span style="color: var(--primary);">Technical Lead</span><br>
-          & Engineer
+        <h1
+          style="font-size: 4rem; margin-bottom: 1.5rem; line-height: 1.1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 140px;">
+          <span style="display: block;">Enterprise <span style="color: var(--primary);">Technical Lead</span></span>
+          <span id="typewriter-text"
+            style="display: block; color: var(--secondary); font-size: 3.2rem; min-height: 60px; position: relative;"></span>
         </h1>
         <p
           style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto;">
@@ -143,6 +145,53 @@
       </div>
       <div
         style="position: absolute; bottom: 20%; right: 20%; width: 300px; height: 300px; background: var(--secondary); filter: blur(120px); opacity: 0.15; border-radius: 50%;">
+      </div>
+    </section>
+
+    <!-- Tech Stack Marquee Section -->
+    <section id="tech-stack"
+      style="padding: 2rem 0; background: var(--bg-secondary); border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border); overflow: hidden;">
+      <div class="marquee-wrapper">
+        <div class="marquee-content">
+          <!-- Duplicated for infinite scroll -->
+          <span class="tech-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+              alt="React"> React</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js"
+              style="filter: invert(var(--theme-invert, 0));"> Next.js</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+            Python</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/drupal/drupal-original.svg" alt="Drupal">
+            Drupal</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+              alt="AWS" style="filter: invert(var(--theme-invert, 0)); height: 30px;"></span>
+          <span class="tech-item"><img src="https://vitejs.dev/logo.svg" alt="Vite"> Vite</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+            Node.js</span>
+
+          <span class="tech-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+              alt="React"> React</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js"
+              style="filter: invert(var(--theme-invert, 0));"> Next.js</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+            Python</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/drupal/drupal-original.svg" alt="Drupal">
+            Drupal</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+              alt="AWS" style="filter: invert(var(--theme-invert, 0)); height: 30px;"></span>
+          <span class="tech-item"><img src="https://vitejs.dev/logo.svg" alt="Vite"> Vite</span>
+          <span class="tech-item"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+            Node.js</span>
+        </div>
       </div>
     </section>
 

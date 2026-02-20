@@ -782,6 +782,48 @@ export const workProjects = [
 
 export const personalProjects = [
   {
+    "id": "agent-hq",
+    "title": "Agent-HQ",
+    "description": "24/7 standalone LLM orchestration backend. Manages background tasks, continuous learning, and SEO optimization autonomously.",
+    "tags": [
+      "Python 3",
+      "LLMs",
+      "SQLite",
+      "Docusaurus"
+    ],
+    "link": "https://github.com/victorstack-ai/agent-hq",
+    "image": "https://victorstack-ai.github.io/agent-blog/img/vs-social-card.png",
+    "featured": true
+  },
+  {
+    "id": "status-dashboard",
+    "title": "Status Dashboard",
+    "description": "Real-time telemetry UI for the Agent-HQ architecture. Monitors background job polling, API consumption, and error rates.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind"
+    ],
+    "link": "https://victorstack-ai.github.io/status-dashboard/",
+    "image": "https://victorstack-ai.github.io/agent-blog/img/vs-social-card.png",
+    "featured": true
+  },
+  {
+    "id": "agent-blog",
+    "title": "Agent-HQ Blog",
+    "description": "My autonomous developer log. Daily tech insights entirely written and deployed by my AI automation backend.",
+    "tags": [
+      "Docusaurus",
+      "React",
+      "MDX",
+      "GitHub Pages"
+    ],
+    "link": "https://victorstack-ai.github.io/agent-blog/",
+    "image": "https://victorstack-ai.github.io/agent-blog/img/vs-social-card.png",
+    "featured": true
+  },
+  {
     "id": "gtm-api",
     "title": "GTM API",
     "description": "Python-based integration for Google Tag Manager API.",
