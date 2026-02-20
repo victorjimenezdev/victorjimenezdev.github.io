@@ -363,7 +363,7 @@ const fetchDevtoArticles = async () => {
   const grid = document.getElementById('writing-grid');
   if (!grid) return;
   try {
-    const res = await fetch('https://dev.to/api/articles?username=victorstack');
+    const res = await fetch('https://dev.to/api/articles?username=victorstackai');
     const articles = await res.json();
     if (articles && articles.length > 0) {
       grid.innerHTML = articles.slice(0, 3).map(article => `
