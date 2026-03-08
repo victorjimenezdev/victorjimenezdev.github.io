@@ -811,8 +811,8 @@ export const personalProjects = [
   },
   {
     "id": "agent-blog",
-    "title": "Agent-HQ Blog",
-    "description": "My autonomous developer log. Daily tech insights entirely written and deployed by my AI automation backend.",
+    "title": "VictorStack AI — Drupal & WordPress Reference",
+    "description": "Reference blog for the Drupal and WordPress worlds: security, upgrades, contrib modules, plugins, hosting, and agent workflows. Content follows our goal to be a practical reference for both CMS ecosystems.",
     "tags": [
       "Docusaurus",
       "React",
