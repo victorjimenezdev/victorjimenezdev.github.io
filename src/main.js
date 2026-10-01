@@ -1,5 +1,9 @@
 import './style.css';
-import { workProjects, personalProjects } from './data/projects.js';
+import {
+  workProjects,
+  personalProjects,
+  professionalProjectCount,
+} from './data/projects.js';
 
 const GA_ID = 'G-B0GQS2GS37';
 const CONSENT_KEY = 'analytics-consent';
@@ -192,8 +196,11 @@ function buildWorkCard(project, template) {
     : 'Team contribution';
   node.querySelector('.work-card__kicker').textContent = personal
     ? 'Open source'
-    : 'CMS engineering';
-  node.querySelector('.work-card__platform').textContent = project.tags[0];
+    : 'Web engineering';
+  node.querySelector('.work-card__platform').textContent = personal
+    ? project.tags[0]
+    : `${project.projectCount} projects`;
+  node.dataset.projectCount = personal ? '1' : String(project.projectCount);
   desc.textContent = project.description;
 
   project.tags.slice(0, 3).forEach((tag) => {
@@ -203,7 +210,6 @@ function buildWorkCard(project, template) {
     tags.appendChild(li);
   });
 
-  node.dataset.categories = project.categories.join(' ');
   node.dataset.projectType = project.type;
   return node;
 }
@@ -222,11 +228,7 @@ function setupWork() {
   const applyFilter = (value) => {
     let shown = 0;
     cards.forEach((card) => {
-      const match =
-        value === 'all' ||
-        (value === 'personal'
-          ? card.dataset.projectType === 'personal'
-          : card.dataset.categories.split(' ').includes(value));
+      const match = value === 'all' || card.dataset.projectType === value;
       /* Toggling hidden keeps the DOM stable, so focus and assistive-tech
          position survive a filter change. */
       card.hidden = !match;
@@ -234,7 +236,15 @@ function setupWork() {
     });
 
     if (status) {
-      status.textContent = `Showing ${shown} of ${cards.length} project examples.`;
+      const professionalSummary = `${professionalProjectCount} professional project contributions across ${workProjects.length} sectors, delivered with project teams`;
+      const personalSummary = `${personalProjects.length} public personal projects`;
+      const summary =
+        value === 'professional'
+          ? professionalSummary
+          : value === 'personal'
+            ? personalSummary
+            : `${professionalSummary}; ${personalSummary}`;
+      status.textContent = `Showing ${shown} of ${cards.length} portfolio entries. ${summary}.`;
     }
   };
 
