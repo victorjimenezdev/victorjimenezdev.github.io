@@ -1,0 +1,8 @@
+dist
+node_modules
+.venv
+evidence
+public
+src/fonts
+package-lock.json
+.redesign-plan.md

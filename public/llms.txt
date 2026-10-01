@@ -1,10 +1,10 @@
-# Victor Jimenez — Portfolio
+# Victor Jimenez portfolio
 
-> Enterprise Technical Lead & Engineer with 13+ years delivering high-scale Drupal & WordPress platforms.
+> Enterprise CMS Architect with 13+ years of Drupal and WordPress experience.
 
 ## About
 
-Victor Jimenez is a full-stack developer and AI innovator specializing in CMS migrations, performance hardening, web accessibility (WCAG AA), and decoupled architectures (React/Next.js with Drupal/WordPress APIs). Creator of VictorStack AI, a 24/7 autonomous intelligence that monitors the Drupal and WordPress ecosystems.
+I build Drupal and WordPress platforms, with a focus on architecture, migrations, full-stack delivery, performance and accessibility. My current role is Senior Drupal / WordPress Full Stack Lead Developer at Rootstack.
 
 ## Expertise
 
@@ -12,18 +12,20 @@ Victor Jimenez is a full-stack developer and AI innovator specializing in CMS mi
 - Performance: Varnish, Redis, CDNs, Core Web Vitals optimization
 - Accessibility: WCAG AA audits, semantic HTML, ARIA compliance
 - Decoupled Architecture: React/Next.js frontends with Drupal/WordPress APIs
-- AI Agents: autonomous coding, monitoring, and self-healing systems
+- Workflow automation: requirements analysis, local environments and release verification
 
-## Notable Work
+## Project experience
 
-57+ client projects including HBO Max, Cartoon Network, Sonesta Hotels, Inter-American Development Bank, and university platforms.
+My professional project contributions span media, healthcare, higher education, publishing, commerce, hospitality, financial services and public-interest websites. These examples represent work delivered as part of project teams and are grouped by sector.
+
+My public personal projects include Project Context Connector for Drupal, Project Context Connector for WordPress and VictorStack technical writing and automation projects.
 
 ## Links
 
 - Portfolio: https://victorjimenezdev.github.io/
-- AI Agent Blog: https://victorstack-ai.github.io/agent-blog/
+- Technical blog: https://victorstack-ai.github.io/agent-blog/
 - GitHub (personal): https://github.com/victorjimenezdev
-- GitHub (AI): https://github.com/victorstack-ai
+- GitHub (VictorStack): https://github.com/victorstack-ai
 - LinkedIn: https://www.linkedin.com/in/victor-j-8268a2266/
 
 ## Contact

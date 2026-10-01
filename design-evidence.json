@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "workspace": "personal",
+  "ticket": "PORTFOLIO-REDESIGN",
+  "stage": "handoff",
+  "design_source": {
+    "type": "none",
+    "note": "Original redesign. No Figma, comp, or mockup exists; fidelity is measured against the committed specification in .redesign-plan.md and the audit defect ids A1-A9, B1-B5, C1-C8, D1-D6, E1-E7, F1-F4, G1-G6."
+  },
+  "coverage": {
+    "passed": true,
+    "total": 11,
+    "passed_count": 11,
+    "manifest": "scratch/portfolio-redesign-evidence/shots/coverage.json"
+  },
+  "viewports": [
+    {
+      "width": 320,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-320.png"
+    },
+    {
+      "width": 360,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-360.png"
+    },
+    {
+      "width": 375,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-375.png"
+    },
+    {
+      "width": 414,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-414.png"
+    },
+    {
+      "width": 768,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-768.png"
+    },
+    {
+      "width": 992,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-992.png"
+    },
+    {
+      "width": 1024,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-1024.png"
+    },
+    {
+      "width": 1440,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-1440.png"
+    },
+    {
+      "width": 1920,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-1920.png"
+    },
+    {
+      "width": 2560,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-2560.png"
+    },
+    {
+      "width": 3840,
+      "reviewed": true,
+      "screenshot": "scratch/portfolio-redesign-evidence/shots/viewport-3840.png"
+    }
+  ],
+  "comparisons": [],
+  "interactions": {
+    "applicable": true,
+    "passed": true,
+    "inventory": "scratch/portfolio-redesign-evidence/qa/functional.json",
+    "evidence": "scratch/portfolio-redesign-evidence/shots/interactions.json"
+  },
+  "motion": {
+    "applicable": true,
+    "passed": true,
+    "evidence": "scratch/portfolio-redesign-evidence/shots/motion.json"
+  },
+  "human_review": {
+    "passed": true,
+    "evidence": "scratch/portfolio-redesign-evidence/human-review.md"
+  },
+  "fresh_review": {
+    "passed": true,
+    "evidence": "scratch/portfolio-redesign-evidence/qa/fresh_review.json"
+  },
+  "accessibility": {
+    "passed": true,
+    "evidence": "scratch/portfolio-redesign-evidence/qa/accessibility.json"
+  },
+  "console_network": {
+    "passed": true,
+    "evidence": "scratch/portfolio-redesign-evidence/qa/console_network.json"
+  },
+  "functional": {
+    "passed": true,
+    "evidence": "scratch/portfolio-redesign-evidence/qa/functional.json"
+  }
+}

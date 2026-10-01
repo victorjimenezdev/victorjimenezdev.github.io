@@ -1,0 +1,121 @@
+{
+  "updated": "September 2026",
+  "name": "Victor Jimenez",
+  "headline": "Enterprise CMS Architect",
+  "specialty": "Drupal & WordPress | Full-stack delivery | Workflow automation",
+  "location": "Bogotá, Colombia",
+  "languages": "English and Spanish",
+  "experience": "13+ years",
+  "email": "victorcamilo.jimenezv@gmail.com",
+  "whatsapp": "+1 407 334 2078",
+  "phone": "+57 324 256 9854",
+  "links": {
+    "Portfolio": "https://victorjimenezdev.github.io/",
+    "LinkedIn": "https://www.linkedin.com/in/victor-j-8268a2266/",
+    "GitHub": "https://github.com/victorjimenezdev"
+  },
+  "profile": "I bring 13+ years of experience building Drupal and WordPress platforms. I lead architecture, migrations and full-stack delivery, with a focus on performance, accessibility and maintainable systems. My work combines CMS engineering, decoupled interfaces, cloud infrastructure and delivery automation. I communicate technical decisions with stakeholders and mentor developers through implementation and release.",
+  "shared_skills": [
+    "Drupal",
+    "WordPress",
+    "React",
+    "Next.js",
+    "Python",
+    "GraphQL",
+    "REST APIs",
+    "AWS",
+    "Pantheon",
+    "Acquia",
+    "WP Engine",
+    "Docker"
+  ],
+  "skills": [
+    {
+      "label": "CMS",
+      "text": "Drupal 7-11, WordPress, PHP, Symfony, custom modules and themes, Composer, Drush."
+    },
+    {
+      "label": "Interfaces & APIs",
+      "text": "React, Next.js, Angular, JavaScript, TypeScript, HTML, CSS, GraphQL, REST APIs, Drupal JSON:API."
+    },
+    {
+      "label": "Cloud & performance",
+      "text": "AWS (EC2, S3, RDS, Lambda, CloudFront, SQS), Pantheon, Acquia, WP Engine, Redis, Varnish, New Relic."
+    },
+    {
+      "label": "Delivery & quality",
+      "text": "GitHub, GitLab, Bitbucket, CI/CD, PHPCS, PHPStan, SonarQube, Docker, Lando, accessibility and security audits."
+    },
+    {
+      "label": "Automation",
+      "text": "Python, Node.js, browser extensions, Playwright, requirements analysis, environment provisioning and release verification."
+    },
+    {
+      "label": "Leadership",
+      "text": "Technical planning, architecture decisions, stakeholder communication, code reviews, mentorship and Agile delivery."
+    }
+  ],
+  "current": {
+    "employer": "Rootstack",
+    "role": "Senior Drupal / WordPress Full Stack Lead Developer",
+    "dates": "June 2023 - Present",
+    "summary": "I lead CMS architecture and delivery across client engagements, combining technical planning with hands-on implementation and release verification.",
+    "bullets": [
+      "Design and build Drupal and WordPress platforms, custom modules, themes and integrations; plan migrations and maintainable content models.",
+      "Develop decoupled React and Next.js interfaces backed by GraphQL and REST APIs, supporting content delivery and editorial workflows.",
+      "Profile performance and implement caching with Redis, Varnish and CDNs; use New Relic to investigate bottlenecks.",
+      "Implement OAuth and SSO integrations, security remediation, semantic interfaces and accessible keyboard navigation.",
+      "Build CI/CD pipelines with PHPCS, PHPStan and SonarQube, and support releases on AWS and managed CMS hosting.",
+      "Develop workflow automation for requirements analysis, local environments, technical documentation and browser verification."
+    ]
+  },
+  "earlier": [
+    {
+      "role": "Senior Drupal Full Stack Lead Developer",
+      "dates": "January 2020 - June 2023",
+      "summary": "Led legacy-to-microservices migrations and React/Drupal JSON:API delivery. Built Redis, Varnish and CloudFront caching, automated AWS infrastructure, and mentored developers."
+    },
+    {
+      "role": "Senior Drupal Full Stack Lead Consultant",
+      "dates": "July 2021 - April 2023",
+      "summary": "Delivered enterprise Drupal migrations, standardized Composer and Drush workflows, and improved GitLab CI/Jenkins deployments and AWS integrations."
+    },
+    {
+      "role": "Drupal Back-End Developer",
+      "dates": "January 2018 - July 2021",
+      "summary": "Developed CyberSource payment integrations and APIs for analytics and personalization. Supported headless Drupal with Angular/React and Acquia/Pantheon hosting."
+    },
+    {
+      "role": "Drupal Full Stack Lead Developer",
+      "dates": "January 2015 - January 2018",
+      "summary": "Built custom Drupal modules, themes and CRM integrations. Conducted performance and security audits for high-traffic platforms."
+    },
+    {
+      "role": "Web Developer",
+      "dates": "January 2013 - January 2015",
+      "summary": "Built and maintained database-driven applications using Java, C#, ASP.NET and Oracle."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Project Context Connector",
+      "url": "https://github.com/victorjimenezdev/project_context_connector",
+      "summary": "Drupal module exposing permission-controlled, read-only site snapshots for automation and CI/CD tools."
+    },
+    {
+      "name": "Project Context Connector for WordPress",
+      "url": "https://github.com/victorjimenezdev/project-context-connector-wp",
+      "summary": "WordPress integration providing read-only site context for external tools and automation workflows."
+    },
+    {
+      "name": "VictorStack",
+      "url": "https://github.com/victorstack-ai",
+      "summary": "Personal automation projects and technical writing focused on CMS releases, security and delivery tooling."
+    }
+  ],
+  "education": [
+    "B.S., Information Systems Engineering | UNAD, Colombia | 2020-2024",
+    "Associate degree in Information Systems | Universidad del Valle | 2009-2012",
+    "English C1 Program | EC English School"
+  ]
+}
