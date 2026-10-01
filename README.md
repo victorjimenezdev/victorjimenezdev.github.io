@@ -16,7 +16,7 @@ The generator embeds the Vera fonts bundled with the pinned ReportLab package an
 
 ## Project presentation
 
-Professional examples in `src/data/projects.js` describe sector-based contributions delivered as part of project teams. They contain no client names, client links, dates, employer mappings or screenshots. Personal projects keep their public repository links. Professional examples are grouped by sector and are not a count of individual engagements.
+The profile leads with Senior Product Engineer and emphasizes transferable web engineering capabilities. The 60 professional project contributions in `src/data/projects.js` are grouped into 11 sectors with counts and team attribution across career engagements. They contain no client names, client links, dates, employer mappings or screenshots. Personal projects keep their public repository links. The original inventory contains 60 distinct professional records. `tests/project-counts.json` binds each sector count to unique hashes of the historical source URLs. The three filters show 13 total portfolio entries, 11 professional sector groups or 2 personal projects. The no-script fallback preserves sector counts and personal links.
 
 Keep identifying details out of the page, project metadata, downloadable text, filenames and public assets. The build scan checks known historical client identities, including encoded and compact forms. The CV scan verifies extracted text from both aliases. These checks reduce accidental disclosure; they cannot establish contract permission, guarantee anonymity or erase previous public releases and Git history.
 

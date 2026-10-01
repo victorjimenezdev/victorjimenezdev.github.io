@@ -1,24 +1,40 @@
 # Victor Jimenez portfolio
 
-> Enterprise CMS Architect with 13+ years of Drupal and WordPress experience.
+> Senior Product Engineer with 13+ years in full-stack web engineering and technical leadership.
 
 ## About
 
-I build Drupal and WordPress platforms, with a focus on architecture, migrations, full-stack delivery, performance and accessibility. I lead technical planning, implementation and release verification across CMS projects.
+I build web platforms and applications across frontend, backend and release engineering. I have contributed to 60 professional projects across 11 sectors as part of project teams throughout my career. I work across architecture, integrations, CI/CD, technical SEO, performance, security and accessibility.
 
 ## Expertise
 
-- CMS Migrations: legacy CMS and WordPress multisite migrations with repeatable pipelines
-- Performance: Varnish, Redis, CDNs, Core Web Vitals optimization
-- Accessibility: WCAG AA audits, semantic HTML, ARIA compliance
-- Decoupled Architecture: React/Next.js frontends with Drupal/WordPress APIs
-- Workflow automation: requirements analysis, local environments and release verification
+- Full-stack engineering: React, Next.js, JavaScript, TypeScript, PHP, Node.js and Python
+- Architecture and integrations: GraphQL, REST APIs, migrations, payments, CRM and authentication
+- CI/CD: repeatable builds, static analysis, browser verification and cloud releases
+- Performance and technical SEO: profiling, caching, Core Web Vitals, search metadata and structured data
+- Security and accessibility: audits, OAuth, SSO, permission controls, semantic interfaces and keyboard navigation
+- Automation and technical leadership: requirements analysis, environments, release verification, code reviews and mentorship
+- Platform specialties: Drupal, WordPress, Symfony, Pantheon, Acquia and WP Engine
 
 ## Project experience
 
-My professional project contributions span media, healthcare, higher education, publishing, commerce, hospitality, financial services and public-interest websites. These examples represent work delivered as part of project teams and are grouped by sector.
+Professional work is presented as anonymous sector totals, with team attribution across engagements. The 11 sectors account for all 60 documented professional project contributions. They are grouped portfolio entries, not independent case studies.
 
-My public personal projects include Project Context Connector for Drupal, Project Context Connector for WordPress and VictorStack technical writing and automation projects.
+- Media and publishing: 8 projects
+- Education and learning: 10 projects
+- Healthcare and research: 5 projects
+- Commerce and business: 9 projects
+- Hospitality and travel: 4 projects
+- Financial services: 4 projects
+- Public-interest platforms: 10 projects
+- Property and housing: 2 projects
+- Legal and professional services: 3 projects
+- Telecommunications: 3 projects
+- Consumer applications: 2 projects
+
+The portfolio displays 13 entries: 11 professional sector groups and 2 public personal projects. The professional filter shows 11 sectors totaling 60 project contributions; the personal filter shows 2 projects.
+
+My public personal projects include Project Context Connector for Drupal and Project Context Connector for WordPress. VictorStack contains my technical writing and automation projects.
 
 ## Links
 

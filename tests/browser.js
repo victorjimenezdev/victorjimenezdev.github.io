@@ -49,6 +49,9 @@ async function measurements(page) {
     elements: [
       '.site-header',
       '.hero__title',
+      '.hero__roles',
+      '.hero__facts',
+      '.bento',
       '#experience',
       '.experience-grid',
       '.experience-stack',
@@ -110,6 +113,14 @@ try {
       await page.screenshot({
         path: `${output}/viewport-${width}-${theme}.png`,
         fullPage: true,
+        animations: 'disabled',
+      });
+      await page.locator('.hero').screenshot({
+        path: `${output}/hero-${width}-${theme}.png`,
+        animations: 'disabled',
+      });
+      await page.locator('#expertise').screenshot({
+        path: `${output}/expertise-${width}-${theme}.png`,
         animations: 'disabled',
       });
       await page.evaluate(() =>
@@ -216,7 +227,7 @@ try {
 
   assert.equal(
     await page.locator('#work-grid [data-project-type="professional"]').count(),
-    8
+    11
   );
   assert.equal(
     await page
@@ -236,17 +247,16 @@ try {
   );
   await page.locator('#filter-all').focus();
   await page.keyboard.press('ArrowRight');
-  assert.equal(await page.locator('#filter-drupal').isChecked(), true);
-  assert.equal(await page.locator('#work-grid .work-card:visible').count(), 6);
+  assert.equal(await page.locator('#filter-professional').isChecked(), true);
+  assert.equal(await page.locator('#work-grid .work-card:visible').count(), 11);
   results.interactions.push(
     'identity-free team contributions and public personal links; keyboard radio filtering'
   );
 
   for (const [filter, count] of [
-    ['drupal', 6],
-    ['wordpress', 4],
+    ['professional', 11],
     ['personal', 2],
-    ['all', 10],
+    ['all', 13],
   ]) {
     await page.locator(`label[for="filter-${filter}"]`).click();
     assert.equal(
@@ -255,11 +265,57 @@ try {
     );
     assert.equal(
       await page.locator('#work-status').textContent(),
-      `Showing ${count} of 10 project examples.`
+      `Showing ${count} of 13 portfolio entries. ${filter === 'professional' ? '60 professional project contributions across 11 sectors, delivered with project teams' : filter === 'personal' ? '2 public personal projects' : '60 professional project contributions across 11 sectors, delivered with project teams; 2 public personal projects'}.`
     );
     assert.equal(await page.locator(`#filter-${filter}`).isChecked(), true);
+    const visibleProfessionalCount = await page
+      .locator('#work-grid [data-project-type="professional"]:visible')
+      .evaluateAll((nodes) =>
+        nodes.reduce((sum, node) => sum + Number(node.dataset.projectCount), 0)
+      );
+    assert.equal(visibleProfessionalCount, filter === 'personal' ? 0 : 60);
   }
-  results.interactions.push('all project filters and accessible status counts');
+  await page.locator('#filter-all').focus();
+  for (const [key, filter, count] of [
+    ['ArrowRight', 'professional', 11],
+    ['ArrowRight', 'personal', 2],
+    ['ArrowLeft', 'professional', 11],
+    ['ArrowLeft', 'all', 13],
+  ]) {
+    await page.keyboard.press(key);
+    assert.equal(await page.locator(`#filter-${filter}`).isChecked(), true);
+    assert.equal(
+      await page.locator('#work-grid .work-card:visible').count(),
+      count
+    );
+    assert.equal(
+      await page
+        .locator(`#filter-${filter}`)
+        .evaluate((node) => node === document.activeElement),
+      true
+    );
+  }
+  assert.equal(
+    await page
+      .locator('#work-grid [data-project-type="professional"]')
+      .evaluateAll((nodes) =>
+        nodes.reduce((sum, n) => sum + Number(n.dataset.projectCount), 0)
+      ),
+    60
+  );
+  assert.equal(await page.locator('.hero__facts dd').first().innerText(), '60');
+  assert.equal(
+    await page.locator('#top h1').innerText(),
+    'Senior Product Engineer'
+  );
+  assert.ok(
+    !(await page.locator('body').innerText())
+      .toLowerCase()
+      .includes('rootstack')
+  );
+  results.interactions.push(
+    'all project filters, full contribution totals and accessible status counts'
+  );
 
   const previousTheme = await page.locator('html').getAttribute('data-theme');
   await page.locator('#theme-toggle').click();
@@ -379,6 +435,23 @@ try {
   assert.ok(await staticPage.locator('.work-fallback').isVisible());
   assert.equal(await staticPage.locator('#work-controls').isVisible(), false);
   assert.equal(await staticPage.locator('.work-fallback a').count(), 2);
+  const sectorLabels = await staticPage
+    .locator('.professional-sector-counts li')
+    .allTextContents();
+  assert.equal(sectorLabels.length, 11);
+  assert.equal(
+    sectorLabels.reduce(
+      (sum, text) => sum + Number(text.match(/: (\d+) projects$/)[1]),
+      0
+    ),
+    60
+  );
+  assert.ok(
+    (await staticPage.locator('.work-fallback').innerText()).includes(
+      'as part of project teams'
+    )
+  );
+  assert.ok(await staticPage.locator('#contact a').first().isVisible());
   assert.ok((await measurements(staticPage)).scroll <= 320);
   results.interactions.push('experience and CV available without JavaScript');
   await noJs.close();
@@ -408,10 +481,10 @@ try {
         'true'
       );
       await pg.keyboard.press('Escape');
-      await pg.locator('label[for="filter-wordpress"]').click();
+      await pg.locator('label[for="filter-professional"]').click();
       assert.equal(
         await pg.locator('#work-grid .work-card:visible').count(),
-        4
+        11
       );
       await pg
         .locator('#experience')

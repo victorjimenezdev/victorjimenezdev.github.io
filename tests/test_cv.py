@@ -55,7 +55,6 @@ class CVTests(unittest.TestCase):
             self.career["languages"],
             self.career["experience"],
             self.career["email"],
-            self.career["current"]["role"],
             self.career["current"]["dates"],
             *self.career["shared_skills"],
         ):
@@ -66,6 +65,22 @@ class CVTests(unittest.TestCase):
             self.assertIn(url, self.html)
         for role in self.career["earlier"]:
             self.assertIn(role["dates"], self.text)
+
+    def test_product_positioning_and_career_level_scale(self) -> None:
+        self.assertEqual(self.career["headline"], "Senior Product Engineer")
+        self.assertEqual(self.pdf.metadata.subject, self.career["headline"])
+        self.assertIn(self.career["current"]["role"], self.text)
+        self.assertIn("60 professional projects across 11 sectors", self.text)
+        self.assertIn("as part of project teams", self.text)
+        self.assertIn("13+ years", self.text)
+        for capability in ("CI/CD", "technical SEO", "performance", "security", "accessibility", "integrations", "automation", "leadership"):
+            self.assertIn(capability.lower(), self.text.lower())
+            self.assertIn(capability.lower(), self.site_text.lower())
+        self.assertNotIn("60", self.career["current"]["summary"])
+        self.assertEqual(self.text.count(self.career["current"]["employer"]), 1)
+        self.assertEqual(len(self.career["projects"]), 2)
+        for project in self.career["projects"]:
+            self.assertIn(project["url"], self.html)
 
     def test_clickable_document_links(self) -> None:
         urls = {
