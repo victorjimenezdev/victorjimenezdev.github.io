@@ -4,7 +4,7 @@
 
 ## About
 
-I build Drupal and WordPress platforms, with a focus on architecture, migrations, full-stack delivery, performance and accessibility. My current role is Senior Drupal / WordPress Full Stack Lead Developer at Rootstack.
+I build Drupal and WordPress platforms, with a focus on architecture, migrations, full-stack delivery, performance and accessibility. I lead technical planning, implementation and release verification across CMS projects.
 
 ## Expertise
 
