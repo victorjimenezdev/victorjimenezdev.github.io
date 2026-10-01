@@ -1,447 +1,482 @@
-import './style.css'
-import { workProjects, personalProjects } from './data/projects.js'
-import VanillaTilt from 'vanilla-tilt';
+import './style.css';
+import { workProjects, personalProjects } from './data/projects.js';
 
-// Disable 3D GPU effects on touch devices to prevent iOS WebKit tab crash
-const isTouchDevice = window.matchMedia('(hover: none)').matches;
+const GA_ID = 'G-B0GQS2GS37';
+const CONSENT_KEY = 'analytics-consent';
+const THEME_KEY = 'theme';
+const FEED_URL =
+  'https://dev.to/api/articles?username=victorstackai&per_page=12';
 
+/* dev.to proxies cover images through media*.dev.to. When the upstream asset
+   404s, the proxy still answers 200 - with its own "image no longer exists"
+   artwork - so neither an error handler nor a URL test can catch it. Reading
+   the original URL back out of the proxy path and requesting that directly
+   means a missing image fails honestly, and the error handler can substitute a
+   local placeholder. */
+const DEVTO_PROXY = /^https?:\/\/media\d*\.dev\.to\/[^/]+\/image\/[^/]*\/(.+)$/;
 
+const FALLBACK_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%23e8e6ef'/%3E%3Cpath d='M330 250l50-55 45 50 40-42 55 62z' fill='%23b9b4c9'/%3E%3Ccircle cx='325' cy='185' r='22' fill='%23b9b4c9'/%3E%3C/svg%3E";
 
-// Main entry point
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const init = () => {
-  // Mobile Navigation Logic
-  const mobileBtn = document.getElementById('mobile-menu-btn');
-  const mobileNav = document.getElementById('mobile-nav');
+/* --------------------------------------------------------------- theme -- */
 
-  if (mobileBtn && mobileNav) {
-    mobileBtn.addEventListener('click', () => {
-      const isHidden = mobileNav.style.display === 'none';
-      mobileNav.style.display = isHidden ? 'flex' : 'none';
-    });
-
-    // Close menu when clicking a link
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileNav.style.display = 'none';
-      });
-    });
-  }
-
-  // Theme Toggle Logic
-  const themeToggle = document.getElementById('theme-toggle');
-
-  if (themeToggle) {
-    // Initial icon state based on the inline head script
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    themeToggle.textContent = currentTheme === "light" ? "☀️" : "🌙";
-
-    themeToggle.addEventListener("click", () => {
-      const isLight = document.documentElement.getAttribute("data-theme") === "light";
-      const newTheme = isLight ? "dark" : "light";
-
-      document.documentElement.setAttribute("data-theme", newTheme);
-      themeToggle.textContent = newTheme === "light" ? "☀️" : "🌙";
-      localStorage.setItem("theme", newTheme);
-
-      // Update meta theme-color
-      const themeMeta = document.getElementById('theme-color-meta');
-      if (themeMeta) themeMeta.setAttribute('content', newTheme === "light" ? '#ffffff' : '#0f1115');
-    });
-  }
-
-  // Service Worker Registration
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').then(registration => {
-        console.log('SW registered: ', registration);
-      }).catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
-      });
-    });
-  }
-
-  // Render Work Projects (hide button, make image clickable)
-  renderGrid('work-grid', workProjects, { showLinkButton: false, isWork: true });
-
-  // Setup CMS Filtering Logic for Work Projects
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  if (filterBtns.length > 0) {
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        // Update active state
-        filterBtns.forEach(b => {
-          b.classList.remove('active');
-          b.style.background = 'transparent';
-          b.style.color = 'var(--primary)';
-        });
-        const target = e.target;
-        target.classList.add('active');
-        target.style.background = 'var(--primary)';
-        target.style.color = 'white';
-
-        // Filter logic
-        const filterValue = target.getAttribute('data-filter');
-        let filteredProjects = workProjects;
-
-        if (filterValue !== 'all') {
-          filteredProjects = workProjects.filter(project => {
-            return project.tags.some(tag => tag.toLowerCase() === filterValue);
-          });
-        }
-
-        // Re-render
-        renderGrid('work-grid', filteredProjects, { showLinkButton: false, isWork: true });
-      });
-    });
-  }
-
-  // Render Personal Projects (show button)
-  renderGrid('projects-grid', personalProjects, { showLinkButton: true, isWork: false });
-
-  // 3D Tilt Effect on Rendered Cards (desktop only - causes iOS WebKit crash on mobile)
-  if (!isTouchDevice) {
-    VanillaTilt.init(document.querySelectorAll(".project-card"), {
-      max: 5,
-      speed: 400,
-      glare: true,
-      "max-glare": 0.1,
-    });
-  }
-
-  // Scroll Progress Logic
-  const progressBar = document.getElementById('scroll-progress');
-  if (progressBar) {
-    window.addEventListener('scroll', () => {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollPercent = (scrollTop / scrollHeight) * 100;
-      progressBar.style.width = scrollPercent + '%';
-    });
-  }
-
-  // Back to Top Logic
-  const backToTopBtn = document.getElementById('back-to-top');
-
-  if (backToTopBtn) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTopBtn.style.display = 'block';
-        requestAnimationFrame(() => {
-          backToTopBtn.style.opacity = '1';
-          backToTopBtn.style.transform = 'translateY(0)';
-        });
-      } else {
-        backToTopBtn.style.opacity = '0';
-        backToTopBtn.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          if (window.scrollY <= 300) backToTopBtn.style.display = 'none';
-        }, 300);
-      }
-    });
-
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  }
-
-
-
-  // Modals Logic
-  const dialog = document.createElement('dialog');
-  dialog.id = 'project-modal';
-  document.body.appendChild(dialog);
-
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.close();
-  });
-
-  window.openProjectModal = (project) => {
-    const techSummary = project.tags.length > 0
-      ? `Built with <strong>${project.tags.join(', ')}</strong>.`
-      : 'Built with modern web technologies.';
-
-    dialog.innerHTML = `
-      <div style="text-align: left;">
-        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
-          <h2 style="font-size: 2rem; color: var(--text-primary); margin: 0;">${project.title}</h2>
-          <button onclick="document.getElementById('project-modal').close()" style="background: none; border: none; color: var(--text-secondary); font-size: 2rem; cursor: pointer;">&times;</button>
-        </div>
-        
-        <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; border: 1px solid var(--card-border);">
-        
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-          ${project.tags.map(tag => `
-              <span style="font-size: 0.85rem; padding: 0.3rem 0.8rem; background: rgba(108, 92, 231, 0.1); border-radius: 20px; color: var(--primary);">
-                  ${tag}
-              </span>
-          `).join('')}
-        </div>
-
-        <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
-          ${project.description} <br><br>
-          This solution is engineered for performance and scalability. ${techSummary}
-        </p>
-
-        <a href="${project.link}" target="_blank" rel="nofollow noreferrer noopener" class="btn btn-primary" style="width: 100%; justify-content: center; color: var(--text-primary);" data-track="click_modal_visit" data-track-category="projects" data-track-label="${project.title}">
-          Visit Project
-        </a>
-      </div>
-    `;
-    dialog.showModal();
-  };
-
-  setupTypewriter();
-  setupScrollReveal();
-
-  setupTypewriter();
-  setupScrollReveal();
-
-  // Fire live API fetches without blocking render
-  fetchGithubActivity();
-  fetchDevtoArticles();
-
-  // Global Telemetry Delegator
-  document.addEventListener('click', (e) => {
-    const trackElement = e.target.closest('[data-track]');
-    if (trackElement) {
-      const action = trackElement.getAttribute('data-track');
-      const category = trackElement.getAttribute('data-track-category') || 'engagement';
-      const label = trackElement.getAttribute('data-track-label') || '';
-
-      if (typeof gtag !== 'undefined') {
-        gtag('event', action, {
-          'event_category': category,
-          'event_label': label
-        });
-      }
-    }
-  });
-};
-
-const renderGrid = (elementId, data, config = { showLinkButton: true, isWork: false }) => {
-  const grid = document.getElementById(elementId);
-  if (!grid) return;
-
-  if (data.length === 0) return;
-
-  grid.innerHTML = data.map(project => `
-        <article class="glass-panel project-card" style="overflow: hidden; display: flex; flex-direction: column; height: 100%; ${isTouchDevice ? '' : 'transform-style: preserve-3d;'}">
-            <div class="skeleton" style="height: 200px; overflow: hidden; position: relative; border-radius: 8px 8px 0 0; ${isTouchDevice ? '' : 'transform: translateZ(20px);'}">
-                ${config.isWork ? `<a href="${project.link}" target="_blank" rel="nofollow noreferrer noopener" style="display:block; height:100%;" aria-label="View ${project.title}" data-track="click_project_image" data-track-category="projects" data-track-label="${project.title}">` : ''}
-                <img src="${project.image}" alt="${project.title} Preview" loading="lazy" decoding="async" class="img-loading" width="400" height="225"
-                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;"
-                     onload="this.classList.add('img-loaded'); this.parentElement.closest('.skeleton').classList.remove('skeleton');"
-                     onerror="this.src='https://via.placeholder.com/400x225?text=No+Preview'; this.parentElement.closest('.skeleton').classList.remove('skeleton');">
-                <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); pointer-events: none;"></div>
-                ${config.isWork ? `</a>` : ''}
-            </div>
-            
-            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer; color: var(--primary);" 
-                    onclick='window.openProjectModal(${JSON.stringify(project).replace(/'/g, "&#39;")})' data-track="click_project_title" data-track-category="projects" data-track-label="${project.title}">
-                    ${project.title} ↗
-                </h3>
-                
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    ${project.tags.map(tag => `
-                        <span style="font-size: 0.75rem; padding: 0.2rem 0.6rem; background: rgba(255,255,255,0.05); border-radius: 12px; color: var(--text-secondary);">
-                            ${tag}
-                        </span>
-                    `).join('')}
-                </div>
-                
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; flex: 1;">
-                    ${project.description}
-                </p>
-                
-        <div style="display: flex; gap: 0.5rem; margin-top: auto;">
-            <button class="btn" onclick='window.openProjectModal(${JSON.stringify(project).replace(/'/g, "&#39;")})'
-                style="background: rgba(255,255,255,0.05); color: var(--text-primary); justify-content: center; flex: 1; border: 1px solid var(--card-border); font-size: 0.9rem;" data-track="click_project_details" data-track-category="projects" data-track-label="${project.title}">
-                Details
-            </button>
-            ${config.showLinkButton ? `
-            <a href="${project.link}" target="_blank" rel="nofollow noreferrer noopener" class="btn" style="background: rgba(255,255,255,0.05); color: var(--text-primary); justify-content: center; flex: 1; border: 1px solid var(--card-border); font-size: 0.9rem;" aria-label="View Code for ${project.title}" data-track="click_project_code" data-track-category="projects" data-track-label="${project.title}">
-                Code
-            </a>
-            ` : ''}
-        </div>
-            </div>
-        </article>
-    `).join('');
-
-  // Add hover effect logic
-  grid.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      const img = card.querySelector('img');
-      // Only scale if image is loaded to avoid jumping
-      if (img && img.classList.contains('img-loaded')) img.style.transform = 'scale(1.1)';
-    });
-    card.addEventListener('mouseleave', () => {
-      const img = card.querySelector('img');
-      if (img) img.style.transform = 'scale(1)';
-    });
-  });
-};
-
-const setupScrollReveal = () => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.01, rootMargin: '0px 0px -50px 0px' });
-
-  const sections = document.querySelectorAll('section');
-  sections.forEach(section => {
-    section.classList.add('reveal-init');
-    observer.observe(section);
-  });
-};
-
-const setupTypewriter = () => {
-  const element = document.getElementById('typewriter-text');
-  if (!element) return;
-
-  const roles = [
-    "& Engineer",
-    "& AI Agent Builder",
-    "& Drupal Architect",
-    "& Chrome Ext. Dev"
-  ];
-
-  let roleIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typingSpeed = 100;
-
-  const style = document.createElement('style');
-  style.textContent = `
-    #typewriter-text::after {
-      content: '|';
-      position: absolute;
-      right: -20px;
-      animation: blink 1s step-end infinite;
-      color: var(--text-primary);
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-  `;
-  document.head.appendChild(style);
-
-  const type = () => {
-    const currentRole = roles[roleIndex];
-
-    if (isDeleting) {
-      charIndex--;
-      typingSpeed = 50;
-    } else {
-      charIndex++;
-      typingSpeed = 100;
-    }
-
-    element.innerHTML = currentRole.substring(0, charIndex);
-
-    if (!isDeleting && charIndex === currentRole.length) {
-      typingSpeed = 2000; // Pause at the end
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      roleIndex = (roleIndex + 1) % roles.length;
-      typingSpeed = 500; // Pause before typing next
-    }
-
-    setTimeout(type, typingSpeed);
-  };
-
-  // Start the typing effect
-  setTimeout(type, 1000);
-};
-
-// API Integrations
-const fetchGithubActivity = async () => {
-  const container = document.getElementById('github-activity');
-  if (!container) return;
+function readStoredTheme() {
   try {
-    const res = await fetch('https://api.github.com/users/victorstack-ai/repos?sort=updated&per_page=3');
-    const repos = await res.json();
-    if (repos && repos.length > 0) {
-      container.innerHTML = repos.map(repo => `
-        <a href="${repo.html_url}" target="_blank" class="glass-panel project-card" style="display: block; padding: 1.5rem; text-decoration: none; ${isTouchDevice ? '' : 'transform-style: preserve-3d;'} border-left: 4px solid var(--primary);">
-          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.8rem;">
-            <h4 style="margin: 0; color: var(--text-primary); font-size: 1.1rem;">${repo.name}</h4>
-            <span style="font-size: 0.8rem; background: rgba(108, 92, 231, 0.1); padding: 0.2rem 0.6rem; border-radius: 12px; color: var(--primary);">★ ${repo.stargazers_count}</span>
-          </div>
-          <p style="margin: 0 0 1rem 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">${repo.description || 'No description available.'}</p>
-          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); align-items: center;">
-            <span style="display: flex; align-items: center; gap: 0.3rem;"><span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--secondary);"></span> ${repo.language || 'Code'}</span>
-            <span>Updated: ${new Date(repo.pushed_at).toLocaleDateString()}</span>
-          </div>
-        </a>
-      `).join('');
-      if (!isTouchDevice) VanillaTilt.init(container.querySelectorAll(".project-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.1 });
-    } else {
-      container.innerHTML = `<div class="glass-panel" style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;"><p>No public activity found.</p></div>`;
-    }
-  } catch (e) {
-    console.error("Failed to fetch Github activity", e);
-    container.innerHTML = `<div class="glass-panel" style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;"><p>Stats temporarily unavailable.</p></div>`;
+    const value = localStorage.getItem(THEME_KEY);
+    return value === 'light' || value === 'dark' ? value : null;
+  } catch {
+    return null;
   }
-};
+}
 
-const fetchDevtoArticles = async () => {
+function resolvedTheme() {
+  return (
+    document.documentElement.getAttribute('data-theme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light')
+  );
+}
+
+function syncThemeControl(button) {
+  const theme = resolvedTheme();
+  const next = theme === 'dark' ? 'light' : 'dark';
+  button.setAttribute('aria-label', `Switch to ${next} theme`);
+
+  button.querySelectorAll('[data-theme-icon]').forEach((icon) => {
+    icon.hidden = icon.dataset.themeIcon !== theme;
+  });
+
+  const meta = document.getElementById('theme-color-meta');
+  if (meta) {
+    meta.setAttribute('content', theme === 'dark' ? '#161418' : '#fcfbfd');
+  }
+}
+
+function setupTheme() {
+  const button = document.getElementById('theme-toggle');
+  if (!button) return;
+
+  syncThemeControl(button);
+
+  /* Only meaningful while no explicit choice is stored; once the visitor
+     chooses, data-theme pins the value in both directions. */
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => {
+      if (!readStoredTheme()) syncThemeControl(button);
+    });
+
+  button.addEventListener('click', () => {
+    const next = resolvedTheme() === 'dark' ? 'light' : 'dark';
+
+    const apply = () => {
+      document.documentElement.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem(THEME_KEY, next);
+      } catch {
+        /* storage blocked; the choice still applies for this page view */
+      }
+      syncThemeControl(button);
+    };
+
+    if (document.startViewTransition && !prefersReducedMotion()) {
+      document.startViewTransition(apply);
+    } else {
+      apply();
+    }
+  });
+}
+
+/* ----------------------------------------------------------------- nav -- */
+
+function setupNav() {
+  const toggle = document.getElementById('nav-toggle');
+  const panel = document.getElementById('nav-panel');
+  if (!toggle || !panel) return;
+
+  const supportsPopover =
+    typeof HTMLElement !== 'undefined' &&
+    Object.prototype.hasOwnProperty.call(HTMLElement.prototype, 'showPopover');
+
+  panel.addEventListener('click', (event) => {
+    if (!event.target.closest('a')) return;
+    if (supportsPopover && panel.matches(':popover-open')) panel.hidePopover();
+    panel.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  });
+
+  if (supportsPopover) {
+    /* The popover attribute already wires Esc, light dismiss, and focus
+       return; only the explicit ARIA state needs syncing. */
+    panel.addEventListener('toggle', (event) => {
+      toggle.setAttribute('aria-expanded', String(event.newState === 'open'));
+    });
+    return;
+  }
+
+  toggle.removeAttribute('popovertarget');
+  toggle.addEventListener('click', () => {
+    const open = panel.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) panel.querySelector('a')?.focus();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && panel.classList.contains('is-open')) {
+      panel.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!panel.classList.contains('is-open')) return;
+    if (panel.contains(event.target) || toggle.contains(event.target)) return;
+    panel.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  });
+}
+
+/* ------------------------------------------------------------- marquee -- */
+
+function setupMarquee() {
+  const button = document.getElementById('marquee-toggle');
+  const marquee = button?.closest('.marquee');
+  const track = document.getElementById('marquee-track');
+  if (!button || !marquee || !track) return;
+
+  /* The loop translates by -50%, so the track must hold exactly two copies.
+     aria-hidden goes on each copied item: setting it on a wrapper that is then
+     discarded would leave every technology announced twice. */
+  [...track.children].forEach((item) => {
+    const copy = item.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    copy.querySelectorAll('a, button').forEach((el) => {
+      el.setAttribute('tabindex', '-1');
+    });
+    track.appendChild(copy);
+  });
+
+  button.addEventListener('click', () => {
+    const paused = marquee.dataset.paused === 'true';
+    marquee.dataset.paused = String(!paused);
+    button.setAttribute('aria-pressed', String(!paused));
+  });
+}
+
+/* ---------------------------------------------------------------- work -- */
+
+function buildWorkCard(project, template) {
+  const node = template.content.firstElementChild.cloneNode(true);
+  const title = node.querySelector('.work-card__title');
+  const desc = node.querySelector('.work-card__desc');
+  const tags = node.querySelector('.tags');
+  const personal = project.type === 'personal';
+
+  if (personal) {
+    const link = document.createElement('a');
+    link.textContent = project.title;
+    link.href = project.link;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    title.appendChild(link);
+  } else {
+    title.textContent = project.title;
+  }
+  node.querySelector('.work-card__kind').textContent = personal
+    ? 'Personal project'
+    : 'Team contribution';
+  node.querySelector('.work-card__kicker').textContent = personal
+    ? 'Open source'
+    : 'CMS engineering';
+  node.querySelector('.work-card__platform').textContent = project.tags[0];
+  desc.textContent = project.description;
+
+  project.tags.slice(0, 3).forEach((tag) => {
+    const li = document.createElement('li');
+    li.className = 'tag';
+    li.textContent = tag;
+    tags.appendChild(li);
+  });
+
+  node.dataset.categories = project.categories.join(' ');
+  node.dataset.projectType = project.type;
+  return node;
+}
+
+function setupWork() {
+  const grid = document.getElementById('work-grid');
+  const template = document.getElementById('work-card-template');
+  const status = document.getElementById('work-status');
+  if (!grid || !template) return;
+
+  const cards = [...workProjects, ...personalProjects].map((project) =>
+    buildWorkCard(project, template)
+  );
+  cards.forEach((card) => grid.appendChild(card));
+
+  const applyFilter = (value) => {
+    let shown = 0;
+    cards.forEach((card) => {
+      const match =
+        value === 'all' ||
+        (value === 'personal'
+          ? card.dataset.projectType === 'personal'
+          : card.dataset.categories.split(' ').includes(value));
+      /* Toggling hidden keeps the DOM stable, so focus and assistive-tech
+         position survive a filter change. */
+      card.hidden = !match;
+      if (match) shown += 1;
+    });
+
+    if (status) {
+      status.textContent = `Showing ${shown} of ${cards.length} project examples.`;
+    }
+  };
+
+  document
+    .getElementById('work-filters')
+    ?.addEventListener('change', (event) => {
+      const input = event.target.closest('.filter-input');
+      if (input) applyFilter(input.value);
+    });
+
+  applyFilter('all');
+  document.getElementById('work-controls').hidden = false;
+}
+
+/* ------------------------------------------------------------- writing -- */
+
+/* dev.to descriptions leak the MDX preamble of the source article, so lines
+   like `import Tabs from '@theme/Tabs';` render as body copy. */
+function cleanExcerpt(text) {
+  return String(text || '')
+    .replace(/import\s+[^;]+?from\s+['"][^'"]+['"];?/g, '')
+    .replace(/^\s*<[^>]+>\s*/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function coverImageFor(article) {
+  const candidate = article.cover_image || article.social_image || '';
+  if (!candidate) return FALLBACK_IMAGE;
+
+  const proxied = candidate.match(DEVTO_PROXY);
+  if (!proxied) return candidate;
+
+  try {
+    const original = decodeURIComponent(proxied[1]);
+    return /^https?:\/\//.test(original) ? original : candidate;
+  } catch {
+    return candidate;
+  }
+}
+
+async function loadWriting() {
   const grid = document.getElementById('writing-grid');
-  if (!grid) return;
-  try {
-    // Use state=fresh + per_page=30 + per-visit cache buster to bypass Dev.to CDN caching.
-    const res = await fetch(`https://dev.to/api/articles?username=victorstackai&state=fresh&per_page=30&t=${Date.now()}`);
-    const articles = await res.json();
-    if (articles && articles.length > 0) {
-      articles.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
-      grid.innerHTML = articles.slice(0, 3).map(article => `
-        <article class="glass-panel project-card" style="overflow: hidden; display: flex; flex-direction: column; height: 100%; ${isTouchDevice ? '' : 'transform-style: preserve-3d;'}">
-            <div style="height: 200px; overflow: hidden; position: relative; border-radius: 8px 8px 0 0; ${isTouchDevice ? '' : 'transform: translateZ(20px);'}">
-                <a href="${article.url}" target="_blank" rel="nofollow noreferrer noopener" style="display:block; height:100%;">
-                <img src="${article.cover_image || article.social_image}" alt="${article.title}" loading="lazy" decoding="async" class="img-loaded" width="400" height="225"
-                     style="width: 100%; height: 100%; object-fit: cover;">
-                </a>
-            </div>
-            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary);">
-                    <a href="${article.url}" target="_blank" rel="nofollow noreferrer noopener">${article.title} ↗</a>
-                </h3>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    ${article.tag_list.slice(0, 3).map(tag => `
-                        <span style="font-size: 0.75rem; padding: 0.2rem 0.6rem; background: rgba(255,255,255,0.05); border-radius: 12px; color: var(--text-secondary);">
-                            #${tag}
-                        </span>
-                    `).join('')}
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; flex: 1;">
-                    ${article.description}
-                </p>
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-secondary);">
-                  <span>❤️ ${article.public_reactions_count}</span>
-                  <span>📅 ${new Date(article.published_at).toLocaleDateString()}</span>
-                </div>
-            </div>
-        </article>
-      `).join('');
-      if (!isTouchDevice) VanillaTilt.init(grid.querySelectorAll(".project-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.1 });
-    } else {
-      grid.innerHTML = `<div class="glass-panel" style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;"><p>No recent articles found.</p></div>`;
-    }
-  } catch (e) {
-    console.error("Failed to fetch articles", e);
-    grid.innerHTML = `<div class="glass-panel" style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;"><p>Tech blog feed temporarily down.</p></div>`;
-  }
-};
+  const template = document.getElementById('post-card-template');
+  if (!grid || !template) return;
 
-init();
+  try {
+    const response = await fetch(FEED_URL);
+    if (!response.ok) throw new Error(`Feed responded ${response.status}`);
+
+    const articles = await response.json();
+    if (!Array.isArray(articles) || articles.length === 0) {
+      grid.replaceChildren(renderNotice('No articles published yet.'));
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    articles
+      .slice()
+      .sort((a, b) => new Date(b.published_at) - new Date(a.published_at))
+      .slice(0, 3)
+      .forEach((article) => {
+        const node = template.content.firstElementChild.cloneNode(true);
+        const img = node.querySelector('img');
+        const link = node.querySelector('.work-card__title a');
+
+        img.src = coverImageFor(article);
+        img.alt = '';
+        /* Now that the real upstream URL is requested, a missing cover fires a
+           genuine error and swaps in the local placeholder. */
+        img.addEventListener(
+          'error',
+          () => {
+            if (img.src !== FALLBACK_IMAGE) img.src = FALLBACK_IMAGE;
+          },
+          { once: true }
+        );
+        link.textContent = article.title;
+        link.href = article.url;
+        node.querySelector('.work-card__desc').textContent = cleanExcerpt(
+          article.description
+        );
+        node.querySelector('[data-reactions]').textContent =
+          `${article.public_reactions_count} reactions`;
+
+        const time = node.querySelector('[data-published]');
+        const published = new Date(article.published_at);
+        time.dateTime = published.toISOString();
+        time.textContent = published.toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+
+        fragment.appendChild(node);
+      });
+
+    grid.replaceChildren(fragment);
+  } catch (error) {
+    console.error('Writing feed unavailable', error);
+    grid.replaceChildren(renderNotice('The writing feed is unavailable.'));
+  }
+}
+
+function renderNotice(message) {
+  const p = document.createElement('p');
+  p.className = 'notice';
+  p.textContent = message;
+  return p;
+}
+
+/* ------------------------------------------------------------- consent -- */
+
+function readConsent() {
+  try {
+    const value = localStorage.getItem(CONSENT_KEY);
+    return value === 'granted' || value === 'denied' ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeConsent(value) {
+  try {
+    localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    /* storage blocked; the choice applies to this page view only */
+  }
+
+  /* Declining after accepting has to stop collection in the same page view.
+     The gtag script cannot be unloaded, so the opt-out flag it checks on every
+     call is what actually silences it. */
+  window[`ga-disable-${GA_ID}`] = value !== 'granted';
+}
+
+/* Nothing analytics-related exists until this runs: no script tag in the
+   document head, no cookie, no network request. */
+function loadAnalytics() {
+  window[`ga-disable-${GA_ID}`] = false;
+  if (window.gtag) return;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID, { anonymize_ip: true });
+}
+
+function setupConsent() {
+  const banner = document.getElementById('consent');
+  const accept = document.getElementById('consent-accept');
+  const decline = document.getElementById('consent-decline');
+  const reopen = document.getElementById('consent-reopen');
+  if (!banner || !accept || !decline) return;
+
+  const decided = readConsent();
+  if (decided === 'granted') loadAnalytics();
+  if (!decided) banner.dataset.visible = 'true';
+  if (reopen) reopen.hidden = !decided;
+
+  const settle = (value) => {
+    writeConsent(value);
+    banner.dataset.visible = 'false';
+    if (reopen) {
+      reopen.hidden = false;
+      reopen.focus();
+    }
+    if (value === 'granted') loadAnalytics();
+  };
+
+  accept.addEventListener('click', () => settle('granted'));
+  decline.addEventListener('click', () => settle('denied'));
+
+  reopen?.addEventListener('click', () => {
+    banner.dataset.visible = 'true';
+    accept.focus();
+  });
+}
+
+/* ------------------------------------------------------------ chrome -- */
+
+function setupBackToTop() {
+  const button = document.getElementById('to-top');
+  if (!button) return;
+
+  const update = () => {
+    button.dataset.visible = String(window.scrollY > 600);
+  };
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+
+  button.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    });
+  });
+}
+
+function setupYear() {
+  document.querySelectorAll('[data-year]').forEach((node) => {
+    node.textContent = `© ${new Date().getFullYear()}`;
+  });
+}
+
+function setupTelemetry() {
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-track]');
+    if (!target || typeof window.gtag !== 'function') return;
+
+    window.gtag('event', target.dataset.track, {
+      event_category: target.dataset.trackCategory || 'engagement',
+      event_label: target.dataset.trackLabel || '',
+    });
+  });
+}
+
+/* ----------------------------------------------------------------- init -- */
+
+setupTheme();
+setupNav();
+setupMarquee();
+setupWork();
+setupConsent();
+setupBackToTop();
+setupYear();
+setupTelemetry();
+loadWriting();
+
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register(`${import.meta.env.BASE_URL}sw.js`)
+      .catch((error) => {
+        console.warn('Offline support unavailable', error);
+      });
+  });
+}

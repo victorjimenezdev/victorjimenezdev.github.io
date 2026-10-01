@@ -1,43 +1,83 @@
-const CACHE_NAME = 'victor-portfolio-v3';
+const CACHE = 'victor-portfolio-v7';
+const FEED_HOST = 'dev.to';
 
-self.addEventListener('install', (event) => {
-    // Take control immediately without waiting for old tabs to close
-    self.skipWaiting();
+self.addEventListener('install', () => {
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-    // Delete all old caches (clears the broken v1/v2 caches on existing devices)
-    event.waitUntil(
-        caches.keys().then(cacheNames =>
-            Promise.all(
-                cacheNames
-                    .filter(name => name !== CACHE_NAME)
-                    .map(name => caches.delete(name))
-            )
-        ).then(() => self.clients.claim())
-    );
+  event.waitUntil(
+    caches
+      .keys()
+      .then((names) =>
+        Promise.all(
+          names.filter((name) => name.startsWith('victor-portfolio-') && name !== CACHE).map((name) => caches.delete(name))
+        )
+      )
+      .then(() => self.clients.claim())
+  );
 });
 
-self.addEventListener('fetch', (event) => {
-    const url = new URL(event.request.url);
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(CACHE);
+  const cached = await cache.match(request);
 
-    // Only intercept Thum.io image requests - cache first, then network
-    // Everything else passes through to the network normally
-    if (url.hostname.includes('thum.io')) {
-        event.respondWith(
-            caches.match(event.request).then((cachedResponse) => {
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
-                return fetch(event.request).then((response) => {
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
-                    });
-                    return response;
-                });
-            })
-        );
+  const network = fetch(request)
+    .then((response) => {
+      if (response && response.ok) cache.put(request, response.clone());
+      return response;
+    })
+    .catch(() => cached);
+
+  return cached || network;
+}
+
+async function freshDocument(request) {
+  const cache = await caches.open(CACHE);
+  try {
+    const response = await fetch(request, { cache: 'no-store' });
+    if (response.ok) {
+      await cache.put(request, response.clone());
+      return response;
     }
-    // All other requests: do not call event.respondWith - browser handles normally
+    return (await cache.match(request)) || response;
+  } catch (error) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw error;
+  }
+}
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+
+  if (url.origin === self.location.origin &&
+      ['/images/case/', '/images/projects/'].some((path) => url.pathname.includes(path))) {
+    event.respondWith(Promise.resolve(new Response('', { status: 410 })));
+    return;
+  }
+
+  if (url.origin === self.location.origin &&
+      ['/src/', '/node_modules/', '/@'].some((path) => url.pathname.includes(path))) return;
+
+  /* Navigations always go to the network first, otherwise a deploy would stop
+     reaching anyone holding a cached shell. */
+  if (request.mode === 'navigate') return;
+
+  if (url.origin === self.location.origin && url.pathname.toLowerCase().endsWith('.pdf')) {
+    event.respondWith(freshDocument(request));
+    return;
+  }
+
+  if (url.hostname === FEED_HOST) {
+    event.respondWith(staleWhileRevalidate(request));
+    return;
+  }
+
+  if (url.origin === self.location.origin) {
+    event.respondWith(staleWhileRevalidate(request));
+  }
 });

@@ -1,546 +1,935 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fcfbfd" id="theme-color-meta" />
 
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B0GQS2GS37"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+    <title>
+      Victor Jimenez | Enterprise CMS Architect - Drupal &amp; WordPress
+    </title>
+    <meta
+      name="description"
+      content="Victor Jimenez, Enterprise CMS Architect with 13+ years in Drupal, WordPress, decoupled platforms and workflow automation. Based in Bogotá, Colombia."
+    />
+    <meta name="author" content="Victor Jimenez" />
+    <link rel="canonical" href="https://victorjimenezdev.github.io/" />
+    <link rel="manifest" href="manifest.json" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234c2fb5'/%3E%3Cpath d='M8 9h4.1l3.9 10.4L19.9 9H24l-6.1 15h-3.8z' fill='%23fff'/%3E%3C/svg%3E"
+    />
 
-    gtag('config', 'G-B0GQS2GS37');
-  </script>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://victorjimenezdev.github.io/" />
+    <meta property="og:site_name" content="Victor Jimenez" />
+    <meta
+      property="og:title"
+      content="Victor Jimenez | Enterprise CMS Architect"
+    />
+    <meta
+      property="og:description"
+      content="13+ years building Drupal and WordPress platforms, decoupled architectures and delivery automation. Bogotá, Colombia. English and Spanish."
+    />
+    <meta
+      property="og:image"
+      content="https://victorjimenezdev.github.io/victorstack-1200.webp"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Victor Jimenez | Enterprise CMS Architect"
+    />
+    <meta
+      name="twitter:description"
+      content="13+ years building Drupal and WordPress platforms, decoupled architectures and delivery automation. Bogotá, Colombia. English and Spanish."
+    />
+    <meta
+      name="twitter:image"
+      content="https://victorjimenezdev.github.io/victorstack-1200.webp"
+    />
 
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="manifest" href="/manifest.json">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0f1115" id="theme-color-meta" />
-
-  <!-- Font Optimization -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
-  <!-- Zero-FOUC Theme Hydration -->
-  <script>
-    (function () {
-      try {
-        var savedTheme = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var theme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        if (theme === 'light') {
-          document.getElementById('theme-color-meta').setAttribute('content', '#ffffff');
+    <script>
+      // Only stamp data-theme when an explicit choice is stored, so a
+      // first-time visitor keeps following the OS setting (and its changes).
+      // The .js class lets CSS ship a static, conformant fallback when
+      // scripting is unavailable.
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        try {
+          var saved = localStorage.getItem('theme');
+          if (saved === 'light' || saved === 'dark') {
+            root.setAttribute('data-theme', saved);
+          }
+        } catch (e) {
+          /* storage blocked; system preference still applies */
         }
-      } catch (e) { }
-    })();
-  </script>
-  <meta name="description"
-    content="Victor Jimenez — Enterprise CMS Architect | AI Automation Specialist. Focusing on large-scale Drupal and WordPress: migrations, decoupled architectures, and AI-driven workflows leveraging React and modern infrastructure." />
-  <meta name="keywords"
-    content="Victor Jimenez, Enterprise CMS Architect, Drupal Architect, WordPress Architect, Drupal, WordPress, CMS, AI automation, headless Drupal, WP Engine, Pantheon, Acquia" />
-  <meta name="author" content="Victor Jimenez" />
+      })();
+    </script>
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://victorjimenezdev.github.io/" />
-  <meta property="og:site_name" content="Victor Jimenez — Enterprise CMS Architect" />
-  <meta property="og:title" content="Victor Jimenez | Enterprise CMS Architect & AI Automation Specialist" />
-  <meta property="og:description"
-    content="Portfolio of an Enterprise CMS Architect specializing in large-scale Drupal & WordPress migrations and decoupled AI-accelerated workflows." />
-  <meta property="og:image" content="https://victorjimenezdev.github.io/victorstack.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Victor Jimenez",
+        "jobTitle": "Enterprise CMS Architect",
+        "description": "Enterprise CMS Architect with 13+ years in Drupal, WordPress, decoupled architecture and workflow automation.",
+        "url": "https://victorjimenezdev.github.io/",
+        "email": "victorcamilo.jimenezv@gmail.com",
+        "sameAs": [
+          "https://github.com/victorjimenezdev",
+          "https://github.com/victorstack-ai",
+          "https://www.linkedin.com/in/victor-j-8268a2266/"
+        ],
+        "knowsAbout": [
+          "Drupal",
+          "WordPress",
+          "CMS Migrations",
+          "Decoupled Architecture",
+          "Web Performance",
+          "WCAG Accessibility"
+        ]
+      }
+    </script>
+  </head>
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://victorjimenezdev.github.io/" />
-  <meta property="twitter:title" content="Victor Jimenez | Enterprise CMS Architect & AI Automation Specialist" />
-  <meta property="twitter:description"
-    content="Portfolio of an Enterprise CMS Architect specializing in large-scale Drupal & WordPress migrations and decoupled AI-accelerated workflows." />
-  <meta property="twitter:image" content="https://victorjimenezdev.github.io/victorstack.png" />
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
 
-  <title>Victor Jimenez | Enterprise CMS Architect — Drupal & WordPress</title>
+    <header class="site-header">
+      <nav class="site-nav wrap" aria-label="Primary">
+        <a class="nav-brand" href="#top">Victor Jimenez</a>
 
+        <div class="nav-actions">
+          <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#experience">Experience</a>
+            <a href="#agent">AI</a>
+            <a href="#contact">Contact</a>
+          </div>
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Victor Jimenez",
-    "jobTitle": "Enterprise CMS Architect",
-    "description": "Enterprise CMS Architect specializing in Large-Scale Drupal & WordPress. Proven track record in orchestrating decoupled architectures and accelerating delivery with custom AI agents.",
-    "url": "https://victorjimenezdev.github.io/",
-    "image": "https://victorjimenezdev.github.io/victorstack.png",
-    "email": "victorcamilo.jimenezv@gmail.com",
-    "sameAs": [
-      "https://github.com/victorjimenezdev",
-      "https://github.com/victorstack-ai",
-      "https://www.linkedin.com/in/victor-j-8268a2266/",
-      "https://victorstack-ai.github.io/agent-blog/"
-    ],
-    "knowsAbout": ["Drupal", "WordPress", "AI Agents", "Web Performance", "CMS Migrations", "Decoupled Architecture", "WCAG Accessibility", "React", "Next.js"],
-    "alumniOf": {
-      "@type": "Organization",
-      "name": "VictorStack AI"
-    },
-    "worksFor": {
-      "@type": "Organization",
-      "name": "VictorStack AI",
-      "url": "https://victorstack-ai.github.io/agent-blog/"
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Victor Jimenez Portfolio",
-    "url": "https://victorjimenezdev.github.io/",
-    "author": {
-      "@type": "Person",
-      "name": "Victor Jimenez"
-    },
-    "description": "Portfolio of Victor Jimenez — Enterprise CMS Architect specializing in large-scale Drupal & WordPress platforms."
-  }
-  </script>
-</head>
+          <button
+            class="icon-btn"
+            id="theme-toggle"
+            type="button"
+            aria-label="Switch to dark theme"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              data-theme-icon="light"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              data-theme-icon="dark"
+              hidden
+            >
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+            </svg>
+          </button>
 
-<body>
-  <!-- Navigation / Header -->
-  <nav class="glass-panel"
-    style="position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;"
-    aria-label="Main Navigation">
-    <div style="font-weight: 800; font-size: 1.2rem;">Victor Jimenez</div>
-
-    <!-- Desktop Nav -->
-    <div id="desktop-nav" style="display: flex; gap: 1.5rem; align-items: center;">
-      <a href="#agent">Agent</a>
-      <a href="https://www.linkedin.com/in/victor-j-8268a2266/" target="_blank" aria-label="LinkedIn Profile"
-        style="display: flex; align-items: center; color: var(--text-primary); transition: color 0.3s;"
-        onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-primary)'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-        </svg>
-      </a>
-    </div>
-
-    <!-- Mobile Menu Button -->
-    <button id="mobile-menu-btn" aria-label="Toggle Mobile Menu"
-      style="display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer;">
-      ☰
-    </button>
-
-    <!-- Mobile Nav Overlay -->
-    <div id="mobile-nav" class="glass-panel"
-      style="display: none; position: absolute; top: 100%; right: 0; flex-direction: column; gap: 1rem; padding: 1.5rem; margin-top: 0.5rem; width: 200px; text-align: center;">
-      <a href="#agent" class="mobile-link">Agent</a>
-      <a href="https://www.linkedin.com/in/victor-j-8268a2266/" target="_blank" class="mobile-link"
-        style="display: inline-flex; justify-content: center; align-items: center; gap: 0.5rem;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-        </svg>
-        LinkedIn
-      </a>
-    </div>
-  </nav>
-
-  <main>
-    <!-- Hero Section -->
-    <section id="hero"
-      style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-      <div class="container" style="text-align: center; z-index: 1;">
-        <h1
-          style="font-size: 4rem; margin-bottom: 1.5rem; line-height: 1.1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 140px;">
-          <span style="display: block;"><span style="color: var(--primary);">Enterprise CMS Architect</span></span>
-          <span id="typewriter-text"
-            style="display: block; color: var(--secondary); font-size: 3.2rem; min-height: 60px; position: relative;">Drupal
-            & WordPress</span>
-        </h1>
-        <p
-          style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-          Over 13 years of experience transforming complex requirements into reliable, decoupled, and high-performance
-          Drupal and WordPress platforms. Tell me the business goal, and consider the enterprise web implementation
-          handled.
-        </p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="/Victor_Jimenez_CV.pdf" target="_blank" class="btn btn-primary" data-track="click_hero_cta"
-            data-track-category="hero" data-track-label="download_cv">⬇ Download CV</a>
-          <a href="#agent" class="btn"
-            style="background: rgba(108, 92, 231, 0.1); color: var(--primary); border: 1px solid var(--primary);"
-            data-track="click_hero_cta" data-track-category="hero" data-track-label="view_agent">AI Innovation</a>
-          <a href="#contact" class="btn"
-            style="background: rgba(108, 92, 231, 0.1); color: var(--primary); border: 1px solid var(--primary);"
-            data-track="click_hero_cta" data-track-category="hero" data-track-label="contact">Get In
-            Touch</a>
-          <a href="https://github.com/victorjimenezdev" target="_blank" class="btn"
-            style="background: var(--bg-secondary); border: 1px solid var(--card-border);" data-track="click_hero_cta"
-            data-track-category="hero" data-track-label="github">GitHub Profile</a>
+          <button
+            class="icon-btn nav-toggle"
+            id="nav-toggle"
+            type="button"
+            popovertarget="nav-panel"
+            aria-controls="nav-panel"
+            aria-expanded="false"
+          >
+            <span class="visually-hidden">Menu</span>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
         </div>
-      </div>
 
-      <!-- Ambient Background Glow -->
-      <div
-        style="position: absolute; top: 20%; left: 20%; width: 400px; height: 400px; background: var(--primary); filter: blur(150px); opacity: 0.15; border-radius: 50%;">
-      </div>
-      <div
-        style="position: absolute; bottom: 20%; right: 20%; width: 300px; height: 300px; background: var(--secondary); filter: blur(120px); opacity: 0.15; border-radius: 50%;">
-      </div>
-    </section>
-
-    <!-- Tech Stack Marquee Section -->
-    <section id="tech-stack"
-      style="padding: 2rem 0; background: var(--bg-secondary); border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border); overflow: hidden;">
-      <div class="marquee-wrapper">
-        <div class="marquee-content">
-          <!-- Duplicated for infinite scroll -->
-          <span class="tech-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-              alt="React"> React</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js"
-              style="filter: invert(var(--theme-invert, 0));"> Next.js</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
-            Python</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/drupal/drupal-original.svg" alt="Drupal">
-            Drupal</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress"
-              style="filter: invert(var(--theme-invert, 0));"> WordPress</span>
-          <span class="tech-item"><img src="https://cdn.simpleicons.org/wpengine/000000" alt="WP Engine"
-              style="filter: invert(var(--theme-invert, 0));"> WP Engine</span>
-          <span class="tech-item"><img src="https://cdn.simpleicons.org/pantheon/000000" alt="Pantheon"
-              style="filter: invert(var(--theme-invert, 0));"> Pantheon</span>
-          <span class="tech-item"><img src="/acquia.svg" alt="Acquia" style="height: 30px;"> Acquia</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
-              alt="AWS" style="filter: invert(var(--theme-invert, 0)); height: 30px;"></span>
-          <span class="tech-item"><img src="https://vitejs.dev/logo.svg" alt="Vite"> Vite</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-            Node.js</span>
-
-          <span class="tech-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-              alt="React"> React</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js"
-              style="filter: invert(var(--theme-invert, 0));"> Next.js</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
-            Python</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/drupal/drupal-original.svg" alt="Drupal">
-            Drupal</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress"
-              style="filter: invert(var(--theme-invert, 0));"> WordPress</span>
-          <span class="tech-item"><img src="https://cdn.simpleicons.org/wpengine/000000" alt="WP Engine"
-              style="filter: invert(var(--theme-invert, 0));"> WP Engine</span>
-          <span class="tech-item"><img src="https://cdn.simpleicons.org/pantheon/000000" alt="Pantheon"
-              style="filter: invert(var(--theme-invert, 0));"> Pantheon</span>
-          <span class="tech-item"><img src="/acquia.svg" alt="Acquia" style="height: 30px;"> Acquia</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
-              alt="AWS" style="filter: invert(var(--theme-invert, 0)); height: 30px;"></span>
-          <span class="tech-item"><img src="https://vitejs.dev/logo.svg" alt="Vite"> Vite</span>
-          <span class="tech-item"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-            Node.js</span>
+        <!-- Directly after its trigger so Tab order stays natural; the Popover
+             API supplies Esc, light dismiss, and focus return natively. -->
+        <div class="nav-panel" id="nav-panel" popover>
+          <a href="#work">Work</a>
+          <a href="#expertise">Expertise</a>
+          <a href="#experience">Experience</a>
+          <a href="#agent">AI</a>
+          <a href="#writing">Writing</a>
+          <a href="#contact">Contact</a>
         </div>
-      </div>
-    </section>
+      </nav>
+    </header>
 
-    <!-- Expertise Section -->
-    <section id="expertise" style="padding: 6rem 0; position: relative; z-index: 2;">
-      <div class="container">
-        <h2 class="section-title">Core Expertise</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-
-          <!-- Card 1: Migrations -->
-          <div class="glass-panel project-card"
-            style="padding: 2.5rem 2rem; text-align: left; border-top: 4px solid var(--primary);">
-            <div>
-              <h3
-                style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.8rem;">
-                <span style="font-size: 1.8rem;">🚀</span> Migrations
-              </h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                Specialist in migrating legacy CMS and large WordPress multisites into Drupal/WordPress with repeatable
-                pipelines and clean content models.
-              </p>
-            </div>
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero__inner">
+          <p class="hero__eyebrow">Bogotá, Colombia. English and Spanish.</p>
+          <h1 class="hero__title">
+            Enterprise <span class="accent">CMS Architect</span>
+          </h1>
+          <p class="hero__roles" id="hero-roles">Drupal &amp; WordPress</p>
+          <p class="hero__lede">
+            I bring 13+ years of experience building Drupal and WordPress
+            platforms. I lead architecture, migrations and full-stack delivery,
+            with a focus on performance, accessibility and maintainable systems.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#work">Explore my work</a>
+            <a
+              class="btn btn--ghost"
+              href="Victor_Jimenez_CV.pdf"
+              download="Victor_Jimenez_CV.pdf"
+            >
+              Download CV
+            </a>
           </div>
-
-          <!-- Card 2: Performance -->
-          <div class="glass-panel project-card"
-            style="padding: 2.5rem 2rem; text-align: left; border-top: 4px solid var(--secondary);">
-            <div>
-              <h3
-                style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.8rem;">
-                <span style="font-size: 1.8rem;">⚡</span> Performance
-              </h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                Deep profiling and caching strategies (Varnish, Redis, CDNs) to improve TTFB, Core Web Vitals, and
-                operational stability.
-              </p>
-            </div>
-          </div>
-
-          <!-- Card 3: Accessibility -->
-          <div class="glass-panel project-card"
-            style="padding: 2.5rem 2rem; text-align: left; border-top: 4px solid #2ecc71;">
-            <div>
-              <h3
-                style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.8rem;">
-                <span style="font-size: 1.8rem;">♿</span> Accessibility
-              </h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                WCAG AA audits and remediation, ensuring semantic HTML, ARIA compliance, and robust keyboard navigation
-                flows.
-              </p>
-            </div>
-          </div>
-
-          <!-- Card 4: Decoupled -->
-          <div class="glass-panel project-card"
-            style="padding: 2.5rem 2rem; text-align: left; border-top: 4px solid #f39c12;">
-            <div>
-              <h3
-                style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.8rem;">
-                <span style="font-size: 1.8rem;">⚛️</span> Decoupled
-              </h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                Architecting React and Next.js front ends backed by scalable Drupal or WordPress APIs and seamless
-                editorial workflows.
-              </p>
-            </div>
-          </div>
-
-          <!-- Card 5: Quality Gates & CI/CD -->
-          <div class="glass-panel project-card"
-            style="padding: 2.5rem 2rem; text-align: left; border-top: 4px solid #e74c3c;">
-            <div>
-              <h3
-                style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.8rem;">
-                <span style="font-size: 1.8rem;">🛡️</span> Quality Gates
-              </h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                Automating CI/CD pipelines (GitHub, GitLab) with strict SonarQube, PHPCS, and PHPStan static analysis to
-                guarantee bug-free delivery.
-              </p>
-            </div>
-          </div>
-
         </div>
-      </div>
-    </section>
+        <div class="hero__glow" aria-hidden="true"></div>
+      </section>
 
+      <section class="marquee" aria-labelledby="stack-heading">
+        <h2 class="visually-hidden" id="stack-heading">Technology stack</h2>
+        <!-- Control comes before the track in DOM order so keyboard users can
+             stop the motion before tabbing past it. Fixed accessible name plus
+             aria-pressed: swapping the name as well would announce a
+             contradiction. -->
+        <button
+          class="btn btn--ghost btn--small marquee__control"
+          id="marquee-toggle"
+          type="button"
+          aria-pressed="false"
+        >
+          Pause stack animation
+        </button>
+        <div class="marquee__viewport">
+          <div class="marquee__track" id="marquee-track">
+            <span class="marquee__item">
+              <img src="icons/react.svg" alt="" width="28" height="28" />React
+            </span>
+            <span class="marquee__item">
+              <img
+                src="icons/nextjs.svg"
+                alt=""
+                width="28"
+                height="28"
+                data-invert
+              />Next.js
+            </span>
+            <span class="marquee__item">
+              <img src="icons/python.svg" alt="" width="28" height="28" />Python
+            </span>
+            <span class="marquee__item">
+              <img src="icons/drupal.svg" alt="" width="28" height="28" />Drupal
+            </span>
+            <span class="marquee__item">
+              <img
+                src="icons/wordpress.svg"
+                alt=""
+                width="28"
+                height="28"
+                data-invert
+              />WordPress
+            </span>
+            <span class="marquee__item">
+              <img
+                src="icons/wpengine.svg"
+                alt=""
+                width="28"
+                height="28"
+                data-invert
+              />WP Engine
+            </span>
+            <span class="marquee__item">
+              <img
+                src="icons/pantheon.svg"
+                alt=""
+                width="28"
+                height="28"
+                data-invert
+              />Pantheon
+            </span>
+            <span class="marquee__item">
+              <img src="acquia.svg" alt="" width="28" height="28" />Acquia
+            </span>
+            <span class="marquee__item">
+              <img
+                src="icons/aws.svg"
+                alt=""
+                width="28"
+                height="28"
+                data-invert
+              />AWS
+            </span>
+            <span class="marquee__item">
+              <img
+                src="icons/nodejs.svg"
+                alt=""
+                width="28"
+                height="28"
+              />Node.js
+            </span>
+          </div>
+        </div>
+      </section>
 
+      <section class="section reveal" id="expertise">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title">Core expertise</h2>
+          </div>
+          <div class="bento">
+            <article class="card">
+              <span class="card__icon">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 19l4-1 8-8a2.8 2.8 0 0 0-4-4l-8 8z" />
+                  <path d="M15 5l4 4" />
+                </svg>
+              </span>
+              <h3 class="card__title">Migrations</h3>
+              <p class="card__body">
+                Legacy CMS and large multisite estates moved into Drupal or
+                WordPress with repeatable pipelines and clean content models.
+              </p>
+            </article>
 
-    <!-- Agent Showcase Section -->
-    <section id="agent" style="padding: 6rem 0; position: relative;">
-      <div class="container">
-        <h2 class="section-title">AI Innovation</h2>
+            <article class="card">
+              <span class="card__icon">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M13 2L4 14h6l-1 8 9-12h-6z" />
+                </svg>
+              </span>
+              <h3 class="card__title">Performance</h3>
+              <p class="card__body">
+                Profiling and caching strategy across Varnish, Redis, and CDNs
+                to move TTFB and Core Web Vitals in the right direction.
+              </p>
+            </article>
 
-        <div class="glass-panel showcase-layout">
-          <!-- Content -->
-          <div style="flex: 1; z-index: 2;">
-            <span
-              style="color: var(--secondary); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; display: block;">Featured
-              Project</span>
-            <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">VictorStack AI</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
-              A 24/7 autonomous intelligence focused on the Drupal and WordPress worlds. VictorStack monitors
-              releases, security advisories, and hosting changes to generate projects, fix bugs, and publish
-              a reference blog for both CMS ecosystems — security, upgrades, contrib/plugins, and tooling.
-            </p>
-            <ul style="display: flex; gap: 1rem; margin-bottom: 2.5rem;">
-              <li
-                style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
-                24/7 Monitoring</li>
-              <li
-                style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
-                Auto-Learning</li>
-              <li
-                style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
-                Self-Healing</li>
+            <article class="card">
+              <span class="card__icon">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 8v8M8 12h8" />
+                </svg>
+              </span>
+              <h3 class="card__title">Accessibility</h3>
+              <p class="card__body">
+                WCAG AA audits and remediation: semantic structure, correct
+                ARIA, and keyboard paths that actually work.
+              </p>
+            </article>
+
+            <article class="card">
+              <span class="card__icon">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="2.5" />
+                  <ellipse cx="12" cy="12" rx="10" ry="4.5" />
+                  <ellipse
+                    cx="12"
+                    cy="12"
+                    rx="10"
+                    ry="4.5"
+                    transform="rotate(60 12 12)"
+                  />
+                  <ellipse
+                    cx="12"
+                    cy="12"
+                    rx="10"
+                    ry="4.5"
+                    transform="rotate(120 12 12)"
+                  />
+                </svg>
+              </span>
+              <h3 class="card__title">Decoupled architecture</h3>
+              <p class="card__body">
+                React and Next.js front ends over Drupal or WordPress APIs,
+                supporting content delivery and editorial workflows.
+              </p>
+            </article>
+
+            <article class="card">
+              <span class="card__icon">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+              </span>
+              <h3 class="card__title">Quality gates</h3>
+              <p class="card__body">
+                CI/CD with static analysis wired in, so regressions get caught
+                by the pipeline rather than by the client.
+              </p>
+            </article>
+
+            <article class="card">
+              <span class="card__icon">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="4" y="4" width="16" height="16" rx="3" />
+                  <path d="M9 9h6v6H9zM2 10h2M2 14h2M20 10h2M20 14h2" />
+                </svg>
+              </span>
+              <h3 class="card__title">AI-assisted delivery</h3>
+              <p class="card__body">
+                I build automation for requirements analysis, environment setup,
+                browser verification and release monitoring, with review and
+                validation before delivery.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section section--tint"
+        id="experience"
+        aria-labelledby="experience-heading"
+      >
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title" id="experience-heading">
+              Professional experience
+            </h2>
+          </div>
+          <div class="experience-grid">
+            <article class="experience-card experience-card--current">
+              <p class="experience-card__date">June 2023 - Present</p>
+              <h3>Rootstack</h3>
+              <p class="experience-card__role">
+                Senior Drupal / WordPress Full Stack Lead Developer
+              </p>
+              <p>
+                I lead CMS architecture and delivery across client engagements,
+                combining technical planning with hands-on implementation and
+                release verification.
+              </p>
+              <ul class="experience-list">
+                <li>
+                  Drupal and WordPress migrations, custom modules, themes and
+                  integrations.
+                </li>
+                <li>
+                  Decoupled React and Next.js interfaces with GraphQL and REST
+                  APIs.
+                </li>
+                <li>
+                  Performance profiling, caching, security and accessibility
+                  remediation.
+                </li>
+                <li>
+                  CI/CD, static analysis, cloud hosting and workflow automation.
+                </li>
+              </ul>
+            </article>
+            <article class="experience-card">
+              <p class="experience-card__date">January 2013 - June 2023</p>
+              <h3>Earlier experience</h3>
+              <p class="experience-card__role">
+                Web development, CMS engineering and technical leadership
+              </p>
+              <p>
+                I built and maintained platforms for education, publishing,
+                financial services and public-sector organizations.
+              </p>
+              <ul class="experience-list">
+                <li>
+                  Led legacy migrations and decoupled Drupal implementations.
+                </li>
+                <li>
+                  Developed payment, CRM, analytics and personalization
+                  integrations.
+                </li>
+                <li>
+                  Automated deployments and supported cloud infrastructure.
+                </li>
+                <li>
+                  Mentored developers and guided technical planning and code
+                  reviews.
+                </li>
+              </ul>
+            </article>
+          </div>
+          <div class="experience-stack">
+            <p>Core stack</p>
+            <ul class="tags" aria-label="Core technical skills">
+              <li class="tag">Drupal</li>
+              <li class="tag">WordPress</li>
+              <li class="tag">React</li>
+              <li class="tag">Next.js</li>
+              <li class="tag">Python</li>
+              <li class="tag">GraphQL</li>
+              <li class="tag">REST APIs</li>
+              <li class="tag">AWS</li>
+              <li class="tag">Pantheon</li>
+              <li class="tag">Acquia</li>
+              <li class="tag">WP Engine</li>
+              <li class="tag">Docker</li>
             </ul>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-              <a href="https://github.com/victorstack-ai" target="_blank" class="btn btn-primary"
-                data-track="click_agent_cta" data-track-category="agent" data-track-label="github">
-                Visit GitHub Profile
-              </a>
-              <a href="https://victorstack-ai.github.io/agent-blog/" target="_blank" class="btn"
-                style="background: rgba(108, 92, 231, 0.1); color: var(--primary); border: 1px solid var(--primary);"
-                data-track="click_agent_cta" data-track-category="agent" data-track-label="blog">
-                Drupal &amp; WordPress Reference Blog
-              </a>
-            </div>
+            <a
+              class="btn btn--ghost"
+              href="Victor_Jimenez_CV.pdf"
+              download="Victor_Jimenez_CV.pdf"
+              >Download full CV</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="work">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title">Selected work</h2>
+            <p class="section-intro">
+              CMS projects delivered as part of project teams, alongside my
+              public personal projects. Professional examples are grouped by
+              sector.
+            </p>
           </div>
 
-          <!-- Visual -->
-          <div style="flex: 1; position: relative; z-index: 2;">
-            <div
-              style="width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); position: relative;">
-              <img src="/victorstack.png" alt="VictorStack Interface"
-                style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
-              <div
-                style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+          <div class="work-controls" id="work-controls" hidden>
+            <fieldset class="filters-wrap">
+              <legend class="filters__legend">
+                Explore project experience
+              </legend>
+              <div class="filters" id="work-filters">
+                <span>
+                  <input
+                    class="filter-input visually-hidden"
+                    type="radio"
+                    name="work-filter"
+                    id="filter-all"
+                    value="all"
+                    checked
+                  />
+                  <label class="filter-chip" for="filter-all">All</label>
+                </span>
+                <span>
+                  <input
+                    class="filter-input visually-hidden"
+                    type="radio"
+                    name="work-filter"
+                    id="filter-drupal"
+                    value="drupal"
+                  />
+                  <label class="filter-chip" for="filter-drupal">Drupal</label>
+                </span>
+                <span>
+                  <input
+                    class="filter-input visually-hidden"
+                    type="radio"
+                    name="work-filter"
+                    id="filter-wordpress"
+                    value="wordpress"
+                  />
+                  <label class="filter-chip" for="filter-wordpress"
+                    >WordPress</label
+                  >
+                </span>
+                <span>
+                  <input
+                    class="filter-input visually-hidden"
+                    type="radio"
+                    name="work-filter"
+                    id="filter-personal"
+                    value="personal"
+                  />
+                  <label class="filter-chip" for="filter-personal"
+                    >Personal projects</label
+                  >
+                </span>
+              </div>
+            </fieldset>
+
+            <p
+              class="work-status"
+              id="work-status"
+              role="status"
+              aria-atomic="true"
+            ></p>
+          </div>
+
+          <div class="work-grid" id="work-grid"></div>
+          <noscript>
+            <div class="work-fallback flow">
+              <h3>Professional contributions</h3>
+              <p>
+                My CMS project experience includes media, healthcare, higher
+                education, publishing, commerce, hospitality, financial services
+                and public-interest websites, delivered as part of project
+                teams.
+              </p>
+              <h3>Personal projects</h3>
+              <p>
+                <a
+                  href="https://github.com/victorjimenezdev/project_context_connector"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  >Project Context Connector for Drupal</a
+                >
+                and
+                <a
+                  href="https://github.com/victorjimenezdev/project-context-connector-wp"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  >Project Context Connector for WordPress</a
+                >
+                provide read-only site context for external tools.
+              </p>
+            </div>
+          </noscript>
+        </div>
+      </section>
+
+      <section class="section reveal" id="agent">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title">AI innovation</h2>
+          </div>
+
+          <div class="feature">
+            <div class="flow">
+              <p class="feature__eyebrow">Featured project</p>
+              <h3>VictorStack AI</h3>
+              <p>
+                VictorStack brings together my personal automation projects and
+                technical writing for Drupal and WordPress. Explore the
+                repositories and reference blog for work on CMS releases,
+                security and delivery tooling.
+              </p>
+              <ul class="pill-list">
+                <li class="pill">CMS tooling</li>
+                <li class="pill">Technical writing</li>
+                <li class="pill">Workflow automation</li>
+              </ul>
+              <div class="hero__actions">
+                <a
+                  class="btn btn--primary"
+                  href="https://github.com/victorstack-ai"
+                  target="_blank"
+                  rel="noopener"
+                  data-track="click_agent_cta"
+                  data-track-label="github"
+                >
+                  Visit the GitHub profile
+                </a>
+                <a
+                  class="btn btn--ghost"
+                  href="https://victorstack-ai.github.io/agent-blog/"
+                  target="_blank"
+                  rel="noopener"
+                  data-track="click_agent_cta"
+                  data-track-label="blog"
+                >
+                  Reference blog
+                </a>
               </div>
             </div>
-          </div>
-
-          <!-- Background Glow for Card -->
-          <div
-            style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), transparent); z-index: 1;">
+            <div class="feature__media">
+              <picture>
+                <source srcset="victorstack-1200.avif" type="image/avif" />
+                <img
+                  src="victorstack-1200.webp"
+                  alt="The VictorStack AI dashboard showing monitored repositories and generated tasks"
+                  width="1200"
+                  height="675"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
           </div>
         </div>
+      </section>
+
+      <section class="section section--tint reveal" id="process">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title">How I work</h2>
+          </div>
+          <ol class="process">
+            <li class="process__item">
+              <h3 class="process__title">Discovery</h3>
+              <p class="process__body">
+                Audit what exists: content model, integrations, hosting, and the
+                constraints nobody wrote down.
+              </p>
+            </li>
+            <li class="process__item">
+              <h3 class="process__title">Architecture</h3>
+              <p class="process__body">
+                Decide the shape - coupled or decoupled, migration path, caching
+                strategy - and write it down before code exists.
+              </p>
+            </li>
+            <li class="process__item">
+              <h3 class="process__title">Delivery</h3>
+              <p class="process__body">
+                Ship in reviewable increments behind CI, static analysis, and
+                accessibility checks.
+              </p>
+            </li>
+            <li class="process__item">
+              <h3 class="process__title">Handover</h3>
+              <p class="process__body">
+                Documentation and editor training, so the team owns the platform
+                rather than renting it.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section reveal" id="writing">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title">Latest writing</h2>
+            <a
+              class="section-link"
+              href="https://dev.to/victorstackai"
+              target="_blank"
+              rel="noopener"
+              >All articles</a
+            >
+          </div>
+          <div class="work-grid" id="writing-grid">
+            <p class="notice">Loading recent articles.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="contact">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="section-title">Get in touch</h2>
+          </div>
+          <div class="contact__panel">
+            <a
+              class="contact__link"
+              href="mailto:victorcamilo.jimenezv@gmail.com"
+              data-track="click_contact"
+              data-track-label="email"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" />
+              </svg>
+              victorcamilo.jimenezv@gmail.com
+            </a>
+            <a
+              class="contact__link"
+              href="https://www.linkedin.com/in/victor-j-8268a2266/"
+              target="_blank"
+              rel="noopener"
+              data-track="click_contact"
+              data-track-label="linkedin"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                />
+              </svg>
+              LinkedIn
+            </a>
+            <a
+              class="contact__link"
+              href="https://github.com/victorjimenezdev"
+              target="_blank"
+              rel="noopener"
+              data-track="click_contact"
+              data-track-label="github"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>
+          <span data-year></span> Victor Jimenez. Built with Vite and vanilla
+          JavaScript.
+        </p>
+        <p>
+          <button
+            class="btn btn--ghost btn--small"
+            id="consent-reopen"
+            type="button"
+            hidden
+          >
+            Analytics preferences
+          </button>
+        </p>
       </div>
-    </section>
+    </footer>
 
-    <!-- Work Projects (hidden for now - uncomment to restore)
-    <section id="work" style="padding: 6rem 0;">
-      <div class="container">
-        <div
-          style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
-          <h2 class="section-title" style="margin-bottom: 0;">Selected Work</h2>
-          <div id="project-filters" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-            <button class="filter-btn active" data-filter="all"
-              style="padding: 0.5rem 1.2rem; border-radius: 20px; border: 1px solid var(--card-border); background: var(--primary); color: white; cursor: pointer; transition: all 0.2s; font-weight: 600;">All</button>
-            <button class="filter-btn" data-filter="drupal"
-              style="padding: 0.5rem 1.2rem; border-radius: 20px; border: 1px solid var(--primary); background: transparent; color: var(--primary); cursor: pointer; transition: all 0.2s; font-weight: 600;">Drupal</button>
-            <button class="filter-btn" data-filter="wordpress"
-              style="padding: 0.5rem 1.2rem; border-radius: 20px; border: 1px solid var(--primary); background: transparent; color: var(--primary); cursor: pointer; transition: all 0.2s; font-weight: 600;">WordPress</button>
-          </div>
-        </div>
-        <div id="work-grid"
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
-          <div class="glass-panel"
-            style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">
-            <p>Waiting for project links to generate previews...</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    -->
+    <button class="icon-btn to-top" id="to-top" type="button">
+      <span class="visually-hidden">Back to top</span>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 15l-6-6-6 6" />
+      </svg>
+    </button>
 
-    <!-- Open Source & Personal (hidden for now - uncomment to restore)
-    <section id="opensource" style="padding: 6rem 0;">
-      <div class="container">
-        <div
-          style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
-          <h2 class="section-title" style="margin-bottom: 0;">Open Source & Personal</h2>
-          <a href="https://github.com/victorstack-ai" target="_blank"
-            style="color: var(--primary); font-size: 1rem; font-weight: 600;">View VictorStack AI ↗</a>
-        </div>
-        <h3
-          style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-          <span
-            style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; box-shadow: 0 0 8px #2ecc71;"></span>
-          Live Agent Repositories
-        </h3>
-        <div id="github-activity"
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
-          <div class="glass-panel"
-            style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">
-            <p>Fetching real-time repositories from victorstack-ai...</p>
-          </div>
-        </div>
-        <h3 style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Curated Projects</h3>
-        <div id="projects-grid"
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
-        </div>
-      </div>
-    </section>
-    -->
-
-    <!-- Latest Writing Section -->
-    <section id="writing"
-      style="padding: 6rem 0; background: var(--bg-secondary); border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border);">
-      <div class="container">
-        <div
-          style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
-          <h2 class="section-title" style="margin-bottom: 0;">Latest Writing</h2>
-          <a href="https://victorstack-ai.github.io/agent-blog/" target="_blank"
-            style="color: var(--primary); font-size: 1rem; font-weight: 600;">Drupal &amp; WordPress Reference Blog
-            ↗</a>
-        </div>
-        <div id="writing-grid"
-          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
-          <div class="glass-panel"
-            style="padding: 2rem; text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">
-            <p>Fetching latest articles...</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Contact Section -->
-    <section id="contact" style="padding: 6rem 0; text-align: center;">
-      <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="glass-panel"
-          style="display: inline-flex; justify-content: center; gap: 2rem; flex-wrap: wrap; padding: 2.5rem 3rem; align-items: center;">
-          <a href="mailto:victorcamilo.jimenezv@gmail.com" class="btn"
-            style="background: var(--bg-secondary); border: 1px solid var(--card-border);" data-track="click_contact"
-            data-track-category="contact" data-track-label="email">
-            📧 victorcamilo.jimenezv@gmail.com
-          </a>
-          <a href="https://wa.me/14073342078" target="_blank" class="btn"
-            style="background: rgba(37, 211, 102, 0.1); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.2);"
-            data-track="click_contact" data-track-category="contact" data-track-label="whatsapp">
-            💬 WhatsApp
-          </a>
-          <a href="https://www.linkedin.com/in/victor-j-8268a2266/" target="_blank" class="btn"
-            style="background: rgba(0, 119, 181, 0.1); color: #0077b5; border: 1px solid rgba(0, 119, 181, 0.2);"
-            data-track="click_contact" data-track-category="contact" data-track-label="linkedin">
-            💼 LinkedIn
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer
-    style="padding: 4rem 0; border-top: 1px solid var(--card-border); margin-top: 0; text-align: center; color: var(--text-secondary);">
-    <div class="container">
-      <p>&copy; 2026 Victor Jimenez. Built with Vite & Vanilla JS.</p>
-      <div style="margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 1.5rem;">
-        <a href="https://github.com/victorjimenezdev" target="_blank" aria-label="GitHub Profile"
-          style="color: var(--text-secondary); transition: color 0.3s;" data-track="click_footer_icon"
-          data-track-category="footer" data-track-label="github">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-          </svg>
-        </a>
-        <a href="https://www.linkedin.com/in/victor-j-8268a2266/" target="_blank" aria-label="LinkedIn Profile"
-          style="color: #0077b5; transition: filter 0.3s;" data-track="click_footer_icon" data-track-category="footer"
-          data-track-label="linkedin">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-          </svg>
-        </a>
+    <div
+      class="consent"
+      id="consent"
+      role="dialog"
+      aria-labelledby="consent-title"
+      aria-modal="false"
+    >
+      <p class="visually-hidden" id="consent-title">Analytics consent</p>
+      <p class="consent__text">
+        I use Google Analytics to see which work people find useful. Nothing is
+        loaded and no cookie is set unless you accept.
+      </p>
+      <div class="consent__actions">
+        <button
+          class="btn btn--primary btn--small"
+          id="consent-accept"
+          type="button"
+        >
+          Accept
+        </button>
+        <button
+          class="btn btn--ghost btn--small"
+          id="consent-decline"
+          type="button"
+        >
+          Decline
+        </button>
       </div>
     </div>
-  </footer>
 
-  <!-- Back to Top Button -->
-  <button id="back-to-top" aria-label="Back to Top"
-    style="display: none; position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; padding: 0.8rem; border-radius: 50%; border: 1px solid var(--card-border); background: var(--bg-secondary); color: var(--primary); cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M18 15l-6-6-6 6" />
-    </svg>
-  </button>
+    <template id="work-card-template">
+      <article class="work-card">
+        <div class="work-card__art" aria-hidden="true">
+          <span class="work-card__kicker"></span>
+          <div class="work-card__diagram">
+            <span>Content</span><span>CMS</span><span>Web</span>
+          </div>
+          <span class="work-card__platform"></span>
+        </div>
+        <div class="work-card__body">
+          <p class="work-card__kind"></p>
+          <h3 class="work-card__title"></h3>
+          <p class="work-card__desc"></p>
+          <ul class="tags"></ul>
+        </div>
+      </article>
+    </template>
 
-  <script type="module" src="/src/main.js"></script>
-</body>
+    <template id="post-card-template">
+      <article class="work-card">
+        <div class="work-card__media">
+          <img
+            alt=""
+            width="800"
+            height="450"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="work-card__body">
+          <h3 class="work-card__title">
+            <a target="_blank" rel="noopener"></a>
+          </h3>
+          <p class="work-card__desc"></p>
+          <p class="post-card__meta">
+            <span data-reactions></span>
+            <time data-published></time>
+          </p>
+        </div>
+      </article>
+    </template>
 
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
