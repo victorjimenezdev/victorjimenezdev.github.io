@@ -12,7 +12,7 @@ uv pip install --python .venv/bin/python -r requirements-cv.txt
 .venv/bin/python scripts/generate_cv.py
 ```
 
-The generator embeds the Vera fonts bundled with the pinned ReportLab package and uses fixed document metadata. The current and legacy public CV URLs contain identical PDFs. The site presents Rootstack as the current employer and lists earlier roles without employer names.
+The generator embeds the Vera fonts bundled with the pinned ReportLab package and uses fixed document metadata. The current and legacy public CV URLs contain identical PDFs. The website presents the professional profile and capabilities without employer names; career details remain in the downloadable CV.
 
 ## Project presentation
 
