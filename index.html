@@ -99,11 +99,25 @@
   </head>
 
   <body>
+    <!-- The sky is pure decoration: a WebGL scene when available, a layered
+         CSS gradient underneath it otherwise. Neither carries content. -->
+    <div class="sky-fallback" aria-hidden="true"></div>
+    <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+    <div class="phosphor" aria-hidden="true"></div>
+
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <header class="site-header">
       <nav class="site-nav wrap" aria-label="Primary">
-        <a class="nav-brand" href="#top">Victor Jimenez</a>
+        <a class="nav-brand" href="#top">
+          <span class="nav-brand__mark" aria-hidden="true">VJ</span>
+          <span class="nav-brand__name">Victor Jimenez</span>
+        </a>
+
+        <p class="hud-stage" id="hud-stage" aria-hidden="true">
+          <span class="hud-stage__index">00</span>
+          <span class="hud-stage__name">Title screen</span>
+        </p>
 
         <div class="nav-actions">
           <div class="nav-links">
@@ -113,6 +127,57 @@
             <a href="#agent">AI</a>
             <a href="#contact">Contact</a>
           </div>
+
+          <button
+            class="icon-btn hud-trophies"
+            id="trophy-toggle"
+            type="button"
+            popovertarget="trophies"
+            aria-controls="trophies"
+            aria-expanded="false"
+            hidden
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z" />
+              <path d="M17 6h3a3 3 0 0 1-3 4M7 6H4a3 3 0 0 0 3 4" />
+            </svg>
+            <span class="hud-trophies__count" id="trophy-count">0</span>
+            <span class="visually-hidden">Achievements</span>
+          </button>
+
+          <button
+            class="icon-btn"
+            id="sound-toggle"
+            type="button"
+            aria-pressed="false"
+            hidden
+          >
+            <span class="visually-hidden">Interface sound</span>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 9h4l5-4v14l-5-4H4z" />
+              <path
+                class="sound-on"
+                d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"
+              />
+              <path class="sound-off" d="m17 9 5 6M22 9l-5 6" />
+            </svg>
+          </button>
 
           <button
             class="icon-btn"
@@ -180,12 +245,32 @@
           <a href="#writing">Writing</a>
           <a href="#contact">Contact</a>
         </div>
+
+        <div class="trophies" id="trophies" popover>
+          <div class="trophies__head">
+            <p class="trophies__title">Achievements</p>
+            <p class="trophies__score" id="trophy-score">0 of 9 unlocked</p>
+          </div>
+          <ul class="trophies__list" id="trophy-list"></ul>
+        </div>
       </nav>
+      <div class="hud-xp" aria-hidden="true"><span></span></div>
     </header>
 
     <main id="main">
       <section class="hero" id="top">
+        <div class="hero__planet" id="hero-planet" aria-hidden="true">
+          <span class="reticle reticle--outer"></span>
+          <span class="reticle reticle--inner"></span>
+          <span class="hero__coords">04.71 N / 74.07 W</span>
+          <span class="hero__coords hero__coords--alt">Home base: Bogotá</span>
+        </div>
+
         <div class="wrap hero__inner">
+          <p class="hero__status">
+            <span class="hero__pulse" aria-hidden="true"></span>
+            Player one ready
+          </p>
           <p class="hero__eyebrow">Bogotá, Colombia. English and Spanish.</p>
           <h1 class="hero__title">
             Senior <span class="accent">Product Engineer</span>
@@ -200,11 +285,17 @@
             accessible experiences.
           </p>
           <div class="hero__actions">
-            <a class="btn btn--primary" href="#work">Explore my work</a>
+            <a class="btn btn--primary btn--start" href="#expertise" data-start>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              Press start
+            </a>
             <a
               class="btn btn--ghost"
               href="Victor_Jimenez_CV.pdf"
               download="Victor_Jimenez_CV.pdf"
+              data-achievement="recruiter"
             >
               Download CV
             </a>
@@ -227,7 +318,8 @@
             Project contributions delivered with teams across my career.
           </p>
         </div>
-        <div class="hero__glow" aria-hidden="true"></div>
+
+        <span class="hero__scroll" aria-hidden="true"><span>Scroll</span></span>
       </section>
 
       <section class="marquee" aria-labelledby="stack-heading">
@@ -236,14 +328,17 @@
              stop the motion before tabbing past it. Fixed accessible name plus
              aria-pressed: swapping the name as well would announce a
              contradiction. -->
-        <button
-          class="btn btn--ghost btn--small marquee__control"
-          id="marquee-toggle"
-          type="button"
-          aria-pressed="false"
-        >
-          Pause stack animation
-        </button>
+        <div class="marquee__bar wrap">
+          <p class="stage-tag" aria-hidden="true">Inventory</p>
+          <button
+            class="btn btn--ghost btn--small marquee__control"
+            id="marquee-toggle"
+            type="button"
+            aria-pressed="false"
+          >
+            Pause stack animation
+          </button>
+        </div>
         <div class="marquee__viewport">
           <div class="marquee__track" id="marquee-track">
             <span class="marquee__item">
@@ -315,13 +410,25 @@
         </div>
       </section>
 
-      <section class="section reveal" id="expertise">
+      <section
+        class="section reveal"
+        id="expertise"
+        data-stage="01"
+        data-stage-name="Skill tree"
+      >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 01</span> Skill tree
+            </p>
             <h2 class="section-title">Core expertise</h2>
+            <p class="section-intro">
+              Eight abilities, all unlocked. Move your pointer over a card to
+              inspect it.
+            </p>
           </div>
           <div class="bento">
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -344,7 +451,7 @@
               </p>
             </article>
 
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -365,7 +472,7 @@
               </p>
             </article>
 
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -387,7 +494,7 @@
               </p>
             </article>
 
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -423,7 +530,7 @@
               </p>
             </article>
 
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -446,7 +553,7 @@
               </p>
             </article>
 
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -468,7 +575,7 @@
                 validation before delivery.
               </p>
             </article>
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon"
                 ><svg
                   aria-hidden="true"
@@ -486,7 +593,7 @@
                 permission-controlled APIs and review of access boundaries.
               </p>
             </article>
-            <article class="card">
+            <article class="card" data-tilt>
               <span class="card__icon"
                 ><svg
                   aria-hidden="true"
@@ -510,18 +617,27 @@
       </section>
 
       <section
-        class="section section--tint"
+        class="section"
         id="experience"
         aria-labelledby="experience-heading"
+        data-stage="02"
+        data-stage-name="Campaign"
       >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 02</span> Campaign
+            </p>
             <h2 class="section-title" id="experience-heading">
               Professional experience
             </h2>
           </div>
           <div class="experience-grid">
-            <article class="experience-card experience-card--current">
+            <article class="experience-card experience-card--current" data-tilt>
+              <p class="chapter" aria-hidden="true">
+                <span>Chapter 02</span
+                ><span class="chapter__state">In progress</span>
+              </p>
               <p class="experience-card__date">June 2023 - Present</p>
               <h3>Technical leadership and delivery</h3>
               <p class="experience-card__role">
@@ -550,7 +666,11 @@
                 </li>
               </ul>
             </article>
-            <article class="experience-card">
+            <article class="experience-card" data-tilt>
+              <p class="chapter" aria-hidden="true">
+                <span>Chapter 01</span
+                ><span class="chapter__state">Complete</span>
+              </p>
               <p class="experience-card__date">January 2013 - June 2023</p>
               <h3>Earlier experience</h3>
               <p class="experience-card__role">
@@ -599,15 +719,24 @@
               class="btn btn--ghost"
               href="Victor_Jimenez_CV.pdf"
               download="Victor_Jimenez_CV.pdf"
+              data-achievement="recruiter"
               >Download full CV</a
             >
           </div>
         </div>
       </section>
 
-      <section class="section reveal" id="work">
+      <section
+        class="section reveal"
+        id="work"
+        data-stage="03"
+        data-stage-name="Galaxy map"
+      >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 03</span> Galaxy map
+            </p>
             <h2 class="section-title">Project experience</h2>
             <p class="section-intro">
               I have contributed to 60 professional projects across 11 sectors
@@ -615,6 +744,53 @@
               project history. My public personal projects are listed
               separately.
             </p>
+          </div>
+
+          <div class="galaxy" id="galaxy" hidden>
+            <div class="galaxy__map">
+              <div class="galaxy__orbits" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="galaxy__core" aria-hidden="true">
+                <span class="galaxy__core-count">60</span>
+                <span class="galaxy__core-label">projects</span>
+              </div>
+              <ul
+                class="galaxy__planets"
+                id="galaxy-planets"
+                aria-label="Sector map: select a planet to scan its sector"
+              ></ul>
+            </div>
+            <div class="galaxy__scan" id="galaxy-scan">
+              <p class="galaxy__scan-kicker">Sector scanner</p>
+              <div class="galaxy__scan-body" id="galaxy-scan-body">
+                <p class="galaxy__scan-title">Awaiting target</p>
+                <p class="galaxy__scan-desc">
+                  Select a planet to scan its sector and log its projects.
+                </p>
+              </div>
+              <ul class="galaxy__tips">
+                <li>Select or tap a planet to scan it.</li>
+                <li>Arrow keys move between planets.</li>
+                <li>Planet size shows the number of projects.</li>
+                <li>Scan all 11 sectors to unlock Cartographer.</li>
+              </ul>
+              <div class="galaxy__progress">
+                <p>
+                  <span>Discovered</span>
+                  <span id="galaxy-found">0 / 60 projects</span>
+                </p>
+                <span class="meter" aria-hidden="true"
+                  ><span id="galaxy-meter"></span
+                ></span>
+              </div>
+              <p
+                class="visually-hidden"
+                id="galaxy-live"
+                role="status"
+                aria-atomic="true"
+              ></p>
+            </div>
           </div>
 
           <div class="work-controls" id="work-controls" hidden>
@@ -711,9 +887,17 @@
         </div>
       </section>
 
-      <section class="section reveal" id="agent">
+      <section
+        class="section reveal"
+        id="agent"
+        data-stage="04"
+        data-stage-name="Companion AI"
+      >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 04</span> Companion AI
+            </p>
             <h2 class="section-title">Automation &amp; AI</h2>
           </div>
 
@@ -755,7 +939,7 @@
                 </a>
               </div>
             </div>
-            <div class="feature__media">
+            <div class="feature__media" data-tilt>
               <picture>
                 <source srcset="victorstack-1200.avif" type="image/avif" />
                 <img
@@ -772,13 +956,22 @@
         </div>
       </section>
 
-      <section class="section section--tint reveal" id="process">
+      <section
+        class="section reveal"
+        id="process"
+        data-stage="05"
+        data-stage-name="Launch sequence"
+      >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 05</span> Launch sequence
+            </p>
             <h2 class="section-title">How I work</h2>
           </div>
           <ol class="process">
             <li class="process__item">
+              <p class="process__count" aria-hidden="true">T-3</p>
               <h3 class="process__title">Discovery</h3>
               <p class="process__body">
                 Audit what exists: content model, integrations, hosting, and the
@@ -786,6 +979,7 @@
               </p>
             </li>
             <li class="process__item">
+              <p class="process__count" aria-hidden="true">T-2</p>
               <h3 class="process__title">Architecture</h3>
               <p class="process__body">
                 Decide the shape - coupled or decoupled, migration path, caching
@@ -793,6 +987,7 @@
               </p>
             </li>
             <li class="process__item">
+              <p class="process__count" aria-hidden="true">T-1</p>
               <h3 class="process__title">Delivery</h3>
               <p class="process__body">
                 Ship in reviewable increments behind CI, static analysis, and
@@ -800,6 +995,7 @@
               </p>
             </li>
             <li class="process__item">
+              <p class="process__count" aria-hidden="true">Liftoff</p>
               <h3 class="process__title">Handover</h3>
               <p class="process__body">
                 Documentation and editor training, so the team owns the platform
@@ -810,9 +1006,17 @@
         </div>
       </section>
 
-      <section class="section reveal" id="writing">
+      <section
+        class="section reveal"
+        id="writing"
+        data-stage="06"
+        data-stage-name="Captain's log"
+      >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 06</span> Captain's log
+            </p>
             <h2 class="section-title">Latest writing</h2>
             <a
               class="section-link"
@@ -828,10 +1032,21 @@
         </div>
       </section>
 
-      <section class="section reveal" id="contact">
+      <section
+        class="section reveal"
+        id="contact"
+        data-stage="07"
+        data-stage-name="Multiplayer"
+      >
         <div class="wrap">
           <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 07</span> Multiplayer
+            </p>
             <h2 class="section-title">Get in touch</h2>
+            <p class="section-intro">
+              Ready for co-op? Send a transmission on any channel.
+            </p>
           </div>
           <div class="contact__panel">
             <a
@@ -891,8 +1106,8 @@
     <footer class="site-footer">
       <div class="wrap site-footer__inner">
         <p>
-          <span data-year></span> Victor Jimenez. Built with Vite and vanilla
-          JavaScript.
+          <span data-year></span> Victor Jimenez. Built with Vite, vanilla
+          JavaScript and a hand-written WebGL shader.
         </p>
         <p>
           <button
@@ -921,6 +1136,8 @@
         <path d="M18 15l-6-6-6 6" />
       </svg>
     </button>
+
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 
     <div
       class="consent"
@@ -953,12 +1170,10 @@
     </div>
 
     <template id="work-card-template">
-      <article class="work-card">
+      <article class="work-card" data-tilt>
         <div class="work-card__art" aria-hidden="true">
           <span class="work-card__kicker"></span>
-          <div class="work-card__diagram">
-            <span>Plan</span><span>Build</span><span>Deliver</span>
-          </div>
+          <span class="work-card__planet"></span>
           <span class="work-card__platform"></span>
         </div>
         <div class="work-card__body">
@@ -971,7 +1186,7 @@
     </template>
 
     <template id="post-card-template">
-      <article class="work-card">
+      <article class="work-card" data-tilt>
         <div class="work-card__media">
           <img
             alt=""

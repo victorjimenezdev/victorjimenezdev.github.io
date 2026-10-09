@@ -4,6 +4,18 @@ import {
   personalProjects,
   professionalProjectCount,
 } from './data/projects.js';
+import { startSky } from './game/sky.js';
+import { createAudio } from './game/audio.js';
+import { createAchievements } from './game/achievements.js';
+import { HUES, setupGalaxy } from './game/galaxy.js';
+import {
+  createToaster,
+  setupKonami,
+  setupPopover,
+  setupStageTracker,
+  setupTilt,
+  setupXpBar,
+} from './game/hud.js';
 
 const GA_ID = 'G-B0GQS2GS37';
 const CONSENT_KEY = 'analytics-consent';
@@ -60,7 +72,7 @@ function syncThemeControl(button) {
   }
 }
 
-function setupTheme() {
+function setupTheme(onChange) {
   const button = document.getElementById('theme-toggle');
   if (!button) return;
 
@@ -85,10 +97,14 @@ function setupTheme() {
         /* storage blocked; the choice still applies for this page view */
       }
       syncThemeControl(button);
+      onChange();
     };
 
     if (document.startViewTransition && !prefersReducedMotion()) {
-      document.startViewTransition(apply);
+      document.documentElement.dataset.transition = 'theme';
+      document.startViewTransition(apply).finished.finally(() => {
+        delete document.documentElement.dataset.transition;
+      });
     } else {
       apply();
     }
@@ -201,6 +217,7 @@ function buildWorkCard(project, template) {
     ? project.tags[0]
     : `${project.projectCount} projects`;
   node.dataset.projectCount = personal ? '1' : String(project.projectCount);
+  node.dataset.sector = project.id;
   desc.textContent = project.description;
 
   project.tags.slice(0, 3).forEach((tag) => {
@@ -223,6 +240,13 @@ function setupWork() {
   const cards = [...workProjects, ...personalProjects].map((project) =>
     buildWorkCard(project, template)
   );
+  /* Mission cards share their planet's colour; open source glows green. */
+  cards.forEach((card, index) => {
+    card.style.setProperty(
+      '--hue',
+      String(card.dataset.projectType === 'personal' ? 150 : HUES[index])
+    );
+  });
   cards.forEach((card) => grid.appendChild(card));
 
   const applyFilter = (value) => {
@@ -469,9 +493,119 @@ function setupTelemetry() {
   });
 }
 
+/* ---------------------------------------------------------------- game -- */
+
+function setupGame() {
+  const root = document.documentElement;
+  const audio = createAudio();
+  const toast = createToaster();
+  const achievements = createAchievements({
+    list: document.getElementById('trophy-list'),
+    count: document.getElementById('trophy-count'),
+    score: document.getElementById('trophy-score'),
+    toast,
+    sound: (name) => audio.play(name),
+  });
+
+  const canvas = document.getElementById('sky');
+  const sky = canvas
+    ? startSky({
+        canvas,
+        planet: document.getElementById('hero-planet'),
+        isLight: () => resolvedTheme() === 'light',
+        isPhosphor: () => root.dataset.mode === 'phosphor',
+        reducedMotion: prefersReducedMotion,
+      })
+    : null;
+  if (sky) root.dataset.sky = 'webgl';
+
+  const trophyToggle = document.getElementById('trophy-toggle');
+  setupPopover(trophyToggle, document.getElementById('trophies'));
+  trophyToggle.hidden = false;
+
+  const sound = document.getElementById('sound-toggle');
+  sound.setAttribute('aria-pressed', String(audio.enabled));
+  sound.hidden = false;
+  sound.addEventListener('click', () => {
+    audio.setEnabled(!audio.enabled);
+    sound.setAttribute('aria-pressed', String(audio.enabled));
+    audio.play('select');
+  });
+
+  /* In-page jumps get a short hyperspace streak in the sky shader. */
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (link) sky?.warp();
+    if (event.target.closest('[data-start]')) {
+      audio.play('start');
+      achievements.unlock('start');
+    }
+    if (event.target.closest('[data-achievement="recruiter"]')) {
+      achievements.unlock('recruiter');
+    }
+  });
+
+  const stageAchievements = {
+    expertise: 'loadout',
+    experience: 'campaign',
+    contact: 'explorer',
+  };
+  setupStageTracker((id) => {
+    if (stageAchievements[id]) achievements.unlock(stageAchievements[id]);
+  });
+  setupXpBar();
+  setupTilt();
+
+  setupGalaxy({
+    sectors: workProjects,
+    total: professionalProjectCount,
+    onScan(sectorId) {
+      audio.play('scan');
+      achievements.unlock('first-contact');
+      document.querySelectorAll('#work-grid .work-card').forEach((card) => {
+        card.dataset.scanned = String(
+          card.dataset.scanned === 'true' || card.dataset.sector === sectorId
+        );
+      });
+    },
+    onProgress(sectorsScanned) {
+      if (sectorsScanned === workProjects.length) {
+        achievements.unlock('cartographer');
+      }
+    },
+  });
+
+  setupKonami((on) => {
+    sky?.refresh();
+    toast(
+      on ? 'Phosphor mode on' : 'Phosphor mode off',
+      on ? 'Enter the code again to switch back.' : 'Back to full colour.',
+      'info'
+    );
+    achievements.unlock('old-school');
+  });
+
+  return {
+    onThemeChange() {
+      sky?.refresh();
+      achievements.unlock('shift-change');
+    },
+  };
+}
+
+function greetDevelopers() {
+  // eslint-disable-next-line no-console
+  console.log(
+    '%cVJ%c Player two detected. The source is plain HTML, CSS and one hand-written WebGL shader. Try the Konami code.',
+    'background:#7c5cff;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px',
+    'color:inherit'
+  );
+}
+
 /* ----------------------------------------------------------------- init -- */
 
-setupTheme();
+const game = setupGame();
+setupTheme(() => game.onThemeChange());
 setupNav();
 setupMarquee();
 setupWork();
@@ -480,6 +614,7 @@ setupBackToTop();
 setupYear();
 setupTelemetry();
 loadWriting();
+greetDevelopers();
 
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
