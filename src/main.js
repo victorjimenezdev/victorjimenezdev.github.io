@@ -6,11 +6,21 @@ import {
 } from './data/projects.js';
 import { startSky } from './game/sky.js';
 import { createAudio } from './game/audio.js';
-import { createAchievements } from './game/achievements.js';
+import { createAchievements, goToTarget } from './game/achievements.js';
+import { setupBoss } from './game/boss.js';
+import {
+  createParticles,
+  scramble,
+  setupMagnetic,
+  setupSpotlight,
+  setupStageTags,
+} from './game/fx.js';
+import { setupSaveFile, setupTechTree } from './game/profile.js';
 import { HUES, setupGalaxy } from './game/galaxy.js';
 import {
   createToaster,
   setupKonami,
+  setupObjective,
   setupPopover,
   setupStageTracker,
   setupTilt,
@@ -499,12 +509,26 @@ function setupGame() {
   const root = document.documentElement;
   const audio = createAudio();
   const toast = createToaster();
+  const particles = createParticles(document.getElementById('fx'));
+  const trophyToggle = document.getElementById('trophy-toggle');
+  const trophies = document.getElementById('trophies');
   const achievements = createAchievements({
     list: document.getElementById('trophy-list'),
     count: document.getElementById('trophy-count'),
     score: document.getElementById('trophy-score'),
+    toggle: trophyToggle,
     toast,
     sound: (name) => audio.play(name),
+    celebrate(element) {
+      particles.burstFrom(element);
+      element.dataset.celebrate = 'true';
+      setTimeout(() => delete element.dataset.celebrate, 700);
+    },
+    closeLog() {
+      if (trophies.matches?.(':popover-open')) trophies.hidePopover();
+      trophies.classList.remove('is-open');
+      trophyToggle.setAttribute('aria-expanded', 'false');
+    },
   });
 
   const canvas = document.getElementById('sky');
@@ -519,8 +543,7 @@ function setupGame() {
     : null;
   if (sky) root.dataset.sky = 'webgl';
 
-  const trophyToggle = document.getElementById('trophy-toggle');
-  setupPopover(trophyToggle, document.getElementById('trophies'));
+  setupPopover(trophyToggle, trophies);
   trophyToggle.hidden = false;
 
   const sound = document.getElementById('sound-toggle');
@@ -536,8 +559,10 @@ function setupGame() {
   document.addEventListener('click', (event) => {
     const link = event.target.closest('a[href^="#"]');
     if (link) sky?.warp();
-    if (event.target.closest('[data-start]')) {
+    const start = event.target.closest('[data-start]');
+    if (start) {
       audio.play('start');
+      particles.burstFrom(start, { count: 70, power: 9 });
       achievements.unlock('start');
     }
     if (event.target.closest('[data-achievement="recruiter"]')) {
@@ -546,15 +571,35 @@ function setupGame() {
   });
 
   const stageAchievements = {
+    profile: 'character',
     expertise: 'loadout',
     experience: 'campaign',
     contact: 'explorer',
   };
-  setupStageTracker((id) => {
-    if (stageAchievements[id]) achievements.unlock(stageAchievements[id]);
-  });
+  setupStageTracker(
+    (id) => {
+      if (stageAchievements[id]) achievements.unlock(stageAchievements[id]);
+    },
+    (element, text) => scramble(element, text, 450)
+  );
   setupXpBar();
   setupTilt();
+  setupStageTags();
+  setupSpotlight();
+  setupMagnetic();
+
+  setupTechTree({
+    onInspect: (count) => achievements.progress('tech-trees', count),
+    onSelect: () => audio.play('select'),
+  });
+  setupSaveFile();
+  setupBoss({
+    launch: document.getElementById('boss-launch'),
+    sky,
+    sound: (name) => audio.play(name),
+    onComplete: () => achievements.unlock('boss'),
+  });
+  setupObjective({ quests: achievements, goTo: goToTarget });
 
   setupGalaxy({
     sectors: workProjects,
@@ -569,9 +614,7 @@ function setupGame() {
       });
     },
     onProgress(sectorsScanned) {
-      if (sectorsScanned === workProjects.length) {
-        achievements.unlock('cartographer');
-      }
+      achievements.progress('cartographer', sectorsScanned);
     },
   });
 

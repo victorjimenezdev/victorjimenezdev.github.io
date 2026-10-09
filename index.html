@@ -121,6 +121,7 @@
 
         <div class="nav-actions">
           <div class="nav-links">
+            <a href="#profile">Profile</a>
             <a href="#work">Work</a>
             <a href="#expertise">Expertise</a>
             <a href="#experience">Experience</a>
@@ -238,6 +239,7 @@
         <!-- Directly after its trigger so Tab order stays natural; the Popover
              API supplies Esc, light dismiss, and focus return natively. -->
         <div class="nav-panel" id="nav-panel" popover>
+          <a href="#profile">Profile</a>
           <a href="#work">Work</a>
           <a href="#expertise">Expertise</a>
           <a href="#experience">Experience</a>
@@ -248,8 +250,8 @@
 
         <div class="trophies" id="trophies" popover>
           <div class="trophies__head">
-            <p class="trophies__title">Achievements</p>
-            <p class="trophies__score" id="trophy-score">0 of 9 unlocked</p>
+            <p class="trophies__title">Quest log</p>
+            <p class="trophies__score" id="trophy-score">0 of 12 unlocked</p>
           </div>
           <ul class="trophies__list" id="trophy-list"></ul>
         </div>
@@ -285,7 +287,7 @@
             accessible experiences.
           </p>
           <div class="hero__actions">
-            <a class="btn btn--primary btn--start" href="#expertise" data-start>
+            <a class="btn btn--primary btn--start" href="#profile" data-start>
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
               </svg>
@@ -412,14 +414,330 @@
 
       <section
         class="section reveal"
-        id="expertise"
+        id="profile"
+        aria-labelledby="profile-heading"
         data-stage="01"
-        data-stage-name="Skill tree"
+        data-stage-name="Character sheet"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 01</span> Skill tree
+              <span>Stage 01</span> Character sheet
+            </p>
+            <h2 class="section-title" id="profile-heading">Player profile</h2>
+            <p class="section-intro">
+              My CV as a character sheet. Every stat is from my real career
+              record. Select a tech tree to inspect its tools.
+            </p>
+          </div>
+
+          <div class="sheet">
+            <article class="sheet__identity" data-tilt>
+              <div class="avatar" aria-hidden="true">
+                <span class="avatar__ring avatar__ring--a"></span>
+                <span class="avatar__ring avatar__ring--b"></span>
+                <span class="avatar__core">VJ</span>
+                <span class="avatar__scan"></span>
+              </div>
+              <div class="sheet__name">
+                <p class="sheet__kicker">Player one</p>
+                <h3>Victor Jimenez</h3>
+                <p class="sheet__class">Class: Senior Product Engineer</p>
+              </div>
+              <div
+                class="xp"
+                role="img"
+                aria-label="13 or more years of engineering experience, since 2013"
+              >
+                <p class="xp__label" aria-hidden="true">
+                  <span>Experience</span><span>13+ years</span>
+                </p>
+                <span class="xp__bar" aria-hidden="true">
+                  <span style="--i: 0"></span><span style="--i: 1"></span
+                  ><span style="--i: 2"></span><span style="--i: 3"></span
+                  ><span style="--i: 4"></span><span style="--i: 5"></span
+                  ><span style="--i: 6"></span><span style="--i: 7"></span
+                  ><span style="--i: 8"></span><span style="--i: 9"></span
+                  ><span style="--i: 10"></span><span style="--i: 11"></span
+                  ><span style="--i: 12"></span>
+                </span>
+              </div>
+              <dl class="sheet__stats">
+                <div>
+                  <dt>Home base</dt>
+                  <dd>Bogotá, Colombia</dd>
+                </div>
+                <div>
+                  <dt>Language packs</dt>
+                  <dd>English and Spanish</dd>
+                </div>
+                <div>
+                  <dt>Specialty</dt>
+                  <dd>Full-stack web, PHP and CMS platforms, React and APIs</dd>
+                </div>
+                <div>
+                  <dt>Quests completed</dt>
+                  <dd>60 professional projects in 11 sectors</dd>
+                </div>
+                <div>
+                  <dt>Current chapter</dt>
+                  <dd>Technical leadership, since 2023</dd>
+                </div>
+              </dl>
+            </article>
+
+            <div class="sheet__trees techtree" id="techtree">
+              <div class="techtree__head">
+                <h3 class="techtree__title">Tech trees</h3>
+                <p class="techtree__hint">
+                  Six skill groups from my CV, with the real tools in each.
+                </p>
+              </div>
+              <div class="techtree__stage">
+                <svg
+                  class="techtree__links"
+                  aria-hidden="true"
+                  viewBox="0 0 100 100"
+                ></svg>
+                <div class="techtree__trees">
+                  <section
+                    class="tree"
+                    id="tree-engineering"
+                    data-tree="engineering"
+                    data-hue="285"
+                  >
+                    <h4 class="tree__name">Engineering</h4>
+                    <ul class="tree__tools">
+                      <li>React</li>
+                      <li>Next.js</li>
+                      <li>JavaScript</li>
+                      <li>TypeScript</li>
+                      <li>HTML</li>
+                      <li>CSS</li>
+                      <li>PHP</li>
+                      <li>Node.js</li>
+                      <li>Python</li>
+                      <li>GraphQL</li>
+                      <li>REST APIs</li>
+                    </ul>
+                  </section>
+                  <section
+                    class="tree"
+                    id="tree-delivery"
+                    data-tree="delivery"
+                    data-hue="195"
+                  >
+                    <h4 class="tree__name">Delivery &amp; automation</h4>
+                    <ul class="tree__tools">
+                      <li>CI/CD</li>
+                      <li>GitHub</li>
+                      <li>GitLab</li>
+                      <li>Bitbucket</li>
+                      <li>Docker</li>
+                      <li>Lando</li>
+                      <li>PHPCS</li>
+                      <li>PHPStan</li>
+                      <li>SonarQube</li>
+                      <li>Playwright</li>
+                      <li>Browser extensions</li>
+                    </ul>
+                  </section>
+                  <section
+                    class="tree"
+                    id="tree-performance"
+                    data-tree="performance"
+                    data-hue="45"
+                  >
+                    <h4 class="tree__name">Performance &amp; SEO</h4>
+                    <ul class="tree__tools">
+                      <li>Technical SEO</li>
+                      <li>Core Web Vitals</li>
+                      <li>Profiling</li>
+                      <li>Redis</li>
+                      <li>Varnish</li>
+                      <li>CDNs</li>
+                      <li>New Relic</li>
+                    </ul>
+                  </section>
+                  <section
+                    class="tree"
+                    id="tree-security"
+                    data-tree="security"
+                    data-hue="150"
+                  >
+                    <h4 class="tree__name">Security &amp; accessibility</h4>
+                    <ul class="tree__tools">
+                      <li>OAuth</li>
+                      <li>SSO</li>
+                      <li>Security audits</li>
+                      <li>Remediation</li>
+                      <li>Semantic interfaces</li>
+                      <li>Keyboard navigation</li>
+                      <li>WCAG</li>
+                    </ul>
+                  </section>
+                  <section
+                    class="tree"
+                    id="tree-architecture"
+                    data-tree="architecture"
+                    data-hue="220"
+                  >
+                    <h4 class="tree__name">Architecture &amp; cloud</h4>
+                    <ul class="tree__tools">
+                      <li>API integrations</li>
+                      <li>Migrations</li>
+                      <li>AWS EC2</li>
+                      <li>S3</li>
+                      <li>RDS</li>
+                      <li>Lambda</li>
+                      <li>CloudFront</li>
+                      <li>SQS</li>
+                      <li>Technical planning</li>
+                      <li>Code reviews</li>
+                      <li>Mentorship</li>
+                    </ul>
+                  </section>
+                  <section
+                    class="tree"
+                    id="tree-platforms"
+                    data-tree="platforms"
+                    data-hue="330"
+                  >
+                    <h4 class="tree__name">Platform specialties</h4>
+                    <ul class="tree__tools">
+                      <li>Drupal 7-11</li>
+                      <li>WordPress</li>
+                      <li>Symfony</li>
+                      <li>Custom modules</li>
+                      <li>Themes</li>
+                      <li>Composer</li>
+                      <li>Drush</li>
+                      <li>Pantheon</li>
+                      <li>Acquia</li>
+                      <li>WP Engine</li>
+                    </ul>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <div class="sheet__side">
+              <section class="panel" aria-labelledby="training-heading">
+                <h3 class="panel__title" id="training-heading">
+                  Training arcs
+                </h3>
+                <ul class="arcs">
+                  <li class="arc">
+                    <span class="arc__seal" aria-hidden="true"></span>
+                    <p class="arc__name">
+                      B.S. in Information Systems Engineering
+                    </p>
+                    <p class="arc__meta">UNAD, Colombia. 2020 to 2024.</p>
+                  </li>
+                  <li class="arc">
+                    <span class="arc__seal" aria-hidden="true"></span>
+                    <p class="arc__name">
+                      Associate degree in Information Systems
+                    </p>
+                    <p class="arc__meta">
+                      Universidad del Valle. 2009 to 2012.
+                    </p>
+                  </li>
+                  <li class="arc">
+                    <span class="arc__seal" aria-hidden="true"></span>
+                    <p class="arc__name">English C1 program</p>
+                    <p class="arc__meta">EC English School.</p>
+                  </li>
+                </ul>
+              </section>
+
+              <section class="panel" aria-labelledby="equipment-heading">
+                <h3 class="panel__title" id="equipment-heading">Equipment</h3>
+                <ul class="slots">
+                  <li class="slot" data-tilt>
+                    <a
+                      href="https://github.com/victorjimenezdev/project_context_connector"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Project Context Connector</a
+                    >
+                    <p>
+                      Drupal module. Read-only site snapshots for automation and
+                      CI/CD tools.
+                    </p>
+                  </li>
+                  <li class="slot" data-tilt>
+                    <a
+                      href="https://github.com/victorjimenezdev/project-context-connector-wp"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Project Context Connector for WordPress</a
+                    >
+                    <p>
+                      Read-only site context for external tools and automation.
+                    </p>
+                  </li>
+                </ul>
+              </section>
+
+              <div class="panel savefile">
+                <h3 class="panel__title">Save file</h3>
+                <p>The full CV, as a PDF.</p>
+                <a
+                  class="btn btn--primary savefile__btn"
+                  href="Victor_Jimenez_CV.pdf"
+                  download="Victor_Jimenez_CV.pdf"
+                  data-achievement="recruiter"
+                >
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
+                  </svg>
+                  Download CV
+                </a>
+                <span class="savefile__bar" aria-hidden="true"
+                  ><span></span
+                ></span>
+                <button
+                  class="btn btn--ghost boss-launch"
+                  id="boss-launch"
+                  type="button"
+                  hidden
+                >
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2l2.6 6.9L22 9.5l-5.6 4.8L18.2 22 12 18l-6.2 4 1.8-7.7L2 9.5l7.4-.6z"
+                    />
+                  </svg>
+                  Launch final sequence
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section reveal"
+        id="expertise"
+        data-stage="02"
+        data-stage-name="Abilities"
+      >
+        <div class="wrap">
+          <div class="section__head">
+            <p class="stage-tag" aria-hidden="true">
+              <span>Stage 02</span> Abilities
             </p>
             <h2 class="section-title">Core expertise</h2>
             <p class="section-intro">
@@ -620,13 +938,13 @@
         class="section"
         id="experience"
         aria-labelledby="experience-heading"
-        data-stage="02"
+        data-stage="03"
         data-stage-name="Campaign"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 02</span> Campaign
+              <span>Stage 03</span> Campaign
             </p>
             <h2 class="section-title" id="experience-heading">
               Professional experience
@@ -729,13 +1047,13 @@
       <section
         class="section reveal"
         id="work"
-        data-stage="03"
+        data-stage="04"
         data-stage-name="Galaxy map"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 03</span> Galaxy map
+              <span>Stage 04</span> Galaxy map
             </p>
             <h2 class="section-title">Project experience</h2>
             <p class="section-intro">
@@ -890,13 +1208,13 @@
       <section
         class="section reveal"
         id="agent"
-        data-stage="04"
+        data-stage="05"
         data-stage-name="Companion AI"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 04</span> Companion AI
+              <span>Stage 05</span> Companion AI
             </p>
             <h2 class="section-title">Automation &amp; AI</h2>
           </div>
@@ -959,13 +1277,13 @@
       <section
         class="section reveal"
         id="process"
-        data-stage="05"
+        data-stage="06"
         data-stage-name="Launch sequence"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 05</span> Launch sequence
+              <span>Stage 06</span> Launch sequence
             </p>
             <h2 class="section-title">How I work</h2>
           </div>
@@ -1009,13 +1327,13 @@
       <section
         class="section reveal"
         id="writing"
-        data-stage="06"
+        data-stage="07"
         data-stage-name="Captain's log"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 06</span> Captain's log
+              <span>Stage 07</span> Captain's log
             </p>
             <h2 class="section-title">Latest writing</h2>
             <a
@@ -1035,13 +1353,13 @@
       <section
         class="section reveal"
         id="contact"
-        data-stage="07"
+        data-stage="08"
         data-stage-name="Multiplayer"
       >
         <div class="wrap">
           <div class="section__head">
             <p class="stage-tag" aria-hidden="true">
-              <span>Stage 07</span> Multiplayer
+              <span>Stage 08</span> Multiplayer
             </p>
             <h2 class="section-title">Get in touch</h2>
             <p class="section-intro">
@@ -1136,6 +1454,83 @@
         <path d="M18 15l-6-6-6 6" />
       </svg>
     </button>
+
+    <canvas class="fx" id="fx" aria-hidden="true"></canvas>
+
+    <div class="objective" id="objective" hidden>
+      <p class="objective__text">
+        <span class="objective__kicker">Next objective</span>
+        <span class="objective__goal" id="objective-goal"></span>
+      </p>
+      <button
+        class="btn btn--small btn--primary objective__go"
+        id="objective-go"
+        type="button"
+      >
+        Go
+      </button>
+      <button class="objective__close" id="objective-close" type="button">
+        <span class="visually-hidden">Hide next objective</span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M6 6l12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <dialog class="boss" id="boss" aria-labelledby="boss-title">
+      <canvas class="boss__canvas" id="boss-canvas" aria-hidden="true"></canvas>
+      <div class="boss__card" id="boss-card">
+        <p class="boss__kicker">Final sequence complete</p>
+        <h2 class="boss__title" id="boss-title" tabindex="-1">Game complete</h2>
+        <p class="boss__lede">
+          You reached the end of the run. Here is the player you found.
+        </p>
+        <dl class="boss__stats">
+          <div>
+            <dt>Class</dt>
+            <dd>Senior Product Engineer</dd>
+          </div>
+          <div>
+            <dt>Experience</dt>
+            <dd>13+ years</dd>
+          </div>
+          <div>
+            <dt>Projects</dt>
+            <dd>60 in 11 sectors</dd>
+          </div>
+          <div>
+            <dt>Tech trees</dt>
+            <dd>6</dd>
+          </div>
+        </dl>
+        <div class="boss__actions">
+          <a
+            class="btn btn--primary"
+            href="Victor_Jimenez_CV.pdf"
+            download="Victor_Jimenez_CV.pdf"
+            data-achievement="recruiter"
+            >Download CV</a
+          >
+          <a class="btn btn--ghost" href="#contact" data-boss-close
+            >Get in touch</a
+          >
+        </div>
+      </div>
+      <button
+        class="btn btn--ghost btn--small boss__skip"
+        id="boss-skip"
+        type="button"
+      >
+        Close
+      </button>
+    </dialog>
 
     <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 

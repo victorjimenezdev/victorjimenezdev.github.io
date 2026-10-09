@@ -19,7 +19,12 @@ const reducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /** Shows the section the visitor is in as a game stage. */
-export function setupStageTracker(onEnter) {
+export function setupStageTracker(
+  onEnter,
+  setText = (element, text) => {
+    element.textContent = text;
+  }
+) {
   const hud = document.getElementById('hud-stage');
   const index = hud?.querySelector('.hud-stage__index');
   const name = hud?.querySelector('.hud-stage__name');
@@ -32,13 +37,14 @@ export function setupStageTracker(onEnter) {
     const current = [...visible.entries()]
       .filter(([, ratio]) => ratio > 0)
       .sort((a, b) => b[1] - a[1])[0]?.[0];
-    if (!current || current === hero) {
-      index.textContent = '00';
-      name.textContent = 'Title screen';
-      return;
-    }
-    index.textContent = current.dataset.stage;
-    name.textContent = current.dataset.stageName;
+    const [nextIndex, nextName] =
+      !current || current === hero
+        ? ['00', 'Title screen']
+        : [current.dataset.stage, current.dataset.stageName];
+    if (name.dataset.stage === nextName) return;
+    name.dataset.stage = nextName;
+    index.textContent = nextIndex;
+    setText(name, nextName);
   };
 
   const observer = new IntersectionObserver(
@@ -198,4 +204,63 @@ export function setupPopover(toggle, panel) {
     if (panel.contains(event.target) || toggle.contains(event.target)) return;
     close(false);
   });
+}
+
+/**
+ * "Next objective" pill: names the first locked quest and takes the visitor
+ * there. Hidden while the consent banner is up, and dismissible for the
+ * rest of the session.
+ */
+export function setupObjective({ quests, goTo }) {
+  const pill = document.getElementById('objective');
+  const goal = document.getElementById('objective-goal');
+  const go = document.getElementById('objective-go');
+  const close = document.getElementById('objective-close');
+  const consent = document.getElementById('consent');
+  if (!pill || !goal || !go || !close) return;
+
+  const DISMISS_KEY = 'objective-hidden';
+  let dismissed = false;
+  try {
+    dismissed = sessionStorage.getItem(DISMISS_KEY) === 'true';
+  } catch {
+    dismissed = false;
+  }
+
+  const render = () => {
+    const quest = quests.next();
+    const consentOpen = consent?.dataset.visible === 'true';
+    pill.hidden = dismissed || !quest || consentOpen;
+    if (!quest) return;
+    const step = quests.progressOf(quest.id);
+    goal.textContent = step
+      ? `${quest.hint} ${step.value} of ${step.goal}.`
+      : quest.hint;
+    go.hidden = !quest.target;
+    go.setAttribute('aria-label', `Go to objective: ${quest.title}`);
+    pill.dataset.quest = quest.id;
+  };
+
+  go.addEventListener('click', () => {
+    const quest = quests.next();
+    if (quest) goTo(quest.target);
+  });
+  close.addEventListener('click', () => {
+    dismissed = true;
+    try {
+      sessionStorage.setItem(DISMISS_KEY, 'true');
+    } catch {
+      /* storage blocked; hidden for this page view */
+    }
+    render();
+  });
+
+  quests.onChange(render);
+  if (consent) {
+    new MutationObserver(render).observe(consent, {
+      attributes: true,
+      attributeFilter: ['data-visible'],
+    });
+  }
+  render();
 }
