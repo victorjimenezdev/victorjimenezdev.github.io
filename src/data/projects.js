@@ -4,7 +4,7 @@ export const workProjects = [
     title: 'Media and publishing',
     description: 'Streaming, entertainment, news and editorial platforms.',
     projectCount: 8,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -13,7 +13,7 @@ export const workProjects = [
     description:
       'University websites, education services and learning platforms.',
     projectCount: 10,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -21,7 +21,7 @@ export const workProjects = [
     title: 'Healthcare and research',
     description: 'Healthcare, research and public-health websites.',
     projectCount: 5,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -30,7 +30,7 @@ export const workProjects = [
     description:
       'Commerce, product catalogs, business services and corporate platforms.',
     projectCount: 9,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -38,7 +38,7 @@ export const workProjects = [
     title: 'Hospitality and travel',
     description: 'Hospitality, booking and travel information platforms.',
     projectCount: 4,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -46,7 +46,7 @@ export const workProjects = [
     title: 'Financial services',
     description: 'Banking, financial services and assistance platforms.',
     projectCount: 4,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -54,7 +54,7 @@ export const workProjects = [
     title: 'Public-interest platforms',
     description: 'Government, cultural, environmental and nonprofit websites.',
     projectCount: 10,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -62,7 +62,7 @@ export const workProjects = [
     title: 'Property and housing',
     description: 'Property management and housing websites.',
     projectCount: 2,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -71,7 +71,7 @@ export const workProjects = [
     description:
       'Legal resources, professional services and software websites.',
     projectCount: 3,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -80,7 +80,7 @@ export const workProjects = [
     description:
       'Payment, business services and customer self-service portals.',
     projectCount: 3,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
   {
@@ -88,7 +88,7 @@ export const workProjects = [
     title: 'Consumer applications',
     description: 'Community and consumer service applications.',
     projectCount: 2,
-    tags: ['Web platforms', 'Full-stack'],
+    tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
   },
 ];
