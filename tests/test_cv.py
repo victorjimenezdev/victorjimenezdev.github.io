@@ -93,7 +93,7 @@ class CVTests(unittest.TestCase):
             *self.career["links"].values(),
             *(project["url"] for project in self.career["projects"]),
             f"mailto:{self.career['email']}",
-            "https://wa.me/14073342078",
+            "https://wa.me/16463913900",
         }
         self.assertTrue(required.issubset(urls), required - urls)
 
@@ -122,11 +122,15 @@ class CVTests(unittest.TestCase):
         blocked = set(json.loads((ROOT / "tests/client-identities.json").read_text()))
         for filename in ("Victor_Jimenez_CV.pdf", "victorjimenezcv.pdf"):
             reader = PdfReader(ROOT / "public" / filename)
-            text = " ".join(page.extract_text() or "" for page in reader.pages)
+            text = "\n".join(page.extract_text() or "" for page in reader.pages)
             self.assertGreater(len(text), 1000)
             self.assertIn("Victor Jimenez", text)
             self.assertIn("Rootstack", text)
-            words = re.findall(r"[a-z0-9]+", text.lower())
+            self.assertEqual(text.splitlines().count("Velaio"), 1)
+            scanned_text = "\n".join(
+                line for line in text.splitlines() if line != "Velaio"
+            )
+            words = re.findall(r"[a-z0-9]+", scanned_text.lower())
             for width in range(1, 9):
                 for start in range(len(words) - width + 1):
                     digest = hashlib.sha256(
@@ -134,8 +138,27 @@ class CVTests(unittest.TestCase):
                     ).hexdigest()
                     self.assertNotIn(digest, blocked, filename)
 
-    def test_former_employers_are_absent_from_public_content(self) -> None:
-        texts = [self.text, json.dumps(self.career), self.html]
+    def test_earlier_employer_role_and_date_attribution(self) -> None:
+        expected = [
+            ("Ilumno", "Senior Drupal Full Stack Lead Developer", "January 2020 - June 2023"),
+            ("Legis", "Senior Drupal Full Stack Lead Consultant", "July 2021 - April 2023"),
+            ("Bits Americas", "Drupal Back-End Developer", "January 2018 - July 2021"),
+            ("Velaio", "Drupal Full Stack Lead Developer", "January 2015 - January 2018"),
+            ("Skena", "Web Developer", "January 2013 - January 2015"),
+        ]
+        actual = [
+            (role["employer"], role["role"], role["dates"])
+            for role in self.career["earlier"]
+        ]
+        self.assertEqual(actual, expected)
+        for filename in ("Victor_Jimenez_CV.pdf", "victorjimenezcv.pdf"):
+            reader = PdfReader(ROOT / "public" / filename)
+            text = normalized(reader.pages[1].extract_text())
+            for employer, role, dates in expected:
+                self.assertIn(f"{employer} {role} {dates}", text)
+
+    def test_former_employers_are_absent_from_website_content(self) -> None:
+        texts = [self.html]
         texts.extend(
             str(path.relative_to(ROOT / "dist")) for path in (ROOT / "dist").rglob("*")
         )

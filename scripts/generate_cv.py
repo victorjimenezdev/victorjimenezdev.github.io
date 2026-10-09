@@ -204,6 +204,7 @@ def generate() -> Path:
         story.append(
             KeepTogether(
                 [
+                    paragraph(role["employer"], styles["headline"]),
                     paragraph(role["role"], styles["role"]),
                     paragraph(role["dates"], styles["date"]),
                     paragraph(role["summary"], styles["body"]),
