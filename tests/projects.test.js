@@ -138,7 +138,7 @@ test('website positioning and metadata emphasize transferable engineering skills
     )?.[0];
     assert.ok(tag, name);
     assert.ok(
-      tag.includes('Product Engineer') || tag.includes('Full-stack web'),
+      tag.includes('Product Engineer') || tag.includes('Web product'),
       name
     );
   }

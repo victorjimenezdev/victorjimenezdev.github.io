@@ -1,14 +1,14 @@
 # Victor Jimenez portfolio
 
-> Senior Product Engineer with 13+ years in full-stack web engineering and technical leadership.
+> Senior Product Engineer focused on the web, with 13+ years in web product engineering and technical leadership.
 
 ## About
 
-I build web platforms and applications across frontend, backend and release engineering. I have contributed to 60 professional projects across 11 sectors as part of project teams throughout my career. I work across architecture, integrations, CI/CD, technical SEO, performance, security and accessibility.
+I build web products end to end, across frontend, backend and release engineering. I have contributed to 60 professional projects across 11 sectors as part of project teams throughout my career. I work across architecture, integrations, CI/CD, technical SEO, performance, security and accessibility.
 
 ## Expertise
 
-- Full-stack engineering: React, Next.js, JavaScript, TypeScript, PHP, Node.js and Python
+- Web product engineering: React, Next.js, JavaScript, TypeScript, PHP, Node.js and Python
 - Architecture and integrations: GraphQL, REST APIs, migrations, payments, CRM and authentication
 - CI/CD: repeatable builds, static analysis, browser verification and cloud releases
 - Performance and technical SEO: profiling, caching, Core Web Vitals, search metadata and structured data
