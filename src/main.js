@@ -1,4 +1,5 @@
 import './style.css';
+import { createAnalytics } from './analytics.js';
 import {
   workProjects,
   personalProjects,
@@ -27,8 +28,7 @@ import {
   setupXpBar,
 } from './game/hud.js';
 
-const GA_ID = 'G-B0GQS2GS37';
-const CONSENT_KEY = 'analytics-consent';
+const analytics = createAnalytics({ win: window, doc: document });
 const THEME_KEY = 'theme';
 const FEED_URL =
   'https://dev.to/api/articles?username=victorstackai&per_page=12';
@@ -213,6 +213,9 @@ function buildWorkCard(project, template) {
     link.href = project.link;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
+    link.dataset.track = 'project_click';
+    link.dataset.trackProject = project.id;
+    link.dataset.trackType = 'source';
     title.appendChild(link);
   } else {
     title.textContent = project.title;
@@ -392,47 +395,6 @@ function renderNotice(message) {
 
 /* ------------------------------------------------------------- consent -- */
 
-function readConsent() {
-  try {
-    const value = localStorage.getItem(CONSENT_KEY);
-    return value === 'granted' || value === 'denied' ? value : null;
-  } catch {
-    return null;
-  }
-}
-
-function writeConsent(value) {
-  try {
-    localStorage.setItem(CONSENT_KEY, value);
-  } catch {
-    /* storage blocked; the choice applies to this page view only */
-  }
-
-  /* Declining after accepting has to stop collection in the same page view.
-     The gtag script cannot be unloaded, so the opt-out flag it checks on every
-     call is what actually silences it. */
-  window[`ga-disable-${GA_ID}`] = value !== 'granted';
-}
-
-/* Nothing analytics-related exists until this runs: no script tag in the
-   document head, no cookie, no network request. */
-function loadAnalytics() {
-  window[`ga-disable-${GA_ID}`] = false;
-  if (window.gtag) return;
-
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-  document.head.appendChild(script);
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() {
-    window.dataLayer.push(arguments);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', GA_ID, { anonymize_ip: true });
-}
-
 function setupConsent() {
   const banner = document.getElementById('consent');
   const accept = document.getElementById('consent-accept');
@@ -440,19 +402,19 @@ function setupConsent() {
   const reopen = document.getElementById('consent-reopen');
   if (!banner || !accept || !decline) return;
 
-  const decided = readConsent();
-  if (decided === 'granted') loadAnalytics();
+  const decided = analytics.consent;
+  if (decided === 'granted') analytics.load();
   if (!decided) banner.dataset.visible = 'true';
   if (reopen) reopen.hidden = !decided;
 
   const settle = (value) => {
-    writeConsent(value);
+    analytics.setConsent(value);
     banner.dataset.visible = 'false';
     if (reopen) {
       reopen.hidden = false;
       reopen.focus();
     }
-    if (value === 'granted') loadAnalytics();
+    if (value === 'granted') analytics.load();
   };
 
   accept.addEventListener('click', () => settle('granted'));
@@ -488,18 +450,6 @@ function setupBackToTop() {
 function setupYear() {
   document.querySelectorAll('[data-year]').forEach((node) => {
     node.textContent = `© ${new Date().getFullYear()}`;
-  });
-}
-
-function setupTelemetry() {
-  document.addEventListener('click', (event) => {
-    const target = event.target.closest('[data-track]');
-    if (!target || typeof window.gtag !== 'function') return;
-
-    window.gtag('event', target.dataset.track, {
-      event_category: target.dataset.trackCategory || 'engagement',
-      event_label: target.dataset.trackLabel || '',
-    });
   });
 }
 
@@ -655,7 +605,7 @@ setupWork();
 setupConsent();
 setupBackToTop();
 setupYear();
-setupTelemetry();
+analytics.start();
 loadWriting();
 greetDevelopers();
 
