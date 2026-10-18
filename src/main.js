@@ -5,6 +5,7 @@ import {
   personalProjects,
   professionalProjectCount,
 } from './data/projects.js';
+import { FALLBACK_IMAGE, agentBlogIndex, resolveWriting } from './writing.js';
 import { startSky } from './game/sky.js';
 import { createAudio } from './game/audio.js';
 import { createAchievements, goToTarget } from './game/achievements.js';
@@ -32,17 +33,6 @@ const analytics = createAnalytics({ win: window, doc: document });
 const THEME_KEY = 'theme';
 const FEED_URL =
   'https://dev.to/api/articles?username=victorstackai&per_page=12';
-
-/* dev.to proxies cover images through media*.dev.to. When the upstream asset
-   404s, the proxy still answers 200 - with its own "image no longer exists"
-   artwork - so neither an error handler nor a URL test can catch it. Reading
-   the original URL back out of the proxy path and requesting that directly
-   means a missing image fails honestly, and the error handler can substitute a
-   local placeholder. */
-const DEVTO_PROXY = /^https?:\/\/media\d*\.dev\.to\/[^/]+\/image\/[^/]*\/(.+)$/;
-
-const FALLBACK_IMAGE =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%23e8e6ef'/%3E%3Cpath d='M330 250l50-55 45 50 40-42 55 62z' fill='%23b9b4c9'/%3E%3Ccircle cx='325' cy='185' r='22' fill='%23b9b4c9'/%3E%3C/svg%3E";
 
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -298,92 +288,67 @@ function setupWork() {
 
 /* ------------------------------------------------------------- writing -- */
 
-/* dev.to descriptions leak the MDX preamble of the source article, so lines
-   like `import Tabs from '@theme/Tabs';` render as body copy. */
-function cleanExcerpt(text) {
-  return String(text || '')
-    .replace(/import\s+[^;]+?from\s+['"][^'"]+['"];?/g, '')
-    .replace(/^\s*<[^>]+>\s*/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+function renderPostCard(template, card) {
+  const node = template.content.firstElementChild.cloneNode(true);
+  const img = node.querySelector('img');
+  const link = node.querySelector('.work-card__title a');
 
-function coverImageFor(article) {
-  const candidate = article.cover_image || article.social_image || '';
-  if (!candidate) return FALLBACK_IMAGE;
+  img.src = card.cover || FALLBACK_IMAGE;
+  img.alt = '';
+  /* A missing cover fires a genuine error and swaps in the local placeholder. */
+  img.addEventListener(
+    'error',
+    () => {
+      if (img.src !== FALLBACK_IMAGE) img.src = FALLBACK_IMAGE;
+    },
+    { once: true }
+  );
+  link.textContent = card.title;
+  link.href = card.href;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  node.querySelector('.work-card__desc').textContent = card.excerpt;
 
-  const proxied = candidate.match(DEVTO_PROXY);
-  if (!proxied) return candidate;
+  const reactions = node.querySelector('[data-reactions]');
+  if (card.reactions) reactions.textContent = card.reactions;
+  else reactions.remove();
 
-  try {
-    const original = decodeURIComponent(proxied[1]);
-    return /^https?:\/\//.test(original) ? original : candidate;
-  } catch {
-    return candidate;
-  }
+  const time = node.querySelector('[data-published]');
+  if (card.dateTime) time.dateTime = card.dateTime;
+  time.textContent = card.label;
+  return node;
 }
 
 async function loadWriting() {
   const grid = document.getElementById('writing-grid');
   const template = document.getElementById('post-card-template');
+  const indexLink = document.querySelector('#writing .section-link');
+  if (indexLink) indexLink.href = agentBlogIndex;
   if (!grid || !template) return;
 
-  try {
-    const response = await fetch(FEED_URL);
-    if (!response.ok) throw new Error(`Feed responded ${response.status}`);
+  const result = await resolveWriting({
+    fetchFeed: async () => {
+      try {
+        const response = await fetch(FEED_URL);
+        if (!response.ok) throw new Error(`Feed responded ${response.status}`);
+        return await response.json();
+      } catch (error) {
+        console.error('Writing feed unavailable', error);
+        throw error;
+      }
+    },
+  });
 
-    const articles = await response.json();
-    if (!Array.isArray(articles) || articles.length === 0) {
-      grid.replaceChildren(renderNotice('No articles published yet.'));
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    articles
-      .slice()
-      .sort((a, b) => new Date(b.published_at) - new Date(a.published_at))
-      .slice(0, 3)
-      .forEach((article) => {
-        const node = template.content.firstElementChild.cloneNode(true);
-        const img = node.querySelector('img');
-        const link = node.querySelector('.work-card__title a');
-
-        img.src = coverImageFor(article);
-        img.alt = '';
-        /* Now that the real upstream URL is requested, a missing cover fires a
-           genuine error and swaps in the local placeholder. */
-        img.addEventListener(
-          'error',
-          () => {
-            if (img.src !== FALLBACK_IMAGE) img.src = FALLBACK_IMAGE;
-          },
-          { once: true }
-        );
-        link.textContent = article.title;
-        link.href = article.url;
-        node.querySelector('.work-card__desc').textContent = cleanExcerpt(
-          article.description
-        );
-        node.querySelector('[data-reactions]').textContent =
-          `${article.public_reactions_count} reactions`;
-
-        const time = node.querySelector('[data-published]');
-        const published = new Date(article.published_at);
-        time.dateTime = published.toISOString();
-        time.textContent = published.toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        });
-
-        fragment.appendChild(node);
-      });
-
-    grid.replaceChildren(fragment);
-  } catch (error) {
-    console.error('Writing feed unavailable', error);
-    grid.replaceChildren(renderNotice('The writing feed is unavailable.'));
+  if (result.notice) {
+    grid.replaceChildren(renderNotice(result.notice));
+    return;
   }
+
+  const fragment = document.createDocumentFragment();
+  result.cards.forEach((card) => {
+    fragment.appendChild(renderPostCard(template, card));
+  });
+  grid.replaceChildren(fragment);
 }
 
 function renderNotice(message) {

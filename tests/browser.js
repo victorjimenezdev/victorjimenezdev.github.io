@@ -5,6 +5,8 @@ import { resolve } from 'node:path';
 import { chromium, firefox, webkit } from 'playwright';
 import axe from 'axe-core';
 import { verifyNavigationFallback } from './navigation.browser.js';
+import { agentBlogIndex } from '../src/data/writing.js';
+import { resolveWriting } from '../src/writing.js';
 
 const base = process.env.PORTFOLIO_URL || 'http://127.0.0.1:4337';
 const engineName = process.env.PORTFOLIO_BROWSER || 'chromium';
@@ -383,9 +385,24 @@ try {
   );
   const errorPage = await errorContext.newPage();
   await errorPage.goto(base, { waitUntil: 'networkidle' });
+  const ownedWriting = await resolveWriting({
+    fetchFeed: async () => {
+      throw new Error('Feed responded 503');
+    },
+  });
+  assert.deepEqual(
+    await errorPage
+      .locator('#writing-grid .work-card__title a')
+      .allTextContents(),
+    ownedWriting.cards.map((card) => card.title)
+  );
   assert.equal(
-    await errorPage.locator('#writing-grid').textContent(),
-    'The writing feed is unavailable.'
+    await errorPage.locator('#writing-grid [data-reactions]').count(),
+    0
+  );
+  assert.equal(
+    await errorPage.locator('#writing .section-link').getAttribute('href'),
+    agentBlogIndex
   );
   await errorPage.locator('#consent-decline').click();
   await errorPage.reload({ waitUntil: 'networkidle' });
@@ -406,7 +423,7 @@ try {
     0
   );
   results.interactions.push(
-    'feed failure fallback, analytics rejection persistence and invalid consent recovery'
+    'owned writing remains when the feed fails, analytics rejection persistence and invalid consent recovery'
   );
   await errorContext.close();
 
