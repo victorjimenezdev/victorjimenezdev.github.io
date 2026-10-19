@@ -1,4 +1,5 @@
 import { personalProjects, workProjects } from './data/projects.js';
+import { isPublicCampaign, isPublicContent } from './links.js';
 
 export const GA_ID = 'G-B0GQS2GS37';
 export const CONSENT_KEY = 'analytics-consent';
@@ -24,22 +25,37 @@ const linkTypes = new Set(['details', 'source', 'demo', 'reference']);
 const channels = new Set(['email', 'linkedin', 'github']);
 const cvPaths = new Set(['/Victor_Jimenez_CV.pdf', '/victorjimenezcv.pdf']);
 
+/* Applications sent before 2026-10-15 used this format. Current share and
+   application links pass the same checks as the builders in links.js.
+   Anything else in the query or hash is dropped. */
+const isLegacyApplication = (p) =>
+  ['linkedin', 'get_on_board', 'company_careers'].includes(
+    p.get('utm_source')
+  ) &&
+  p.get('utm_medium') === 'application' &&
+  /^remote_jobs_20\d{2}_(0[1-9]|1[0-2])$/.test(p.get('utm_campaign') || '');
+
+function keepsContent(params) {
+  const content = params.get('utm_content');
+  if (isLegacyApplication(params)) return ['portfolio', 'cv'].includes(content);
+  return isPublicContent(params.get('utm_medium'), content);
+}
+
 export function safePageLocation(href) {
   const page = new URL(`${ORIGIN}/`);
   const params = new URL(href).searchParams;
-  if (
-    ['linkedin', 'get_on_board', 'company_careers'].includes(
-      params.get('utm_source')
-    ) &&
-    params.get('utm_medium') === 'application' &&
-    /^remote_jobs_20\d{2}_(0[1-9]|1[0-2])$/.test(
-      params.get('utm_campaign') || ''
-    )
-  ) {
+  const approved =
+    isLegacyApplication(params) ||
+    isPublicCampaign({
+      source: params.get('utm_source'),
+      medium: params.get('utm_medium'),
+      campaign: params.get('utm_campaign'),
+    });
+  if (approved) {
     for (const key of ['utm_source', 'utm_medium', 'utm_campaign']) {
       page.searchParams.set(key, params.get(key));
     }
-    if (['portfolio', 'cv'].includes(params.get('utm_content'))) {
+    if (keepsContent(params)) {
       page.searchParams.set('utm_content', params.get('utm_content'));
     }
   }

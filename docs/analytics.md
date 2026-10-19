@@ -36,19 +36,48 @@ Implementation approval does not publish these changes or change Analytics setti
 
 The current automatic options remain unchanged until that review. Custom-payload tests do not establish that Google's independently configured automatic collection has stopped. Existing event history remains available; do not sum old automatic and new semantic counts as if they were unique visitors.
 
-## Future application links
+## Campaign links
 
-Proposed convention, for review before using new tagged application links:
+Build new shared portfolio and blog links with `src/links.js`. Do not write query strings by hand. The builders and `safePageLocation` use the same checks, so a link a builder accepts keeps its tags in analytics. A builder throws an error for any other medium or for a value that is not a slug.
 
-| Parameter      | Approved value shape                      |
-| -------------- | ----------------------------------------- |
-| `utm_source`   | linkedin, get_on_board or company_careers |
-| `utm_medium`   | application                               |
-| `utm_campaign` | remote_jobs_YYYY_MM, with a valid month   |
-| `utm_content`  | portfolio or cv                           |
+| Link                             | `utm_source`  | `utm_medium`                                 | `utm_campaign` | `utm_content`                        |
+| -------------------------------- | ------------- | -------------------------------------------- | -------------- | ------------------------------------ |
+| Job application, from 2026-10-15 | employer slug | `job_application`                            | `remote_jobs`  | `<platform>_<public-job-id-or-role>` |
+| Portfolio to blog                | `portfolio`   | `referral`                                   | `cross-site`   | placement, for example `writing`     |
+| Blog to portfolio                | `agent-blog`  | `referral`                                   | `cross-site`   | placement, for example `navbar`      |
+| LinkedIn blog comment            | `linkedin`    | `social`                                     | `agent-blog`   | post slug                            |
+| Other shared links               | channel slug  | `social`, `referral`, `email` or `messaging` | campaign slug  | placement or post slug               |
 
-Example: `https://victorjimenezdev.github.io/?utm_source=company_careers&utm_medium=application&utm_campaign=remote_jobs_2026_10&utm_content=portfolio`.
+Values are public lowercase ASCII slugs, at most 100 characters, with hyphens or underscores between parts. The checks refuse emails, spaces, dots and other characters. They check syntax only: they cannot detect a person's name inside an otherwise valid slug, so never put one there. The public job ID or role slug in an application link is allowed. Record recruiter names and application dates in the private ledger, not in the link.
 
-No employer, recruiter, person, email or job identifier belongs in these tags. The proposal groups platforms; it does not identify individual employers. Record the application date and platform separately in the private ledger. Do not rewrite submitted applications. Existing traffic cannot be retroactively attributed, and consent-denied visitors remain unmeasured.
+Copy-ready usage:
+
+```js
+import {
+  BLOG_URL,
+  PORTFOLIO_URL,
+  applicationUrl,
+  blogReferralUrl,
+  campaignUrl,
+} from './src/links.js';
+
+applicationUrl({ employer: 'acme', platform: 'linkedin', jobId: '4012345678' });
+// https://victorjimenezdev.github.io/?utm_source=acme&utm_medium=job_application&utm_campaign=remote_jobs&utm_content=linkedin_4012345678
+
+blogReferralUrl(`${BLOG_URL}harness-engineering`, 'writing');
+// https://victorstack-ai.github.io/agent-blog/harness-engineering?utm_source=portfolio&utm_medium=referral&utm_campaign=cross-site&utm_content=writing
+
+campaignUrl(PORTFOLIO_URL, {
+  source: 'newsletter',
+  medium: 'email',
+  campaign: 'monthly-digest',
+  content: 'portfolio-link',
+});
+// https://victorjimenezdev.github.io/?utm_source=newsletter&utm_medium=email&utm_campaign=monthly-digest&utm_content=portfolio-link
+```
+
+Use the existing readable path of the destination, such as `/agent-blog/harness-engineering`. Do not tag same-site navigation, assets, citations, or canonical, Open Graph, schema and feed URLs.
+
+Earlier links stay valid. Applications sent before 2026-10-15 used `utm_source` linkedin, get_on_board or company_careers, `utm_medium=application`, `utm_campaign=remote_jobs_YYYY_MM` and `utm_content` portfolio or cv. Submitted applications in the current format keep their exact job ID, including mixed case. Do not rewrite submitted applications or published posts. Existing traffic cannot be attributed after the fact, and visitors who deny consent remain unmeasured. This section changes no Analytics account setting; the account review above still applies.
 
 Sources: [Google enhanced measurement](https://support.google.com/analytics/answer/9216061), [custom event parameters](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters) and [the existing Google tag queue format](https://developers.google.com/tag-platform/gtagjs).

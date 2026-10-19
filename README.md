@@ -38,3 +38,15 @@ Set `PORTFOLIO_URL` to test a deployed site and `PORTFOLIO_EVIDENCE_DIR` to keep
 The root `design-evidence.json` and `local-design-evidence.json` describe the earlier redesign. The preceding CV refresh results are in `evidence/browser/verification.json`, with additional checks in `evidence/browser/additional-checks.json` and PDF page renders in `evidence/pdf`.
 
 Production deployment runs when `main` is pushed. A local branch does not update the live portfolio.
+
+## Campaign links
+
+Build every shared portfolio or blog link with `src/links.js`. Do not write query strings by hand.
+
+- Job applications: `applicationUrl({ employer, platform, jobId })` gives `utm_source=<employer>`, `utm_medium=job_application`, `utm_campaign=remote_jobs` and `utm_content=<platform>_<public-job-id-or-role>`.
+- Portfolio links to the blog: `blogReferralUrl(url, placement)` gives `utm_source=portfolio`, `utm_medium=referral`, `utm_campaign=cross-site` and `utm_content=<placement>`.
+- Blog links to the portfolio use `utm_source=agent-blog` with the same medium and campaign. LinkedIn blog comments use `utm_source=linkedin`, `utm_medium=social`, `utm_campaign=agent-blog` and `utm_content=<post-slug>`.
+
+- Other shared links: `campaignUrl(url, { source, medium, campaign, content })` with `medium` set to `social`, `referral`, `email` or `messaging`.
+
+Values are public lowercase ASCII slugs. Never put personal identifiers in them; the checks cannot detect a name inside a valid slug. Do not tag same-site navigation, assets, citations or canonical, Open Graph, schema or feed URLs. `safePageLocation` in `src/analytics.js` uses the same checks as the builders and also keeps the earlier application formats, including submitted links. It drops all other query data and the fragment. See `docs/analytics.md` for usage examples.

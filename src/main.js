@@ -5,7 +5,11 @@ import {
   personalProjects,
   professionalProjectCount,
 } from './data/projects.js';
-import { FALLBACK_IMAGE, agentBlogIndex, resolveWriting } from './writing.js';
+import {
+  FALLBACK_IMAGE,
+  agentBlogIndexLink,
+  resolveWriting,
+} from './writing.js';
 import { startSky } from './game/sky.js';
 import { createAudio } from './game/audio.js';
 import { createAchievements, goToTarget } from './game/achievements.js';
@@ -307,7 +311,7 @@ async function loadWriting() {
   const grid = document.getElementById('writing-grid');
   const template = document.getElementById('post-card-template');
   const indexLink = document.querySelector('#writing .section-link');
-  if (indexLink) indexLink.href = agentBlogIndex;
+  if (indexLink) indexLink.href = agentBlogIndexLink;
   if (!grid || !template) return;
 
   const result = await resolveWriting({

@@ -260,6 +260,46 @@ test('page metadata strips private queries, fragments, referrer paths and creden
     ),
     'https://victorjimenezdev.github.io/?utm_source=linkedin&utm_medium=application&utm_campaign=remote_jobs_2026_10&utm_content=portfolio'
   );
+  const digitalProfit =
+    'https://victorjimenezdev.github.io/?utm_source=example_employer&utm_medium=job_application&utm_campaign=remote_jobs&utm_content=linkedin_drupal_publicJob42';
+  assert.equal(
+    safePageLocation(`${digitalProfit}&email=private@example.com#private`),
+    digitalProfit
+  );
+  assert.equal(
+    safePageLocation(
+      'https://victorjimenezdev.github.io/?utm_source=private@example.com&utm_medium=job_application&utm_campaign=remote_jobs&utm_content=linkedin_1'
+    ),
+    'https://victorjimenezdev.github.io/'
+  );
+  assert.equal(
+    safePageLocation(
+      'https://victorjimenezdev.github.io/?utm_source=acme&utm_medium=job_application&utm_campaign=remote_jobs&utm_content=person%40example.com'
+    ),
+    'https://victorjimenezdev.github.io/?utm_source=acme&utm_medium=job_application&utm_campaign=remote_jobs'
+  );
+  assert.equal(
+    safePageLocation(
+      'https://victorjimenezdev.github.io/?utm_source=agent-blog&utm_medium=referral&utm_campaign=cross-site&utm_content=navbar&fbclid=x'
+    ),
+    'https://victorjimenezdev.github.io/?utm_source=agent-blog&utm_medium=referral&utm_campaign=cross-site&utm_content=navbar'
+  );
+  assert.equal(
+    safePageLocation(
+      'https://victorjimenezdev.github.io/?utm_source=newsletter&utm_medium=referral&utm_campaign=cross-site'
+    ),
+    'https://victorjimenezdev.github.io/?utm_source=newsletter&utm_medium=referral&utm_campaign=cross-site'
+  );
+  for (const unsupported of [
+    'utm_source=newsletter&utm_medium=cpc&utm_campaign=cross-site',
+    'utm_source=acme&utm_medium=job_application&utm_campaign=other_jobs',
+    'utm_source=Newsletter&utm_medium=email&utm_campaign=cross-site',
+  ]) {
+    assert.equal(
+      safePageLocation(`https://victorjimenezdev.github.io/?${unsupported}`),
+      'https://victorjimenezdev.github.io/'
+    );
+  }
   assert.equal(
     safeReferrer(
       'https://person:password@example.com/private?email=private@example.com#secret'

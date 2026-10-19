@@ -2,7 +2,11 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { agentBlogArticles, agentBlogIndex } from '../src/data/writing.js';
-import { resolveWriting, safeHttpsUrl } from '../src/writing.js';
+import {
+  agentBlogIndexLink,
+  resolveWriting,
+  safeHttpsUrl,
+} from '../src/writing.js';
 
 const OWNED_URLS = [
   'https://victorstack-ai.github.io/agent-blog/how-i-combine-harness-loop-graph-engineering',
@@ -25,7 +29,7 @@ test('four owned articles are available without a feed request', async () => {
   assert.equal(result.notice, null);
   assert.equal(result.cards.length, 4);
   assert.deepEqual(
-    result.cards.map((card) => card.href),
+    result.cards.map((card) => card.href.split('?')[0]),
     OWNED_URLS
   );
   assert.deepEqual(
@@ -45,9 +49,15 @@ test('four owned articles are available without a feed request', async () => {
     assert.equal(card.excerpt.length > 0, true);
     assert.equal(
       card.cover,
-      agentBlogArticles.find((entry) => entry.url === card.href).cover
+      agentBlogArticles.find((entry) => card.href.startsWith(`${entry.url}?`))
+        .cover
     );
-    assert.equal(card.href, OWNED_URLS[index]);
+    const href = new URL(card.href);
+    assert.equal(`${href.origin}${href.pathname}`, OWNED_URLS[index]);
+    assert.equal(
+      href.search,
+      '?utm_source=portfolio&utm_medium=referral&utm_campaign=cross-site&utm_content=writing'
+    );
     assert.equal(safeHttpsUrl(card.href), card.href);
   }
 });
@@ -138,7 +148,7 @@ test('unsafe links are dropped and missing reactions stay omitted', async () => 
   assert.equal(result.cards.length, 1);
   assert.equal(
     result.cards[0].href,
-    'https://victorstack-ai.github.io/agent-blog/harness-engineering'
+    'https://victorstack-ai.github.io/agent-blog/harness-engineering?utm_source=portfolio&utm_medium=referral&utm_campaign=cross-site&utm_content=writing'
   );
   assert.equal(result.cards[0].reactions, null);
   assert.equal(result.cards[0].excerpt.includes('<'), false);
@@ -204,6 +214,10 @@ test('All articles points at the agent blog index', () => {
   assert.equal(agentBlogIndex, 'https://victorstack-ai.github.io/agent-blog/');
   assert.match(
     html,
-    /id="writing"[\s\S]*href="https:\/\/victorstack-ai\.github\.io\/agent-blog\/"/
+    /id="writing"[\s\S]*href="https:\/\/victorstack-ai\.github\.io\/agent-blog\/\?utm_source=portfolio&amp;utm_medium=referral&amp;utm_campaign=cross-site&amp;utm_content=writing"/
+  );
+  assert.equal(
+    agentBlogIndexLink,
+    'https://victorstack-ai.github.io/agent-blog/?utm_source=portfolio&utm_medium=referral&utm_campaign=cross-site&utm_content=writing'
   );
 });

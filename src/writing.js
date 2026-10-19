@@ -1,6 +1,8 @@
 import { agentBlogArticles, agentBlogIndex } from './data/writing.js';
+import { blogReferralUrl } from './links.js';
 
 export { agentBlogIndex };
+export const agentBlogIndexLink = blogReferralUrl(agentBlogIndex, 'writing');
 
 /* dev.to proxies cover images through media*.dev.to. When the upstream asset
    404s, the proxy still answers 200 - with its own "image no longer exists"
@@ -139,7 +141,9 @@ export function sortOwnedEntries(entries) {
 }
 
 function toCard(entry, { feed = false } = {}) {
-  const href = safeHttpsUrl(entry?.url);
+  const url = safeHttpsUrl(entry?.url);
+  // Owned articles live on the agent blog, so their links carry the placement.
+  const href = url && !feed ? blogReferralUrl(url, 'writing') : url;
   const title = String(entry?.title || '').trim();
   if (!href || !title) return null;
 
