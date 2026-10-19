@@ -77,11 +77,18 @@ async function measurements(page) {
 try {
   for (const width of widths) {
     for (const theme of ['light', 'dark']) {
+      /* The OS is always dark here: the light leg proves the cream default
+         ignores it, and the dark leg uses the explicit stored choice. */
       const context = await browser.newContext({
         viewport: { width, height: 900 },
-        colorScheme: theme,
+        colorScheme: 'dark',
       });
       await prepare(context);
+      if (theme === 'dark') {
+        await context.addInitScript(() =>
+          localStorage.setItem('theme-v2', 'dark')
+        );
+      }
       const page = await context.newPage();
       const errors = [];
       page.on('pageerror', (error) => errors.push(error.message));
@@ -332,6 +339,69 @@ try {
     selectedTheme
   );
   results.interactions.push('theme selection persists after reload');
+
+  /* Regression for the palette revision: a dark OS and a legacy stored
+     choice both still open on cream, the legacy key is dropped once, a new
+     explicit choice persists, and the sky canvas is never below CSS
+     resolution. */
+  {
+    const themeContext = await browser.newContext({
+      viewport: { width: 1440, height: 900 },
+      deviceScaleFactor: 2,
+      colorScheme: 'dark',
+    });
+    await prepare(themeContext);
+    await themeContext.addInitScript(() => {
+      if (!sessionStorage.getItem('seeded')) {
+        sessionStorage.setItem('seeded', '1');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+    const themePage = await themeContext.newPage();
+    await themePage.goto(base, { waitUntil: 'networkidle' });
+    const state = () =>
+      themePage.evaluate(() => {
+        const canvas = document.querySelector('canvas.sky');
+        return {
+          attr: document.documentElement.getAttribute('data-theme'),
+          legacy: localStorage.getItem('theme'),
+          stored: localStorage.getItem('theme-v2'),
+          background: getComputedStyle(document.body).backgroundColor,
+          canvas: canvas ? [canvas.width, canvas.height] : null,
+          css: [innerWidth, innerHeight],
+        };
+      });
+    const first = await state();
+    assert.equal(first.attr, null, 'legacy dark choice must not apply');
+    assert.equal(first.legacy, null, 'legacy theme key is migrated');
+    assert.equal(first.background, 'rgb(246, 242, 231)');
+    if (first.canvas) {
+      assert.ok(
+        first.canvas[0] >= first.css[0] * 2 - 1 &&
+          first.canvas[1] >= first.css[1] * 2 - 1,
+        `sky buffer ${first.canvas} below device resolution`
+      );
+    }
+    await themePage.locator('#theme-toggle').click();
+    await themePage.waitForFunction(
+      () => document.documentElement.getAttribute('data-theme') === 'dark'
+    );
+    await themePage.reload({ waitUntil: 'networkidle' });
+    const second = await state();
+    assert.equal(second.attr, 'dark');
+    assert.equal(second.stored, 'dark');
+    assert.notEqual(second.background, 'rgb(246, 242, 231)');
+    await themePage.locator('#theme-toggle').click();
+    await themePage.waitForFunction(
+      () => localStorage.getItem('theme-v2') === 'light'
+    );
+    await themePage.reload({ waitUntil: 'networkidle' });
+    assert.equal((await state()).attr, 'light');
+    await themeContext.close();
+    results.interactions.push(
+      'cream default under dark OS and legacy choice, new choice persists, full-resolution sky'
+    );
+  }
   await page.locator('#marquee-toggle').click();
   assert.equal(
     await page.locator('#marquee-toggle').getAttribute('aria-pressed'),

@@ -131,9 +131,9 @@
     color-scheme: light;
 
     --surface-0: var(--cream);
-    --surface-1: var(--cream);
-    --surface-2: color-mix(in srgb, var(--navy) 6%, var(--cream));
-    --surface-3: color-mix(in srgb, var(--navy) 12%, var(--cream));
+    --surface-1: color-mix(in srgb, var(--cream) 60%, white);
+    --surface-2: color-mix(in srgb, var(--orange) 10%, var(--cream));
+    --surface-3: color-mix(in srgb, var(--navy) 10%, var(--cream));
     --glass: oklch(from var(--cream) l c h / 0.86);
     --glass-strong: oklch(from var(--cream) l c h / 0.94);
 
@@ -156,6 +156,17 @@
     /* Orange darkened with navy for large display text on cream (3:1+). */
     --neon-text: color-mix(in srgb, var(--orange) 70%, var(--navy-deep));
 
+    /* Interaction roles. Action: orange fill with deep navy text (6.1:1).
+       Wash: the apricot hover tint with navy ink. Selected: navy fill with
+       cream text and an orange accent line. */
+    --action: var(--orange);
+    --action-strong: color-mix(in srgb, var(--orange) 88%, var(--navy-deep));
+    --on-action: var(--navy-deep);
+    --wash: color-mix(in srgb, var(--orange) 14%, var(--cream));
+    --wash-ink: var(--navy-deep);
+    --selected: var(--navy);
+    --on-selected: var(--cream);
+
     --border: oklch(from var(--navy) l c h / 0.2);
     --border-strong: oklch(from var(--navy) l c h / 0.6);
 
@@ -166,7 +177,7 @@
     --shadow-3:
       0 6px 12px oklch(from var(--navy-deep) l c h / 0.08),
       0 24px 64px oklch(from var(--navy) l c h / 0.18);
-    --glow: 0 0 0 transparent;
+    --glow: 0 0 0 3px oklch(from var(--orange) l c h / 0.22);
 
     --focus-ring: 2px solid var(--brand);
     --focus-offset: 3px;
@@ -174,87 +185,53 @@
     --logo-invert: 0;
   }
 
-  /* Deep navy: the dark theme. Applied from the OS preference while no
-     explicit choice is stored, and by the explicit choice in both
-     directions. */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) {
-      color-scheme: dark;
-
-      --surface-0: var(--navy-deep);
-      --surface-1: color-mix(in srgb, var(--navy) 50%, var(--navy-deep));
-      --surface-2: var(--navy);
-      --surface-3: color-mix(in srgb, var(--cream) 10%, var(--navy));
-      --glass: oklch(from var(--navy-deep) l c h / 0.78);
-      --glass-strong: oklch(from var(--navy-deep) l c h / 0.93);
-
-      --text-1: var(--cream);
-      --text-2: oklch(from var(--cream) l c h / 0.86);
-      --text-3: oklch(from var(--cream) l c h / 0.76);
-
-      --brand: var(--cream);
-      --brand-strong: var(--cream);
-      --brand-soft: color-mix(in srgb, var(--orange) 24%, var(--navy-deep));
-      --accent: var(--cream);
-      --accent-soft: var(--navy);
-      --on-brand: var(--navy-deep);
-      --gold: var(--cream);
-      --live: var(--cream);
-
-      --neon-a: var(--orange);
-      --neon-b: var(--cream);
-      --neon-c: var(--orange);
-      --neon-text: var(--orange);
-
-      --border: oklch(from var(--cream) l c h / 0.18);
-      --border-strong: oklch(from var(--cream) l c h / 0.45);
-
-      --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.4);
-      --shadow-2:
-        0 2px 6px oklch(0% 0 0 / 0.35), 0 12px 32px oklch(0% 0 0 / 0.5);
-      --shadow-3:
-        0 6px 12px oklch(0% 0 0 / 0.4), 0 24px 64px oklch(0% 0 0 / 0.6);
-      --glow: 0 0 32px oklch(from var(--orange) l c h / 0.35);
-
-      --logo-invert: 1;
-    }
-  }
-
+  /* Warm navy: the dark theme, applied only by an explicit choice. The
+     page sits on navy, not deep navy, so it reads as night ink rather than
+     black space; deep navy is kept for the deepest wells and shadows. */
   :root[data-theme='dark'] {
     color-scheme: dark;
 
-    --surface-0: var(--navy-deep);
-    --surface-1: color-mix(in srgb, var(--navy) 50%, var(--navy-deep));
-    --surface-2: var(--navy);
-    --surface-3: color-mix(in srgb, var(--cream) 10%, var(--navy));
-    --glass: oklch(from var(--navy-deep) l c h / 0.78);
-    --glass-strong: oklch(from var(--navy-deep) l c h / 0.93);
+    --surface-0: var(--navy);
+    --surface-1: color-mix(in srgb, var(--cream) 5%, var(--navy));
+    --surface-2: color-mix(in srgb, var(--cream) 9%, var(--navy));
+    --surface-3: color-mix(in srgb, var(--cream) 14%, var(--navy));
+    --glass: oklch(from var(--navy) l c h / 0.82);
+    --glass-strong: oklch(from var(--navy) l c h / 0.95);
 
     --text-1: var(--cream);
-    --text-2: oklch(from var(--cream) l c h / 0.86);
-    --text-3: oklch(from var(--cream) l c h / 0.76);
+    --text-2: oklch(from var(--cream) l c h / 0.88);
+    --text-3: oklch(from var(--cream) l c h / 0.8);
 
     --brand: var(--cream);
     --brand-strong: var(--cream);
-    --brand-soft: color-mix(in srgb, var(--orange) 24%, var(--navy-deep));
+    --brand-soft: color-mix(in srgb, var(--orange) 22%, var(--navy));
     --accent: var(--cream);
-    --accent-soft: var(--navy);
+    --accent-soft: color-mix(in srgb, var(--orange) 14%, var(--navy));
     --on-brand: var(--navy-deep);
-    --gold: var(--cream);
-    --live: var(--cream);
+    --gold: var(--orange);
+    --live: var(--orange);
 
     --neon-a: var(--orange);
     --neon-b: var(--cream);
     --neon-c: var(--orange);
     --neon-text: var(--orange);
 
-    --border: oklch(from var(--cream) l c h / 0.18);
-    --border-strong: oklch(from var(--cream) l c h / 0.45);
+    --wash: color-mix(in srgb, var(--cream) 12%, var(--navy));
+    --wash-ink: var(--cream);
+    --selected: var(--cream);
+    --on-selected: var(--navy-deep);
 
-    --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.4);
-    --shadow-2: 0 2px 6px oklch(0% 0 0 / 0.35), 0 12px 32px oklch(0% 0 0 / 0.5);
-    --shadow-3: 0 6px 12px oklch(0% 0 0 / 0.4), 0 24px 64px oklch(0% 0 0 / 0.6);
-    --glow: 0 0 32px oklch(from var(--orange) l c h / 0.35);
+    --border: oklch(from var(--cream) l c h / 0.2);
+    --border-strong: oklch(from var(--cream) l c h / 0.48);
+
+    --shadow-1: 0 1px 2px oklch(from var(--navy-deep) l c h / 0.5);
+    --shadow-2:
+      0 2px 6px oklch(from var(--navy-deep) l c h / 0.4),
+      0 12px 32px oklch(from var(--navy-deep) l c h / 0.45);
+    --shadow-3:
+      0 6px 12px oklch(from var(--navy-deep) l c h / 0.45),
+      0 24px 64px oklch(from var(--navy-deep) l c h / 0.55);
+    --glow: 0 0 0 3px oklch(from var(--orange) l c h / 0.28);
 
     --logo-invert: 1;
   }
@@ -288,6 +265,10 @@
     --border: oklch(from var(--orange) l c h / 0.35);
     --border-strong: oklch(from var(--orange) l c h / 0.6);
     --logo-invert: 1;
+    --wash: color-mix(in srgb, var(--orange) 16%, var(--navy-deep));
+    --wash-ink: var(--cream);
+    --selected: var(--orange);
+    --on-selected: var(--navy-deep);
   }
 }
 
@@ -1522,7 +1503,7 @@
     border-radius: inherit;
     background: radial-gradient(
       28rem circle at var(--mx, 50%) var(--my, 0%),
-      color-mix(in oklch, var(--neon-b) 14%, transparent),
+      color-mix(in srgb, var(--neon-b) 14%, transparent),
       transparent 45%
     );
     opacity: 0;
@@ -1603,7 +1584,7 @@
     background:
       radial-gradient(
         circle at 30% 25%,
-        color-mix(in oklch, var(--neon-b) 35%, transparent),
+        color-mix(in srgb, var(--neon-b) 35%, transparent),
         transparent 60%
       ),
       var(--brand-soft);
@@ -1808,7 +1789,7 @@
     background:
       radial-gradient(
         closest-side,
-        color-mix(in oklch, var(--neon-c) 16%, transparent),
+        color-mix(in srgb, var(--neon-c) 16%, transparent),
         transparent
       ),
       color-mix(in oklch, var(--surface-0) 55%, transparent);
@@ -2565,7 +2546,7 @@
     background: linear-gradient(
       180deg,
       transparent 0 45%,
-      color-mix(in oklch, var(--neon-b) 22%, transparent) 50%,
+      color-mix(in srgb, var(--neon-b) 22%, transparent) 50%,
       transparent 55%
     );
     background-size: 100% 260%;
@@ -3324,12 +3305,12 @@
     background:
       radial-gradient(
         circle at 35% 30%,
-        color-mix(in oklch, var(--neon-b) 45%, transparent),
+        color-mix(in srgb, var(--neon-b) 45%, transparent),
         transparent 55%
       ),
       linear-gradient(140deg, var(--neon-c), var(--neon-a));
     box-shadow:
-      0 0 2.5rem color-mix(in oklch, var(--neon-c) 55%, transparent),
+      0 0 2.5rem color-mix(in srgb, var(--neon-c) 55%, transparent),
       inset 0 -0.6rem 1.2rem oklch(from var(--navy-deep) l c h / 0.45);
     color: var(--navy-deep);
     font-family: var(--font-display);
@@ -3438,7 +3419,7 @@
     block-size: 0.75rem;
     border-radius: 2px;
     background: linear-gradient(180deg, var(--neon-b), var(--neon-c));
-    box-shadow: 0 0 8px color-mix(in oklch, var(--neon-c) 50%, transparent);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--neon-c) 50%, transparent);
     transform-origin: bottom;
   }
 
@@ -3775,7 +3756,7 @@
     background:
       linear-gradient(
         135deg,
-        color-mix(in oklch, var(--neon-c) 12%, transparent),
+        color-mix(in srgb, var(--neon-c) 12%, transparent),
         transparent 60%
       ),
       var(--surface-1);
@@ -4003,5 +3984,175 @@
     .spotlight {
       display: none;
     }
+  }
+}
+
+/* ------------------------------------------- palette revision 2 states -- */
+/* One interaction grammar for the warm palette: orange is the action, the
+   apricot wash with navy ink is hover, navy fill with cream text and an
+   orange line is selected, and outlines stay thin and calm. These rules
+   come last in the components layer so they replace the earlier glow
+   treatments without touching layout. */
+@layer components {
+  .sky-fallback {
+    background:
+      radial-gradient(
+        60rem 40rem at 78% 18%,
+        oklch(from var(--orange) l c h / 0.16),
+        transparent 70%
+      ),
+      var(--surface-0);
+  }
+
+  /* Clear reading hierarchy: navy headline, one solid burnt-orange phrase. */
+  .hero__title .accent {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--neon-text);
+    animation: none;
+  }
+
+  .btn--primary {
+    background: var(--action, var(--orange));
+    color: var(--on-action, var(--navy-deep));
+    border-color: color-mix(in srgb, var(--navy-deep) 18%, transparent);
+    box-shadow:
+      0 1px 0 oklch(from var(--navy-deep) l c h / 0.12),
+      0 8px 20px oklch(from var(--orange) l c h / 0.28);
+  }
+
+  .btn--primary:hover {
+    background: var(--action-strong, var(--orange));
+    box-shadow:
+      0 1px 0 oklch(from var(--navy-deep) l c h / 0.14),
+      0 10px 24px oklch(from var(--orange) l c h / 0.34);
+  }
+
+  .btn--primary:active {
+    box-shadow: inset 0 2px 0 oklch(from var(--navy-deep) l c h / 0.2);
+  }
+
+  .btn--start::after {
+    border-color: var(--orange);
+  }
+
+  .btn--ghost:hover,
+  .contact__link:hover,
+  .trophy__go:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+    border-color: var(--orange);
+    box-shadow: var(--shadow-1);
+  }
+
+  .contact__link svg {
+    color: var(--neon-text);
+  }
+
+  .nav-links a:hover,
+  .nav-panel a:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+  }
+
+  .icon-btn:hover {
+    background: var(--wash);
+    border-color: var(--orange);
+    box-shadow: none;
+  }
+
+  #sound-toggle[aria-pressed='true'] {
+    background: var(--selected);
+    color: var(--on-selected);
+    border-color: var(--selected);
+    box-shadow: inset 0 -2px 0 var(--orange);
+  }
+
+  .filter-chip:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+  }
+
+  .filter-input:checked + .filter-chip {
+    background: var(--selected);
+    color: var(--on-selected);
+    box-shadow: inset 0 -2px 0 var(--orange);
+  }
+
+  .techtree__tab:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+  }
+
+  .techtree__tab[aria-selected='true'] {
+    background: var(--selected);
+    color: var(--on-selected);
+    border-color: var(--selected);
+    box-shadow: inset 0 -3px 0 var(--orange);
+  }
+
+  .techtree__tab[aria-selected='true'] .techtree__count {
+    background: oklch(from var(--on-selected) l c h / 0.16);
+    color: inherit;
+  }
+
+  .planet:hover {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px oklch(from var(--orange) l c h / 0.18);
+  }
+
+  .planet[aria-pressed='true'] {
+    border-color: var(--selected);
+    box-shadow:
+      0 0 0 2px var(--selected),
+      0 0 0 5px oklch(from var(--orange) l c h / 0.4);
+  }
+
+  .toast::before {
+    background: var(--orange);
+    box-shadow: 0 0 0 3px oklch(from var(--orange) l c h / 0.2);
+  }
+
+  .toast[data-tone='trophy'] {
+    border-color: var(--orange);
+  }
+
+  .toast[data-tone='trophy']::before {
+    background:
+      radial-gradient(circle at 35% 30%, var(--cream), transparent 45%),
+      var(--orange);
+    box-shadow: 0 0 0 3px oklch(from var(--orange) l c h / 0.24);
+  }
+
+  .objective {
+    border-color: color-mix(in srgb, var(--orange) 55%, var(--surface-0));
+  }
+
+  /* The finale overlay stays a night scene, but warm navy with a cream
+     title and an orange underline instead of a gradient. */
+  .boss {
+    background:
+      radial-gradient(
+        circle at 50% 32%,
+        oklch(from var(--orange) l c h / 0.14),
+        transparent 60%
+      ),
+      oklch(from var(--navy) l c h / 0.97);
+  }
+
+  .boss::backdrop {
+    background: oklch(from var(--navy) l c h / 0.6);
+  }
+
+  .boss__title {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--cream);
+    text-decoration: underline 0.08em var(--orange);
+    text-underline-offset: 0.18em;
+  }
+
+  :root[data-mode='phosphor'] .hero__title .accent {
+    color: var(--orange);
   }
 }

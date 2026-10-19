@@ -30,7 +30,9 @@ import {
 } from './game/hud.js';
 
 const analytics = createAnalytics({ win: window, doc: document });
-const THEME_KEY = 'theme';
+/* Versioned so choices made under the previous palette do not carry over;
+   index.html drops the legacy key before first paint. */
+const THEME_KEY = 'theme-v2';
 const FEED_URL =
   'https://dev.to/api/articles?username=victorstackai&per_page=12';
 
@@ -39,22 +41,12 @@ const prefersReducedMotion = () =>
 
 /* --------------------------------------------------------------- theme -- */
 
-function readStoredTheme() {
-  try {
-    const value = localStorage.getItem(THEME_KEY);
-    return value === 'light' || value === 'dark' ? value : null;
-  } catch {
-    return null;
-  }
-}
-
+/* Light (cream paper) unless the visitor explicitly chose dark; the OS
+   colour scheme does not change the default. */
 function resolvedTheme() {
-  return (
-    document.documentElement.getAttribute('data-theme') ||
-    (window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light')
-  );
+  return document.documentElement.getAttribute('data-theme') === 'dark'
+    ? 'dark'
+    : 'light';
 }
 
 function syncThemeControl(button) {
@@ -68,7 +60,7 @@ function syncThemeControl(button) {
 
   const meta = document.getElementById('theme-color-meta');
   if (meta) {
-    meta.setAttribute('content', theme === 'dark' ? '#0d1a2d' : '#f6f2e7');
+    meta.setAttribute('content', theme === 'dark' ? '#1b304b' : '#f6f2e7');
   }
 }
 
@@ -77,14 +69,6 @@ function setupTheme(onChange) {
   if (!button) return;
 
   syncThemeControl(button);
-
-  /* Only meaningful while no explicit choice is stored; once the visitor
-     chooses, data-theme pins the value in both directions. */
-  window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', () => {
-      if (!readStoredTheme()) syncThemeControl(button);
-    });
 
   button.addEventListener('click', () => {
     const next = resolvedTheme() === 'dark' ? 'light' : 'dark';

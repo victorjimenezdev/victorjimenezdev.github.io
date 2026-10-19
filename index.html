@@ -49,20 +49,22 @@
     />
 
     <script>
-      // Only stamp data-theme when an explicit choice is stored, so a
-      // first-time visitor keeps following the OS setting (and its changes).
-      // The .js class lets CSS ship a static, conformant fallback when
-      // scripting is unavailable.
+      // Cream paper is the default for everyone; dark is an explicit
+      // choice only. Choices are stored under a versioned key, and a choice
+      // made under the previous palette is dropped once so returning
+      // visitors see the corrected default. The .js class lets CSS ship a
+      // static, conformant fallback when scripting is unavailable.
       (function () {
         var root = document.documentElement;
         root.classList.add('js');
         try {
-          var saved = localStorage.getItem('theme');
+          localStorage.removeItem('theme');
+          var saved = localStorage.getItem('theme-v2');
           if (saved === 'light' || saved === 'dark') {
             root.setAttribute('data-theme', saved);
           }
         } catch (e) {
-          /* storage blocked; system preference still applies */
+          /* storage blocked; the cream default still applies */
         }
       })();
     </script>
