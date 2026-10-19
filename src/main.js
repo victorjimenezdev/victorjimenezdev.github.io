@@ -68,7 +68,7 @@ function syncThemeControl(button) {
 
   const meta = document.getElementById('theme-color-meta');
   if (meta) {
-    meta.setAttribute('content', theme === 'dark' ? '#161418' : '#fcfbfd');
+    meta.setAttribute('content', theme === 'dark' ? '#0d1a2d' : '#f6f2e7');
   }
 }
 
@@ -243,11 +243,11 @@ function setupWork() {
   const cards = [...workProjects, ...personalProjects].map((project) =>
     buildWorkCard(project, template)
   );
-  /* Mission cards share their planet's colour; open source glows green. */
+  /* Mission cards share their planet's colour; open source uses it too. */
   cards.forEach((card, index) => {
     card.style.setProperty(
       '--hue',
-      String(card.dataset.projectType === 'personal' ? 150 : HUES[index])
+      String(card.dataset.projectType === 'personal' ? 52 : HUES[index])
     );
   });
   cards.forEach((card) => grid.appendChild(card));
@@ -555,7 +555,7 @@ function greetDevelopers() {
   // eslint-disable-next-line no-console
   console.log(
     '%cVJ%c Player two detected. The source is plain HTML, CSS and one hand-written WebGL shader. Try the Konami code.',
-    'background:#7c5cff;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px',
+    'background:#1b304b;color:#f6f2e7;font-weight:700;padding:2px 6px;border-radius:4px',
     'color:inherit'
   );
 }

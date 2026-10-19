@@ -120,43 +120,52 @@
     --dur-mid: 260ms;
     --dur-slow: 600ms;
 
-    /* Daybreak: the light theme. */
+    /* Paper: the light theme. Source colours come from the blog cover
+       palette (cream paper, navy ink, orange highlight); every other value
+       is a tint of them. Orange is decoration only, never small text. */
+    --cream: #f6f2e7;
+    --navy: #1b304b;
+    --navy-deep: #0d1a2d;
+    --orange: #e87b28;
+
     color-scheme: light;
 
-    --surface-0: oklch(96.5% 0.012 285);
-    --surface-1: oklch(99% 0.006 285);
-    --surface-2: oklch(94% 0.016 285);
-    --surface-3: oklch(89% 0.022 285);
-    --glass: oklch(99% 0.006 285 / 0.86);
-    --glass-strong: oklch(99% 0.006 285 / 0.94);
+    --surface-0: var(--cream);
+    --surface-1: var(--cream);
+    --surface-2: color-mix(in srgb, var(--navy) 6%, var(--cream));
+    --surface-3: color-mix(in srgb, var(--navy) 12%, var(--cream));
+    --glass: oklch(from var(--cream) l c h / 0.86);
+    --glass-strong: oklch(from var(--cream) l c h / 0.94);
 
-    --text-1: oklch(19% 0.03 285);
-    --text-2: oklch(38% 0.03 285);
-    --text-3: oklch(46% 0.03 285);
+    --text-1: var(--navy-deep);
+    --text-2: var(--navy);
+    --text-3: var(--navy);
 
-    --brand: oklch(47% 0.21 290);
-    --brand-strong: oklch(40% 0.2 290);
-    --brand-soft: oklch(93% 0.04 290);
-    --accent: oklch(44% 0.1 205);
-    --accent-soft: oklch(93% 0.04 205);
-    --on-brand: oklch(99% 0 0);
-    --gold: oklch(48% 0.12 70);
-    --live: oklch(50% 0.15 150);
+    --brand: var(--navy);
+    --brand-strong: var(--navy-deep);
+    --brand-soft: color-mix(in srgb, var(--orange) 16%, var(--cream));
+    --accent: var(--navy);
+    --accent-soft: color-mix(in srgb, var(--navy) 8%, var(--cream));
+    --on-brand: var(--cream);
+    --gold: var(--navy);
+    --live: var(--navy);
 
-    --neon-a: oklch(60% 0.25 320);
-    --neon-b: oklch(62% 0.16 205);
-    --neon-c: oklch(55% 0.24 290);
+    --neon-a: var(--orange);
+    --neon-b: var(--navy);
+    --neon-c: var(--orange);
+    /* Orange darkened with navy for large display text on cream (3:1+). */
+    --neon-text: color-mix(in srgb, var(--orange) 70%, var(--navy-deep));
 
-    --border: oklch(86% 0.02 285);
-    --border-strong: oklch(68% 0.04 285);
+    --border: oklch(from var(--navy) l c h / 0.2);
+    --border-strong: oklch(from var(--navy) l c h / 0.6);
 
-    --shadow-1: 0 1px 2px oklch(20% 0.05 285 / 0.08);
+    --shadow-1: 0 1px 2px oklch(from var(--navy-deep) l c h / 0.08);
     --shadow-2:
-      0 2px 6px oklch(20% 0.05 285 / 0.06),
-      0 12px 32px oklch(30% 0.12 285 / 0.12);
+      0 2px 6px oklch(from var(--navy-deep) l c h / 0.06),
+      0 12px 32px oklch(from var(--navy) l c h / 0.12);
     --shadow-3:
-      0 6px 12px oklch(20% 0.05 285 / 0.08),
-      0 24px 64px oklch(30% 0.12 285 / 0.18);
+      0 6px 12px oklch(from var(--navy-deep) l c h / 0.08),
+      0 24px 64px oklch(from var(--navy) l c h / 0.18);
     --glow: 0 0 0 transparent;
 
     --focus-ring: 2px solid var(--brand);
@@ -165,46 +174,47 @@
     --logo-invert: 0;
   }
 
-  /* Deep space: the dark theme. Applied from the OS preference while no
+  /* Deep navy: the dark theme. Applied from the OS preference while no
      explicit choice is stored, and by the explicit choice in both
      directions. */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
       color-scheme: dark;
 
-      --surface-0: oklch(13% 0.03 285);
-      --surface-1: oklch(18% 0.035 285);
-      --surface-2: oklch(23% 0.04 285);
-      --surface-3: oklch(28% 0.045 285);
-      --glass: oklch(17% 0.035 285 / 0.78);
-      --glass-strong: oklch(17% 0.035 285 / 0.93);
+      --surface-0: var(--navy-deep);
+      --surface-1: color-mix(in srgb, var(--navy) 50%, var(--navy-deep));
+      --surface-2: var(--navy);
+      --surface-3: color-mix(in srgb, var(--cream) 10%, var(--navy));
+      --glass: oklch(from var(--navy-deep) l c h / 0.78);
+      --glass-strong: oklch(from var(--navy-deep) l c h / 0.93);
 
-      --text-1: oklch(97% 0.01 285);
-      --text-2: oklch(84% 0.025 285);
-      --text-3: oklch(76% 0.03 285);
+      --text-1: var(--cream);
+      --text-2: oklch(from var(--cream) l c h / 0.86);
+      --text-3: oklch(from var(--cream) l c h / 0.76);
 
-      --brand: oklch(80% 0.15 295);
-      --brand-strong: oklch(88% 0.11 295);
-      --brand-soft: oklch(30% 0.08 295);
-      --accent: oklch(86% 0.12 200);
-      --accent-soft: oklch(28% 0.06 200);
-      --on-brand: oklch(14% 0.03 285);
-      --gold: oklch(86% 0.14 85);
-      --live: oklch(85% 0.18 150);
+      --brand: var(--cream);
+      --brand-strong: var(--cream);
+      --brand-soft: color-mix(in srgb, var(--orange) 24%, var(--navy-deep));
+      --accent: var(--cream);
+      --accent-soft: var(--navy);
+      --on-brand: var(--navy-deep);
+      --gold: var(--cream);
+      --live: var(--cream);
 
-      --neon-a: oklch(72% 0.25 330);
-      --neon-b: oklch(85% 0.15 200);
-      --neon-c: oklch(70% 0.22 290);
+      --neon-a: var(--orange);
+      --neon-b: var(--cream);
+      --neon-c: var(--orange);
+      --neon-text: var(--orange);
 
-      --border: oklch(32% 0.04 285);
-      --border-strong: oklch(50% 0.06 285);
+      --border: oklch(from var(--cream) l c h / 0.18);
+      --border-strong: oklch(from var(--cream) l c h / 0.45);
 
       --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.4);
       --shadow-2:
         0 2px 6px oklch(0% 0 0 / 0.35), 0 12px 32px oklch(0% 0 0 / 0.5);
       --shadow-3:
         0 6px 12px oklch(0% 0 0 / 0.4), 0 24px 64px oklch(0% 0 0 / 0.6);
-      --glow: 0 0 32px oklch(70% 0.22 290 / 0.35);
+      --glow: 0 0 32px oklch(from var(--orange) l c h / 0.35);
 
       --logo-invert: 1;
     }
@@ -213,68 +223,70 @@
   :root[data-theme='dark'] {
     color-scheme: dark;
 
-    --surface-0: oklch(13% 0.03 285);
-    --surface-1: oklch(18% 0.035 285);
-    --surface-2: oklch(23% 0.04 285);
-    --surface-3: oklch(28% 0.045 285);
-    --glass: oklch(17% 0.035 285 / 0.78);
-    --glass-strong: oklch(17% 0.035 285 / 0.93);
+    --surface-0: var(--navy-deep);
+    --surface-1: color-mix(in srgb, var(--navy) 50%, var(--navy-deep));
+    --surface-2: var(--navy);
+    --surface-3: color-mix(in srgb, var(--cream) 10%, var(--navy));
+    --glass: oklch(from var(--navy-deep) l c h / 0.78);
+    --glass-strong: oklch(from var(--navy-deep) l c h / 0.93);
 
-    --text-1: oklch(97% 0.01 285);
-    --text-2: oklch(84% 0.025 285);
-    --text-3: oklch(76% 0.03 285);
+    --text-1: var(--cream);
+    --text-2: oklch(from var(--cream) l c h / 0.86);
+    --text-3: oklch(from var(--cream) l c h / 0.76);
 
-    --brand: oklch(80% 0.15 295);
-    --brand-strong: oklch(88% 0.11 295);
-    --brand-soft: oklch(30% 0.08 295);
-    --accent: oklch(86% 0.12 200);
-    --accent-soft: oklch(28% 0.06 200);
-    --on-brand: oklch(14% 0.03 285);
-    --gold: oklch(86% 0.14 85);
-    --live: oklch(85% 0.18 150);
+    --brand: var(--cream);
+    --brand-strong: var(--cream);
+    --brand-soft: color-mix(in srgb, var(--orange) 24%, var(--navy-deep));
+    --accent: var(--cream);
+    --accent-soft: var(--navy);
+    --on-brand: var(--navy-deep);
+    --gold: var(--cream);
+    --live: var(--cream);
 
-    --neon-a: oklch(72% 0.25 330);
-    --neon-b: oklch(85% 0.15 200);
-    --neon-c: oklch(70% 0.22 290);
+    --neon-a: var(--orange);
+    --neon-b: var(--cream);
+    --neon-c: var(--orange);
+    --neon-text: var(--orange);
 
-    --border: oklch(32% 0.04 285);
-    --border-strong: oklch(50% 0.06 285);
+    --border: oklch(from var(--cream) l c h / 0.18);
+    --border-strong: oklch(from var(--cream) l c h / 0.45);
 
     --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.4);
     --shadow-2: 0 2px 6px oklch(0% 0 0 / 0.35), 0 12px 32px oklch(0% 0 0 / 0.5);
     --shadow-3: 0 6px 12px oklch(0% 0 0 / 0.4), 0 24px 64px oklch(0% 0 0 / 0.6);
-    --glow: 0 0 32px oklch(70% 0.22 290 / 0.35);
+    --glow: 0 0 32px oklch(from var(--orange) l c h / 0.35);
 
     --logo-invert: 1;
   }
 
-  /* Konami code: green phosphor terminal. Tokens only, so every component
+  /* Konami code: amber phosphor terminal on deep navy. Tokens only, so every component
      follows without its own override. */
   :root[data-mode='phosphor'] {
     color-scheme: dark;
 
-    --surface-0: oklch(12% 0.03 150);
-    --surface-1: oklch(16% 0.04 150);
-    --surface-2: oklch(21% 0.05 150);
-    --surface-3: oklch(26% 0.06 150);
-    --glass: oklch(14% 0.04 150 / 0.86);
-    --glass-strong: oklch(14% 0.04 150 / 0.95);
-    --text-1: oklch(92% 0.2 150);
-    --text-2: oklch(84% 0.17 150);
-    --text-3: oklch(78% 0.15 150);
-    --brand: oklch(86% 0.22 150);
-    --brand-strong: oklch(92% 0.2 150);
-    --brand-soft: oklch(26% 0.07 150);
-    --accent: oklch(88% 0.2 140);
-    --accent-soft: oklch(24% 0.06 150);
-    --on-brand: oklch(14% 0.04 150);
-    --gold: oklch(90% 0.2 130);
-    --live: oklch(90% 0.2 150);
-    --neon-a: oklch(85% 0.22 150);
-    --neon-b: oklch(80% 0.2 140);
-    --neon-c: oklch(75% 0.2 155);
-    --border: oklch(34% 0.07 150);
-    --border-strong: oklch(55% 0.12 150);
+    --surface-0: var(--navy-deep);
+    --surface-1: color-mix(in srgb, var(--navy) 50%, var(--navy-deep));
+    --surface-2: var(--navy);
+    --surface-3: color-mix(in srgb, var(--orange) 12%, var(--navy));
+    --glass: oklch(from var(--navy-deep) l c h / 0.86);
+    --glass-strong: oklch(from var(--navy-deep) l c h / 0.95);
+    --text-1: var(--cream);
+    --text-2: oklch(from var(--cream) l c h / 0.88);
+    --text-3: oklch(from var(--cream) l c h / 0.8);
+    --brand: var(--cream);
+    --brand-strong: var(--cream);
+    --brand-soft: color-mix(in srgb, var(--orange) 24%, var(--navy-deep));
+    --accent: var(--cream);
+    --accent-soft: var(--navy);
+    --on-brand: var(--navy-deep);
+    --gold: var(--cream);
+    --live: var(--cream);
+    --neon-a: var(--orange);
+    --neon-b: var(--orange);
+    --neon-c: var(--orange);
+    --neon-text: var(--orange);
+    --border: oklch(from var(--orange) l c h / 0.35);
+    --border-strong: oklch(from var(--orange) l c h / 0.6);
     --logo-invert: 1;
   }
 }
@@ -450,7 +462,7 @@
   }
 
   :root[data-mode='phosphor'] body {
-    text-shadow: 0 0 6px oklch(80% 0.2 150 / 0.45);
+    text-shadow: 0 0 6px oklch(from var(--orange) l c h / 0.45);
   }
 
   /* Skip link ------------------------------------------------------------ */
@@ -509,7 +521,7 @@
     block-size: 2.25rem;
     border-radius: 0.6rem;
     background: linear-gradient(135deg, var(--neon-c), var(--neon-a));
-    color: oklch(99% 0 0);
+    color: var(--navy-deep);
     font-family: var(--font-mono);
     font-size: 0.8rem;
     letter-spacing: 0.04em;
@@ -804,7 +816,7 @@
   .trophy[data-unlocked='true']::before {
     border: 0;
     background:
-      radial-gradient(circle at 35% 30%, oklch(98% 0.05 90), transparent 45%),
+      radial-gradient(circle at 35% 30%, var(--cream), transparent 45%),
       var(--gold);
     box-shadow: 0 0 12px color-mix(in oklch, var(--gold) 60%, transparent);
   }
@@ -1075,16 +1087,16 @@
     inset: 19%;
     border-radius: 50%;
     background:
-      radial-gradient(circle at 32% 28%, oklch(90% 0.1 200), transparent 32%),
+      radial-gradient(circle at 32% 28%, var(--cream), transparent 32%),
       repeating-linear-gradient(
         -18deg,
-        oklch(50% 0.2 290) 0 8%,
-        oklch(60% 0.16 260) 8% 13%,
-        oklch(45% 0.2 300) 13% 20%
+        var(--navy) 0 8%,
+        var(--orange) 8% 13%,
+        var(--navy-deep) 13% 20%
       );
     box-shadow:
-      inset -2.5rem -1.5rem 4rem oklch(10% 0.05 285 / 0.85),
-      0 0 4rem oklch(70% 0.15 220 / 0.45);
+      inset -2.5rem -1.5rem 4rem oklch(from var(--navy-deep) l c h / 0.85),
+      0 0 4rem oklch(from var(--orange) l c h / 0.45);
   }
 
   .hero__coords {
@@ -1188,8 +1200,8 @@
     background: linear-gradient(
       100deg,
       var(--neon-b) 0%,
-      var(--neon-c) 40%,
-      var(--neon-a) 70%,
+      var(--neon-text) 40%,
+      var(--neon-text) 70%,
       var(--neon-b) 100%
     );
     background-size: 200% 100%;
@@ -1836,14 +1848,14 @@
   }
 
   .planet:hover {
-    border-color: oklch(70% 0.15 var(--hue));
+    border-color: var(--orange);
   }
 
   .planet[aria-pressed='true'] {
-    border-color: oklch(70% 0.18 var(--hue));
+    border-color: var(--orange);
     box-shadow:
-      0 0 0 1px oklch(70% 0.18 var(--hue)),
-      0 0 24px oklch(70% 0.2 var(--hue) / 0.45);
+      0 0 0 1px var(--orange),
+      0 0 24px oklch(from var(--orange) l c h / 0.45);
   }
 
   .planet__orb {
@@ -1852,23 +1864,19 @@
     aspect-ratio: 1;
     border-radius: 50%;
     background:
-      radial-gradient(
-        circle at 32% 28%,
-        oklch(96% 0.06 var(--hue)) 0,
-        transparent 30%
-      ),
+      radial-gradient(circle at 32% 28%, var(--cream) 0, transparent 30%),
       repeating-linear-gradient(
         -20deg,
-        oklch(62% 0.2 var(--hue)) 0 12%,
-        oklch(52% 0.22 calc(var(--hue) + 30)) 12% 20%,
-        oklch(70% 0.16 calc(var(--hue) - 20)) 20% 27%
+        var(--orange) 0 12%,
+        var(--navy) 12% 20%,
+        var(--cream) 20% 27%
       );
     background-size:
       100% 100%,
       220% 100%;
     box-shadow:
-      inset -0.5rem -0.4rem 0.9rem oklch(12% 0.05 var(--hue) / 0.85),
-      0 0 1rem oklch(70% 0.2 var(--hue) / 0.5);
+      inset -0.5rem -0.4rem 0.9rem oklch(from var(--navy-deep) l c h / 0.85),
+      0 0 1rem oklch(from var(--orange) l c h / 0.5);
   }
 
   .planet__orb--ringed::after {
@@ -1876,7 +1884,7 @@
     position: absolute;
     inset: 32% -32%;
     border-radius: 50%;
-    border: 2px solid oklch(80% 0.12 var(--hue) / 0.8);
+    border: 2px solid oklch(from var(--orange) l c h / 0.8);
     border-block-start-color: transparent;
     rotate: -18deg;
   }
@@ -1886,7 +1894,7 @@
     position: absolute;
     inset: -0.3rem;
     border-radius: 50%;
-    border: 1.5px dashed oklch(80% 0.15 var(--hue));
+    border: 1.5px dashed var(--orange);
   }
 
   .planet__label {
@@ -1975,13 +1983,13 @@
       border-radius: 50%;
       background: radial-gradient(
         circle at 40% 35%,
-        oklch(98% 0.08 90),
-        oklch(85% 0.16 70) 35%,
-        oklch(62% 0.2 40) 70%,
+        var(--cream),
+        color-mix(in srgb, var(--orange) 55%, var(--cream)) 35%,
+        var(--orange) 70%,
         transparent 72%
       );
-      box-shadow: 0 0 4rem oklch(80% 0.17 70 / 0.55);
-      color: oklch(20% 0.05 50);
+      box-shadow: 0 0 4rem oklch(from var(--orange) l c h / 0.55);
+      color: var(--navy-deep);
     }
 
     .galaxy__core-count {
@@ -2030,7 +2038,7 @@
     }
 
     .planet[aria-pressed='true'] .planet__orb {
-      outline: 2px solid oklch(80% 0.17 var(--hue));
+      outline: 2px solid var(--orange);
       outline-offset: 0.35rem;
     }
 
@@ -2162,7 +2170,7 @@
     font-weight: 700;
     line-height: 1;
     color: var(--text-1);
-    text-shadow: 0 0 24px oklch(70% 0.2 var(--hue, 290) / 0.6);
+    text-shadow: 0 0 24px oklch(from var(--orange) l c h / 0.6);
   }
 
   .galaxy__scan-desc {
@@ -2343,7 +2351,7 @@
     background:
       radial-gradient(
         18rem 8rem at 85% 120%,
-        oklch(65% 0.2 var(--hue, 290) / 0.4),
+        oklch(from var(--orange) l c h / 0.4),
         transparent 70%
       ),
       linear-gradient(
@@ -2381,17 +2389,9 @@
     aspect-ratio: 1;
     border-radius: 50%;
     background:
-      radial-gradient(
-        circle at 32% 28%,
-        oklch(96% 0.06 var(--hue, 290)) 0,
-        transparent 32%
-      ),
-      linear-gradient(
-        160deg,
-        oklch(66% 0.2 var(--hue, 290)),
-        oklch(40% 0.2 calc(var(--hue, 290) + 30))
-      );
-    box-shadow: 0 0 1.25rem oklch(70% 0.2 var(--hue, 290) / 0.5);
+      radial-gradient(circle at 32% 28%, var(--cream) 0, transparent 32%),
+      linear-gradient(160deg, var(--orange), var(--navy));
+    box-shadow: 0 0 1.25rem oklch(from var(--orange) l c h / 0.5);
   }
 
   @container (width < 20rem) {
@@ -2811,7 +2811,7 @@
 
   .toast[data-tone='trophy']::before {
     background:
-      radial-gradient(circle at 35% 30%, oklch(98% 0.05 90), transparent 45%),
+      radial-gradient(circle at 35% 30%, var(--cream), transparent 45%),
       var(--gold);
     box-shadow: 0 0 16px var(--gold);
   }
@@ -3330,8 +3330,8 @@
       linear-gradient(140deg, var(--neon-c), var(--neon-a));
     box-shadow:
       0 0 2.5rem color-mix(in oklch, var(--neon-c) 55%, transparent),
-      inset 0 -0.6rem 1.2rem oklch(10% 0.05 285 / 0.45);
-    color: oklch(99% 0 0);
+      inset 0 -0.6rem 1.2rem oklch(from var(--navy-deep) l c h / 0.45);
+    color: var(--navy-deep);
     font-family: var(--font-display);
     font-size: 2.4rem;
     font-weight: 700;
@@ -3352,7 +3352,7 @@
     block-size: 30%;
     background: linear-gradient(
       transparent,
-      oklch(95% 0.1 200 / 0.55),
+      oklch(from var(--cream) l c h / 0.55),
       transparent
     );
     translate: 0 -120%;
@@ -3536,15 +3536,15 @@
 
   .techtree__tab:hover {
     color: var(--text-1);
-    border-color: oklch(65% 0.15 var(--hue));
+    border-color: var(--orange);
   }
 
   .techtree__tab[aria-selected='true'] {
     color: var(--text-1);
-    border-color: oklch(65% 0.17 var(--hue));
+    border-color: var(--orange);
     box-shadow:
-      inset 0 -2px 0 oklch(65% 0.17 var(--hue)),
-      0 0 18px oklch(65% 0.2 var(--hue) / 0.35);
+      inset 0 -2px 0 var(--orange),
+      0 0 18px oklch(from var(--orange) l c h / 0.35);
   }
 
   .techtree__count {
@@ -3590,8 +3590,8 @@
   }
 
   .techtree[data-enhanced='true'] .tree__tools li {
-    border-color: oklch(65% 0.14 var(--hue) / 0.7);
-    box-shadow: 0 0 14px oklch(65% 0.18 var(--hue) / 0.25);
+    border-color: oklch(from var(--orange) l c h / 0.7);
+    box-shadow: 0 0 14px oklch(from var(--orange) l c h / 0.25);
   }
 
   .tree:focus-visible {
@@ -3630,7 +3630,7 @@
     }
 
     .techtree__links line {
-      stroke: oklch(70% 0.17 var(--hue, 290) / 0.6);
+      stroke: oklch(from var(--orange) l c h / 0.6);
       stroke-width: 1.5px;
       stroke-dasharray: 1;
       stroke-dashoffset: 0;
@@ -3664,12 +3664,12 @@
       background:
         radial-gradient(
           circle at 35% 30%,
-          oklch(75% 0.15 var(--hue) / 0.55),
+          oklch(from var(--orange) l c h / 0.55),
           transparent 60%
         ),
         var(--glass-strong);
-      border: 1px solid oklch(65% 0.17 var(--hue));
-      box-shadow: 0 0 3rem oklch(65% 0.2 var(--hue) / 0.45);
+      border: 1px solid var(--orange);
+      box-shadow: 0 0 3rem oklch(from var(--orange) l c h / 0.45);
       font-size: var(--step-0);
       text-align: center;
       line-height: 1.15;
@@ -3855,19 +3855,19 @@
   }
 
   /* Boss level dialog ---------------------------------------------------- */
-  /* Always deep space, whatever the page theme, so the particles glow. */
+  /* Always deep navy, whatever the page theme, so the particles glow. */
   .boss {
     color-scheme: dark;
-    --text-1: oklch(97% 0.01 285);
-    --text-2: oklch(84% 0.025 285);
-    --glass-strong: oklch(16% 0.04 285 / 0.9);
-    --border-strong: oklch(50% 0.06 285);
-    --border: oklch(34% 0.04 285);
-    --brand: oklch(80% 0.15 295);
-    --brand-strong: oklch(88% 0.11 295);
-    --on-brand: oklch(14% 0.03 285);
-    --glass: oklch(17% 0.035 285 / 0.78);
-    --surface-1: oklch(18% 0.035 285);
+    --text-1: var(--cream);
+    --text-2: oklch(from var(--cream) l c h / 0.86);
+    --glass-strong: oklch(from var(--navy-deep) l c h / 0.9);
+    --border-strong: oklch(from var(--cream) l c h / 0.45);
+    --border: oklch(from var(--cream) l c h / 0.18);
+    --brand: var(--cream);
+    --brand-strong: var(--cream);
+    --on-brand: var(--navy-deep);
+    --glass: oklch(from var(--navy-deep) l c h / 0.78);
+    --surface-1: color-mix(in srgb, var(--navy) 50%, var(--navy-deep));
 
     position: fixed;
     inset: 0;
@@ -3881,10 +3881,10 @@
     background:
       radial-gradient(
         circle at 50% 32%,
-        oklch(25% 0.1 290 / 0.6),
+        oklch(from var(--navy) l c h / 0.6),
         transparent 60%
       ),
-      oklch(8% 0.03 285 / 0.96);
+      oklch(from var(--navy-deep) l c h / 0.96);
     color: var(--text-1);
     overflow: hidden;
   }
@@ -3895,7 +3895,7 @@
   }
 
   .boss::backdrop {
-    background: oklch(5% 0.03 285 / 0.6);
+    background: oklch(from var(--navy-deep) l c h / 0.6);
   }
 
   .boss__canvas {
@@ -3915,7 +3915,7 @@
     border: 1px solid var(--border-strong);
     border-radius: 1.5rem;
     background: var(--glass-strong);
-    box-shadow: 0 0 4rem oklch(60% 0.2 290 / 0.35);
+    box-shadow: 0 0 4rem oklch(from var(--orange) l c h / 0.35);
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
     text-align: center;
@@ -3931,16 +3931,16 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: oklch(86% 0.14 85);
+    color: var(--cream);
   }
 
   .boss__title {
     font-size: var(--step-5);
     background: linear-gradient(
       100deg,
-      oklch(85% 0.15 200),
-      oklch(75% 0.22 300),
-      oklch(75% 0.25 330)
+      var(--cream),
+      color-mix(in srgb, var(--orange) 60%, var(--cream)),
+      var(--orange)
     );
     -webkit-background-clip: text;
     background-clip: text;

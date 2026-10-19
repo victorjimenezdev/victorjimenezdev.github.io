@@ -7,6 +7,9 @@ const reducedMotion = () =>
 const finePointer = () =>
   window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+/* Palette orange, cream and navy RGB so sparks show on both themes. */
+const SPARK_COLORS = ['232 123 40', '246 242 231', '232 123 40', '27 48 75'];
+
 const GLYPHS = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+/<>';
 
 /** Canvas 2D particle bursts. The frame loop only runs while sparks live. */
@@ -36,7 +39,7 @@ export function createParticles(canvas) {
       s.x += s.vx;
       s.y += s.vy;
       const alpha = s.life / s.max;
-      ctx.fillStyle = `hsl(${s.hue} 95% 68% / ${alpha})`;
+      ctx.fillStyle = `rgb(${s.rgb} / ${alpha})`;
       ctx.beginPath();
       ctx.arc(s.x * dpr, s.y * dpr, s.size * dpr * alpha + 0.4, 0, Math.PI * 2);
       ctx.fill();
@@ -55,7 +58,7 @@ export function createParticles(canvas) {
   }
 
   return {
-    burst(x, y, { count = 46, hues = [290, 200, 330, 45], power = 7 } = {}) {
+    burst(x, y, { count = 46, colors = SPARK_COLORS, power = 7 } = {}) {
       if (!ctx || reducedMotion()) return;
       for (let i = 0; i < count; i += 1) {
         const angle = Math.random() * Math.PI * 2;
@@ -67,7 +70,7 @@ export function createParticles(canvas) {
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 2,
           size: 1.5 + Math.random() * 2.5,
-          hue: hues[i % hues.length],
+          rgb: colors[i % colors.length],
           life: max,
           max,
         });

@@ -11,7 +11,8 @@ const RINGS = [
   { rx: 43, ry: 41, angles: [0, 190, 250, 120] },
 ];
 
-export const HUES = [285, 195, 330, 160, 25, 220, 300, 95, 45, 250, 180];
+/* Every planet uses the palette orange (OKLCH hue of #e87b28). */
+export const HUES = new Array(11).fill(52);
 
 /**
  * @param {object} options

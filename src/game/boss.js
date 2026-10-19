@@ -3,7 +3,10 @@
    VJ emblem, the sky warps, and the "game complete" card resolves. Reduced
    motion skips straight to the finished card. */
 
-const HUES = [290, 200, 330, 45, 160];
+/* Palette orange and cream RGB; navy is the dialog backdrop. */
+const ORANGE = '232 123 40';
+const CREAM = '246 242 231';
+const COLORS = [ORANGE, CREAM, ORANGE, ORANGE, CREAM];
 
 function sampleEmblem(width, height) {
   const size = Math.min(width, height) * 0.42;
@@ -90,7 +93,7 @@ export function setupBoss({ launch, sky, sound, onComplete }) {
         tx: target.x,
         ty: target.y,
         delay: Math.random() * 500,
-        hue: HUES[index % HUES.length],
+        rgb: COLORS[index % COLORS.length],
         seed: Math.random() * Math.PI * 2,
       };
     });
@@ -110,7 +113,7 @@ export function setupBoss({ launch, sky, sound, onComplete }) {
         const wobble = t === 1 ? Math.sin(now / 400 + p.seed) * 1.2 : 0;
         const x = p.sx + (p.tx - p.sx) * k + wobble;
         const y = p.sy + (p.ty - p.sy) * k + wobble;
-        ctx.fillStyle = `hsl(${p.hue} 95% ${55 + 25 * k}% / ${0.35 + 0.65 * k})`;
+        ctx.fillStyle = `rgb(${p.rgb} / ${0.35 + 0.65 * k})`;
         ctx.beginPath();
         ctx.arc(x, y, 1.2 + k * 1.4, 0, Math.PI * 2);
         ctx.fill();
@@ -118,7 +121,7 @@ export function setupBoss({ launch, sky, sound, onComplete }) {
       // A shockwave ring when the emblem locks in.
       if (elapsed > 1700 && elapsed < 2600) {
         const r = (elapsed - 1700) * 1.6;
-        ctx.strokeStyle = `hsl(200 95% 70% / ${1 - (elapsed - 1700) / 900})`;
+        ctx.strokeStyle = `rgb(${ORANGE} / ${1 - (elapsed - 1700) / 900})`;
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(width / 2, height * 0.32, r, 0, Math.PI * 2);

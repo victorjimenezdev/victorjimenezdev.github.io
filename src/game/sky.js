@@ -21,6 +21,12 @@ uniform float uLight;
 uniform float uWarp;
 uniform float uPhosphor;
 
+// Palette source colours (sRGB): cream paper, navy ink, deep navy, orange.
+const vec3 CREAM = vec3(0.965, 0.949, 0.906);
+const vec3 NAVY = vec3(0.106, 0.188, 0.294);
+const vec3 NAVY_DEEP = vec3(0.051, 0.102, 0.176);
+const vec3 ORANGE = vec3(0.910, 0.482, 0.157);
+
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
   p += dot(p, p + 45.32);
@@ -60,7 +66,7 @@ vec3 stars(vec2 uv, float density, float size, float seed) {
   d.y /= 1.0 + uWarp * 14.0;
   float twinkle = 0.65 + 0.35 * sin(uTime * (1.0 + h * 3.0) + h * 40.0);
   float glow = smoothstep(size, 0.0, length(d)) * twinkle;
-  vec3 tint = mix(vec3(0.75, 0.85, 1.0), vec3(1.0, 0.8, 0.95), hash(cell + seed + 3.7));
+  vec3 tint = mix(CREAM, mix(CREAM, ORANGE, 0.4), hash(cell + seed + 3.7));
   return tint * glow * (h - 0.86) * 7.0;
 }
 
@@ -71,12 +77,12 @@ vec3 planetSurface(vec3 n, float t) {
   vec2 q = vec2(lon * 1.6, lat * 3.2);
   float bands = fbm(vec2(lat * 7.0, lon * 0.4) + fbm(q * 1.5) * 1.6);
   float storms = smoothstep(0.62, 0.8, fbm(q * 3.0 + 4.0));
-  vec3 deep = vec3(0.16, 0.08, 0.42);
-  vec3 mid = vec3(0.36, 0.22, 0.86);
-  vec3 bright = vec3(0.35, 0.86, 1.0);
+  vec3 deep = NAVY_DEEP;
+  vec3 mid = NAVY;
+  vec3 bright = CREAM;
   vec3 col = mix(deep, mid, smoothstep(0.25, 0.6, bands));
   col = mix(col, bright, smoothstep(0.58, 0.85, bands) * 0.75);
-  col += vec3(1.0, 0.45, 0.85) * storms * 0.55;
+  col += ORANGE * storms * 0.55;
   return col;
 }
 
@@ -86,10 +92,10 @@ void main() {
   float t = uTime;
 
   // Backdrop gradient for each theme.
-  vec3 darkTop = vec3(0.035, 0.03, 0.09);
-  vec3 darkBottom = vec3(0.01, 0.01, 0.035);
-  vec3 lightTop = vec3(0.93, 0.92, 0.99);
-  vec3 lightBottom = vec3(0.98, 0.95, 0.99);
+  vec3 darkTop = NAVY_DEEP;
+  vec3 darkBottom = NAVY_DEEP * 0.8;
+  vec3 lightTop = CREAM;
+  vec3 lightBottom = CREAM;
   float vy = frag.y / uRes.y;
   vec3 col = mix(mix(darkBottom, darkTop, vy), mix(lightBottom, lightTop, vy), uLight);
 
@@ -97,8 +103,8 @@ void main() {
   vec2 np = uv * 1.4 + vec2(t * 0.012, uScroll * 0.00025) + uPointer * 0.04;
   float neb = fbm(np + fbm(np * 1.7 + t * 0.02));
   float neb2 = fbm(np * 2.3 - 3.1);
-  vec3 nebDark = mix(vec3(0.33, 0.1, 0.55), vec3(0.05, 0.45, 0.65), neb2);
-  vec3 nebLight = mix(vec3(0.75, 0.62, 0.98), vec3(0.6, 0.86, 0.95), neb2);
+  vec3 nebDark = mix(NAVY, ORANGE * 0.5, neb2);
+  vec3 nebLight = mix(mix(CREAM, NAVY, 0.25), mix(CREAM, ORANGE, 0.35), neb2);
   float nebAmount = smoothstep(0.35, 0.95, neb);
   col += nebDark * nebAmount * 0.55 * (1.0 - uLight);
   col = mix(col, nebLight, nebAmount * 0.32 * uLight);
@@ -124,8 +130,8 @@ void main() {
     float ringTex = 0.55 + 0.45 * sin(ringR * 42.0) * sin(ringR * 13.0 + 1.0);
     float gap = smoothstep(0.02, 0.0, abs(ringR - 1.78)) * 0.85;
     float ring = ringBand * ringTex * (1.0 - gap);
-    vec3 ringCol = mix(vec3(0.75, 0.6, 1.0), vec3(0.45, 0.9, 1.0), smoothstep(1.4, 2.2, ringR));
-    ringCol = mix(ringCol, vec3(0.4, 0.25, 0.75), uLight * 0.6);
+    vec3 ringCol = mix(CREAM, ORANGE, smoothstep(1.4, 2.2, ringR));
+    ringCol = mix(ringCol, NAVY, uLight * 0.6);
 
     float dist = length(d) / r;
     bool front = rd.y < 0.0;
@@ -135,7 +141,7 @@ void main() {
 
     // Atmosphere halo.
     float halo = exp(-max(dist - 1.0, 0.0) * 9.0) * step(1.0, dist);
-    vec3 haloCol = mix(vec3(0.35, 0.75, 1.0), vec3(0.45, 0.35, 0.95), uLight);
+    vec3 haloCol = mix(ORANGE, NAVY, uLight);
     col += haloCol * halo * (0.55 - uLight * 0.2);
 
     if (dist < 1.0) {
@@ -145,7 +151,7 @@ void main() {
       vec3 surface = planetSurface(n, t);
       vec3 lit = surface * (0.08 + 1.15 * diffuse);
       float rim = pow(1.0 - n.z, 3.0);
-      lit += vec3(0.4, 0.8, 1.0) * rim * 0.9;
+      lit += ORANGE * rim * 0.9;
       float spec = pow(clamp(dot(reflect(-lightDir, n), vec3(0.0, 0.0, 1.0)), 0.0, 1.0), 24.0);
       lit += spec * 0.25;
       // Ring shadow band across the disc.
@@ -164,7 +170,7 @@ void main() {
 
   if (uPhosphor > 0.5) {
     float lum = dot(col, vec3(0.299, 0.587, 0.114));
-    col = vec3(0.1, 1.0, 0.45) * lum * 1.3;
+    col = ORANGE * lum * 1.3;
   }
 
   gl_FragColor = vec4(col, 1.0);

@@ -3,8 +3,8 @@
   "short_name": "VictorDev",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#fcfbfd",
-  "theme_color": "#fcfbfd",
+  "background_color": "#f6f2e7",
+  "theme_color": "#f6f2e7",
   "description": "Victor Jimenez - Senior Product Engineer focused on the web and technical leadership",
   "icons": [
     {
