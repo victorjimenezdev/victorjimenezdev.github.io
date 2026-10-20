@@ -15,7 +15,7 @@
     "GitHub": "https://github.com/victorjimenezdev",
     "Automation & writing": "https://github.com/victorstack-ai"
   },
-  "profile": "I am a product engineer focused on the web, with 13+ years of experience in engineering and technical leadership. I build web products end to end: React and Next.js interfaces, APIs, and Drupal and WordPress platforms. My work includes CyberSource payment integrations, Python/FastAPI billing components, platform migrations and release pipelines. I have contributed to 60 professional projects across 11 sectors as part of project teams.",
+  "profile": "I am a product engineer with 13+ years in web engineering and technical leadership. I build React and Next.js interfaces, APIs, and Drupal and WordPress platforms. I have contributed to 60 professional projects across 11 sectors as part of project teams.",
   "shared_skills": [
     "Drupal",
     "WordPress",
@@ -58,40 +58,41 @@
   ],
   "current": {
     "employer": "Rootstack",
-    "role": "Senior Drupal / WordPress Full Stack Lead Developer",
+    "role": "Web Tech Lead Developer",
     "dates": "June 2023 - Present",
-    "summary": "I plan and implement web features, review code and mentor developers across client engagements. I verify releases and follow each project's architecture and review standards.",
+    "summary": "I lead international web delivery across development finance, media, hospitality and cloud communications. I plan architecture, implement features, review code, mentor developers and verify releases.",
     "bullets": [
-      "Build Drupal and WordPress modules, themes and integrations. Corrected a Drupal menu's missing editor workflow with reusable form widgets and media fields before peer review.",
+      "Build Drupal platforms for a multilateral development bank, streaming-service landing and support pages, and a hotel chain's booking platform.",
+      "Build reusable Drupal components with Twig and Storybook, integrate Marketo lead-generation forms, and maintain multilingual navigation, caching and releases on Pantheon.",
       "Develop decoupled React and Next.js interfaces backed by GraphQL and REST APIs, supporting content delivery and editorial workflows.",
       "Profile performance, support technical SEO and implement caching with Redis, Varnish and CDNs; use New Relic to investigate bottlenecks.",
       "Implement OAuth and SSO integrations, security remediation, semantic interfaces and accessible keyboard navigation.",
       "Build CI/CD pipelines with PHPCS, PHPStan and SonarQube, and support releases on AWS and managed CMS hosting.",
-      "Built Python/FastAPI billing-summary APIs and subscription/payment-status logic, with access checks and regression tests for trial, active, failed-payment and cancelled states."
+      "Built Python/FastAPI billing-summary APIs with payment-status logic, access checks and regression tests for subscription lifecycle states."
     ]
   },
   "earlier": [
     {
       "employer": "Ilumno",
-      "role": "Senior Drupal Full Stack Lead Developer",
+      "role": "Tech Lead",
       "dates": "January 2020 - June 2023",
       "summary": "Led legacy-to-microservices migrations and React/Drupal JSON:API delivery. Built Redis, Varnish and CloudFront caching, automated AWS infrastructure, and mentored developers."
     },
     {
       "employer": "Legis",
-      "role": "Senior Drupal Full Stack Lead Consultant",
+      "role": "Tech Lead Consultant",
       "dates": "July 2021 - April 2023",
       "summary": "Delivered enterprise Drupal migrations, standardized Composer and Drush workflows, and improved GitLab CI/Jenkins deployments and AWS integrations."
     },
     {
       "employer": "Bits Americas",
-      "role": "Drupal Back-End Developer",
+      "role": "Full Stack Developer",
       "dates": "January 2018 - July 2021",
-      "summary": "Developed CyberSource payment integrations and APIs for analytics and personalization. Supported headless Drupal with Angular/React and Acquia/Pantheon hosting."
+      "summary": "Developed LATAM telecom bill-payment portals with CyberSource, Drupal and Angular, plus APIs for analytics and personalization. Supported headless Drupal with Angular/React and Acquia/Pantheon hosting."
     },
     {
       "employer": "Velaio",
-      "role": "Drupal Full Stack Lead Developer",
+      "role": "Tech Lead",
       "dates": "January 2015 - January 2018",
       "summary": "Built custom Drupal modules, themes and CRM integrations. Conducted performance and security audits for high-traffic platforms."
     },

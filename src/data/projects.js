@@ -2,7 +2,8 @@ export const workProjects = [
   {
     id: 'media',
     title: 'Media and publishing',
-    description: 'Streaming, entertainment, news and editorial platforms.',
+    description:
+      'Streaming, entertainment, news and editorial platforms, including international landing and support pages.',
     projectCount: 8,
     tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
@@ -36,7 +37,7 @@ export const workProjects = [
   {
     id: 'hospitality',
     title: 'Hospitality and travel',
-    description: 'Hospitality, booking and travel information platforms.',
+    description: 'Hotel-chain platforms, booking and travel information.',
     projectCount: 4,
     tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
@@ -44,7 +45,8 @@ export const workProjects = [
   {
     id: 'finance',
     title: 'Financial services',
-    description: 'Banking, financial services and assistance platforms.',
+    description:
+      'Multilateral development-bank, financial services and assistance platforms.',
     projectCount: 4,
     tags: ['Web platforms', 'Product engineering'],
     type: 'professional',
@@ -78,7 +80,7 @@ export const workProjects = [
     id: 'telecom',
     title: 'Telecommunications',
     description:
-      'Payment, business services and customer self-service portals.',
+      'LATAM bill-payment portals with CyberSource, Drupal and Angular; corporate services and customer self-service portals.',
     projectCount: 3,
     tags: ['Web platforms', 'Product engineering'],
     type: 'professional',

@@ -5,8 +5,7 @@ import { resolve } from 'node:path';
 import { chromium, firefox, webkit } from 'playwright';
 import axe from 'axe-core';
 import { verifyNavigationFallback } from './navigation.browser.js';
-import { agentBlogIndex } from '../src/data/writing.js';
-import { resolveWriting } from '../src/writing.js';
+import { agentBlogIndexLink, resolveWriting } from '../src/writing.js';
 
 const base = process.env.PORTFOLIO_URL || 'http://127.0.0.1:4337';
 const engineName = process.env.PORTFOLIO_BROWSER || 'chromium';
@@ -472,7 +471,7 @@ try {
   );
   assert.equal(
     await errorPage.locator('#writing .section-link').getAttribute('href'),
-    agentBlogIndex
+    agentBlogIndexLink
   );
   await errorPage.locator('#consent-decline').click();
   await errorPage.reload({ waitUntil: 'networkidle' });

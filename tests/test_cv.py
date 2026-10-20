@@ -140,10 +140,10 @@ class CVTests(unittest.TestCase):
 
     def test_earlier_employer_role_and_date_attribution(self) -> None:
         expected = [
-            ("Ilumno", "Senior Drupal Full Stack Lead Developer", "January 2020 - June 2023"),
-            ("Legis", "Senior Drupal Full Stack Lead Consultant", "July 2021 - April 2023"),
-            ("Bits Americas", "Drupal Back-End Developer", "January 2018 - July 2021"),
-            ("Velaio", "Drupal Full Stack Lead Developer", "January 2015 - January 2018"),
+            ("Ilumno", "Tech Lead", "January 2020 - June 2023"),
+            ("Legis", "Tech Lead Consultant", "July 2021 - April 2023"),
+            ("Bits Americas", "Full Stack Developer", "January 2018 - July 2021"),
+            ("Velaio", "Tech Lead", "January 2015 - January 2018"),
             ("Skena", "Web Developer", "January 2013 - January 2015"),
         ]
         actual = [
