@@ -31,16 +31,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Set the repository variable MAINTENANCE_MODE to 'true' to publish only
+      # the maintenance page; set it back to 'false' and rerun to restore the site.
+      - name: Use maintenance page
+        if: vars.MAINTENANCE_MODE == 'true'
+        run: mkdir -p dist && cp maintenance/index.html maintenance/404.html dist/
+
       - name: Set up Node
+        if: vars.MAINTENANCE_MODE != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
       - name: Install dependencies
+        if: vars.MAINTENANCE_MODE != 'true'
         run: npm ci
 
       - name: Build
+        if: vars.MAINTENANCE_MODE != 'true'
         run: npm run build
 
       - name: Setup Pages

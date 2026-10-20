@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f2e7" />
+    <title>Victor Jimenez | Under maintenance</title>
+    <meta
+      name="description"
+      content="This site is temporarily down for maintenance."
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f6f2e7;
+        --text: #1b304b;
+        --muted: #1b304bcc;
+        --accent: #e87b28;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1b304b;
+          --text: #f6f2e7;
+          --muted: #f6f2e7cc;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1rem;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        line-height: 1.5;
+      }
+      main {
+        max-width: 36rem;
+        text-align: center;
+      }
+      .bar {
+        width: 3rem;
+        height: 0.25rem;
+        margin: 0 auto 1.5rem;
+        border-radius: 1rem;
+        background: var(--accent);
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.73rem, 1.53rem + 0.98vw, 2.23rem);
+        line-height: 1.2;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 0.96rem + 0.2vw, 1.13rem);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="bar" aria-hidden="true"></div>
+      <h1>Down for maintenance</h1>
+      <p>This site is temporarily unavailable. Please check back soon.</p>
+    </main>
+  </body>
+</html>
