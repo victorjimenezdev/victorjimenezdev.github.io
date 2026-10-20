@@ -3,7 +3,7 @@ export const workProjects = [
     id: 'media',
     title: 'Media and publishing',
     description:
-      'Streaming, entertainment, news and editorial platforms, including international landing and support pages.',
+      'Streaming-service marketing sites and microsites, entertainment, news and multilingual editorial platforms.',
     projectCount: 8,
     tags: ['Web platforms', 'Product engineering'],
     type: 'professional',

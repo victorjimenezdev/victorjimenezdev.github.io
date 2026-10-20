@@ -62,12 +62,13 @@
     "dates": "June 2023 - Present",
     "summary": "I lead international web delivery across development finance, media, hospitality and cloud communications. I plan architecture, implement features, review code, mentor developers and verify releases.",
     "bullets": [
-      "Build Drupal platforms for a multilateral development bank, streaming-service landing and support pages, and a hotel chain's booking platform.",
-      "Build reusable Drupal components with Twig and Storybook, integrate Marketo lead-generation forms, and maintain multilingual navigation, caching and releases on Pantheon.",
-      "Develop decoupled React and Next.js interfaces backed by GraphQL and REST APIs, supporting content delivery and editorial workflows.",
-      "Profile performance, support technical SEO and implement caching with Redis, Varnish and CDNs; use New Relic to investigate bottlenecks.",
-      "Implement OAuth and SSO integrations, security remediation, semantic interfaces and accessible keyboard navigation.",
-      "Build CI/CD pipelines with PHPCS, PHPStan and SonarQube, and support releases on AWS and managed CMS hosting.",
+      "Build Drupal platforms for a multilateral development bank, streaming-service marketing sites and microsites, and a hotel chain's booking platform.",
+      "Implement multilingual publishing, URL aliases, revisions, country availability and per-language previews.",
+      "Improve bulk republishing, job-status monitoring and Drush automation; upgrade Drupal and dependencies and remediate security issues.",
+      "Integrate S3/CDN media and sitemap delivery; develop decoupled React and Next.js interfaces backed by GraphQL and REST APIs.",
+      "Build Drupal components with Twig and Storybook, Marketo forms, multilingual navigation, caching and Pantheon releases for cloud communications.",
+      "Profile performance with New Relic and implement Redis, Varnish and CDN caching.",
+      "Build CI/CD pipelines; add DDEV PHPUnit commands and GitHub Actions checks to a Drupal demo.",
       "Built Python/FastAPI billing-summary APIs with payment-status logic, access checks and regression tests for subscription lifecycle states."
     ]
   },
