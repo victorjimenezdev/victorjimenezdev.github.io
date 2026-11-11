@@ -6,9 +6,9 @@
 /* Three orbit rings. Angles are spread so labels on neighbouring planets do
    not collide at desktop sizes. */
 const RINGS = [
-  { rx: 21, ry: 19, angles: [210, 330, 90] },
+  { rx: 21, ry: 19, angles: [210, 330, 110] },
   { rx: 33, ry: 31, angles: [270, 30, 150, 75] },
-  { rx: 43, ry: 41, angles: [0, 190, 250, 120] },
+  { rx: 43, ry: 41, angles: [345, 190, 235, 120] },
 ];
 
 /* Every planet uses the palette orange (OKLCH hue of #e87b28). */
@@ -43,7 +43,11 @@ export function setupGalaxy({ sectors, total, onScan, onProgress, onJump }) {
     const radians = (slot.angle * Math.PI) / 180;
     const li = document.createElement('li');
     li.className = 'planet-slot';
-    li.style.setProperty('--x', `${50 + Math.cos(radians) * slot.rx}%`);
+    const x = 50 + Math.cos(radians) * slot.rx;
+    li.style.setProperty('--x', `${x}%`);
+    /* Labels near the map's side edges grow inward instead of clipping. */
+    if (x < 20) li.dataset.edge = 'start';
+    else if (x > 80) li.dataset.edge = 'end';
     li.style.setProperty('--y', `${50 + Math.sin(radians) * slot.ry}%`);
 
     const button = document.createElement('button');

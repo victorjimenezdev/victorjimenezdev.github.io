@@ -175,7 +175,12 @@ export function setupLaunchSequence({ sound, particles, onLiftoff }) {
         .setAttribute('aria-current', index === reached ? 'step' : 'false');
     });
     list.dataset.interactive = 'true';
-    list.style.setProperty('--fuel', String((reached + 1) / items.length));
+    /* The fuel line runs from the first stage dot to the last, so the fill
+       stops exactly on the active stage's dot. */
+    list.style.setProperty(
+      '--fuel',
+      String(Math.max(reached, 0) / (items.length - 1))
+    );
     const label = items[reached]?.querySelector('.process__count');
     const title = items[reached]?.querySelector('.process__trigger');
     if (status && label && title) {
@@ -359,6 +364,9 @@ export function setupQuickJump({ actions }) {
     const action = entry.dataset.qjAction;
     if (action && actions[action]) {
       event.preventDefault();
+      /* Without the Popover API, popovers close on any document click; this
+         click must not reach that handler after it opens the quest log. */
+      event.stopPropagation();
       actions[action](entry);
     }
     /* Section entries are ordinary in-page links and navigate natively. */

@@ -4933,3 +4933,96 @@
     font-size: var(--step--2);
   }
 }
+
+/* ------------------------------------------------ audit fixes (round 2) -- */
+@layer components {
+  /* Hero in three beats: who, what I offer, proof. Tight inside a beat,
+     clear space between beats. */
+  .hero__inner {
+    gap: var(--space-l);
+  }
+
+  .hero__beat {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-xs);
+  }
+
+  .hero__beat--id {
+    gap: var(--space-2xs);
+  }
+
+  .hero__beat--id .hero__status {
+    margin-block-end: var(--space-2xs);
+  }
+
+  .hero__beat--pitch .hero__actions {
+    margin-block-start: var(--space-3xs);
+  }
+
+  .hero__beat--proof {
+    gap: var(--space-2xs);
+    inline-size: 100%;
+  }
+
+  .hero__beat--proof .hero__facts {
+    margin-block-start: 0;
+  }
+
+  /* Galaxy: sector names stay readable on desktop without hovering. */
+  @media (width >= 48rem) {
+    .planet__label {
+      opacity: 1;
+      scale: 1;
+      max-inline-size: 10.5rem;
+      padding: 0.15rem 0.45rem;
+      line-height: 1.2;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .planet:is(:hover, :focus-visible, [aria-pressed='true']) .planet__label {
+      z-index: 4;
+      border-color: var(--orange);
+    }
+  }
+
+  /* Contact cards keep their own height beside the taller email column. */
+  .contact__panel {
+    align-items: start;
+  }
+
+  /* List items keep their box (and list semantics in WebKit). */
+  .tag-slot,
+  .pill-slot {
+    display: flex;
+  }
+
+  /* Chips in one circuit row share a height, so traces meet their centre. */
+  .techtree[data-enhanced='true'] .tree__tools li {
+    display: grid;
+  }
+
+  .tree__tool {
+    block-size: 100%;
+  }
+}
+
+@layer components {
+  @media (width >= 48rem) {
+    .planet-slot[data-edge='start'] .planet__label {
+      max-inline-size: 7rem;
+      inset-inline-start: 0;
+      translate: 0 0;
+      text-align: start;
+    }
+
+    .planet-slot[data-edge='end'] .planet__label {
+      max-inline-size: 7rem;
+      inset-inline-start: auto;
+      inset-inline-end: 0;
+      translate: 0 0;
+      text-align: end;
+    }
+  }
+}

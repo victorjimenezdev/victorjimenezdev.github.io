@@ -98,16 +98,34 @@ export function setupTechTree({ onInspect, onSelect }) {
   let current = null;
   function drawLinks(tree) {
     current = tree;
-    const box = stage.getBoundingClientRect();
+    /* Layout boxes in stage coordinates. Offsets ignore the chips' pop-in
+       scale animation, which would otherwise shrink every measured box. */
+    const box = {
+      left: 0,
+      top: 0,
+      width: stage.offsetWidth,
+      height: stage.offsetHeight,
+    };
+    const layoutRect = (element) => {
+      let left = 0;
+      let top = 0;
+      for (let node = element; node && node !== stage;) {
+        left += node.offsetLeft;
+        top += node.offsetTop;
+        node = node.offsetParent;
+        if (node && !stage.contains(node)) break;
+      }
+      const width = element.offsetWidth;
+      const height = element.offsetHeight;
+      return { left, top, width, height, right: left + width };
+    };
     links.setAttribute(
       'viewBox',
       `0 0 ${Math.max(box.width, 1)} ${Math.max(box.height, 1)}`
     );
     links.style.setProperty('--hue', tree.dataset.hue);
-    const hub = tree.querySelector('.tree__name').getBoundingClientRect();
-    const chips = [...tree.querySelectorAll('.tree__tool')].map((chip) =>
-      chip.getBoundingClientRect()
-    );
+    const hub = layoutRect(tree.querySelector('.tree__name'));
+    const chips = [...tree.querySelectorAll('.tree__tool')].map(layoutRect);
     /* Stacked (mobile) layouts have no room for traces. */
     if (!chips.length || hub.right > chips[0].left || box.width === 0) {
       links.replaceChildren();
@@ -219,6 +237,12 @@ export function setupTechTree({ onInspect, onSelect }) {
     if (!chip) return;
     showTool(chip);
     onSelect();
+  });
+
+  /* Keyboard users get the readout as they Tab through the chips. */
+  stage.addEventListener('focusin', (event) => {
+    const chip = event.target.closest('.tree__tool');
+    if (chip?.matches(':focus-visible')) showTool(chip);
   });
 
   /* Arrow keys, Home and End, as in the ARIA tabs pattern. */
