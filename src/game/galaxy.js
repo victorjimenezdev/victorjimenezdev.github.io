@@ -20,15 +20,17 @@ export const HUES = new Array(11).fill(52);
  * @param {number} options.total
  * @param {(sectorId: string) => void} options.onScan
  * @param {(scanned: number) => void} options.onProgress
+ * @param {(sectorId: string) => void} [options.onJump]
+ * @returns {{scan: (sectorId: string) => void} | null}
  */
-export function setupGalaxy({ sectors, total, onScan, onProgress }) {
+export function setupGalaxy({ sectors, total, onScan, onProgress, onJump }) {
   const root = document.getElementById('galaxy');
   const list = document.getElementById('galaxy-planets');
   const body = document.getElementById('galaxy-scan-body');
   const found = document.getElementById('galaxy-found');
   const meter = document.getElementById('galaxy-meter');
   const live = document.getElementById('galaxy-live');
-  if (!root || !list || !body) return;
+  if (!root || !list || !body) return null;
 
   const scanned = new Set();
   const slots = RINGS.flatMap((ring) =>
@@ -92,7 +94,12 @@ export function setupGalaxy({ sectors, total, onScan, onProgress }) {
     const desc = document.createElement('p');
     desc.className = 'galaxy__scan-desc';
     desc.textContent = sector.description;
-    fragment.append(title, stat, desc);
+    const jump = document.createElement('button');
+    jump.type = 'button';
+    jump.className = 'btn btn--ghost btn--small galaxy__jump';
+    jump.dataset.sector = sector.id;
+    jump.textContent = 'Jump to sector card';
+    fragment.append(title, stat, desc, jump);
     body.style.setProperty('--hue', String(hue));
     body.replaceChildren(fragment);
   }
@@ -140,5 +147,39 @@ export function setupGalaxy({ sectors, total, onScan, onProgress }) {
     buttons[(index + step + buttons.length) % buttons.length].focus();
   });
 
+  /* One-click tour: scans the next sector that has not been logged yet,
+     then keeps cycling once every sector is on the map. */
+  const next = document.createElement('button');
+  next.type = 'button';
+  next.className = 'btn btn--primary btn--small galaxy__next';
+  next.id = 'galaxy-next';
+  next.textContent = 'Scan next sector';
+  root.querySelector('.galaxy__progress')?.before(next);
+
+  next.addEventListener('click', () => {
+    const pressed = buttons.findIndex(
+      (b) => b.getAttribute('aria-pressed') === 'true'
+    );
+    const order = buttons
+      .map((_, i) => buttons[(pressed + 1 + i) % buttons.length])
+      .filter(Boolean);
+    const target =
+      order.find((b) => !scanned.has(b.dataset.sector)) || order[0];
+    scan(target);
+  });
+
+  body.addEventListener('click', (event) => {
+    const jump = event.target.closest('.galaxy__jump');
+    if (jump) onJump?.(jump.dataset.sector);
+  });
+
   root.hidden = false;
+
+  return {
+    /** Scans a sector by id without a pointer event (no analytics click). */
+    scan(sectorId) {
+      const button = buttons.find((b) => b.dataset.sector === sectorId);
+      if (button) scan(button);
+    },
+  };
 }

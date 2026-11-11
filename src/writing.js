@@ -160,6 +160,10 @@ function toCard(entry, { feed = false } = {}) {
     dateTime: published.dateTime,
     label: published.label,
     reactions: feed ? reactionLabel(entry.public_reactions_count) : null,
+    series:
+      !feed && Number.isInteger(entry.series) && entry.series >= 0
+        ? entry.series
+        : null,
   };
 }
 

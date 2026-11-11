@@ -24,6 +24,17 @@ import {
 import { setupSaveFile, setupTechTree } from './game/profile.js';
 import { HUES, setupGalaxy } from './game/galaxy.js';
 import {
+  createActiveNav,
+  createEmailCopier,
+  setupCopyEmail,
+  setupExperienceLens,
+  setupFocusPills,
+  setupLaunchSequence,
+  setupQuickJump,
+  setupTreeJumps,
+  upgradeToolTags,
+} from './game/connect.js';
+import {
   createToaster,
   setupKonami,
   setupObjective,
@@ -39,6 +50,8 @@ const analytics = createAnalytics({ win: window, doc: document });
 const THEME_KEY = 'theme-v2';
 const FEED_URL =
   'https://dev.to/api/articles?username=victorstackai&per_page=12';
+
+const maxCount = Math.max(...workProjects.map((p) => p.projectCount));
 
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -163,6 +176,7 @@ function setupMarquee() {
   [...track.children].forEach((item) => {
     const copy = item.cloneNode(true);
     copy.setAttribute('aria-hidden', 'true');
+    if (copy.matches('a, button')) copy.setAttribute('tabindex', '-1');
     copy.querySelectorAll('a, button').forEach((el) => {
       el.setAttribute('tabindex', '-1');
     });
@@ -211,6 +225,19 @@ function buildWorkCard(project, template) {
   node.dataset.sector = project.id;
   desc.textContent = project.description;
 
+  /* Share bar: a sector's projects relative to the largest sector. */
+  const share = node.querySelector('.work-card__share');
+  if (personal) {
+    share.remove();
+    node.querySelector('.work-card__repo').hidden = false;
+  } else {
+    share.style.setProperty('--share', String(project.projectCount / maxCount));
+    const locate = node.querySelector('.work-card__locate');
+    locate.hidden = false;
+    locate.dataset.sector = project.id;
+    locate.setAttribute('aria-label', `Locate ${project.title} on the map`);
+  }
+
   project.tags.slice(0, 3).forEach((tag) => {
     const li = document.createElement('li');
     li.className = 'tag';
@@ -220,6 +247,47 @@ function buildWorkCard(project, template) {
 
   node.dataset.projectType = project.type;
   return node;
+}
+
+/* Cards and planets stay in sync both ways: scanning a planet marks its
+   card, and a card (or its Locate button) scans its planet. */
+function connectWorkToGalaxy(galaxy) {
+  const grid = document.getElementById('work-grid');
+  const map = document.getElementById('galaxy');
+  if (!grid || !galaxy) return;
+
+  grid.addEventListener('click', (event) => {
+    const card = event.target.closest(
+      '.work-card[data-project-type="professional"]'
+    );
+    if (!card) return;
+    galaxy.scan(card.dataset.sector);
+    if (event.target.closest('.work-card__locate')) {
+      map?.scrollIntoView({
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'center',
+      });
+      document
+        .querySelector(`.planet[data-sector="${card.dataset.sector}"]`)
+        ?.focus({ preventScroll: true });
+    }
+  });
+}
+
+function jumpToSectorCard(sectorId) {
+  const card = document.querySelector(
+    `#work-grid .work-card[data-sector="${sectorId}"]`
+  );
+  if (!card) return;
+  if (card.hidden) document.getElementById('filter-all')?.click();
+  card.setAttribute('tabindex', '-1');
+  card.scrollIntoView({
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    block: 'center',
+  });
+  card.focus({ preventScroll: true });
+  card.dataset.spotlight = 'true';
+  setTimeout(() => delete card.dataset.spotlight, 1600);
 }
 
 function setupWork() {
@@ -291,6 +359,13 @@ function renderPostCard(template, card) {
     },
     { once: true }
   );
+  if (typeof card.series === 'number') {
+    const badge = document.createElement('p');
+    badge.className = 'post-card__series';
+    badge.textContent =
+      card.series === 0 ? 'Series overview' : `Part ${card.series}`;
+    node.querySelector('.work-card__body').prepend(badge);
+  }
   link.textContent = card.title;
   link.href = card.href;
   link.target = '_blank';
@@ -483,7 +558,8 @@ function setupGame() {
     (id) => {
       if (stageAchievements[id]) achievements.unlock(stageAchievements[id]);
     },
-    (element, text) => scramble(element, text, 450)
+    (element, text) => scramble(element, text, 450),
+    createActiveNav()
   );
   setupXpBar();
   setupTilt();
@@ -491,10 +567,12 @@ function setupGame() {
   setupSpotlight();
   setupMagnetic();
 
-  setupTechTree({
+  const techTree = setupTechTree({
     onInspect: (count) => achievements.progress('tech-trees', count),
     onSelect: () => audio.play('select'),
   });
+  upgradeToolTags('.marquee__item[data-tree-jump], .tag[data-tree-jump]');
+  setupTreeJumps(techTree);
   setupSaveFile();
   setupBoss({
     launch: document.getElementById('boss-launch'),
@@ -502,9 +580,31 @@ function setupGame() {
     sound: (name) => audio.play(name),
     onComplete: () => achievements.unlock('boss'),
   });
-  setupObjective({ quests: achievements, goTo: goToTarget });
+  setupObjective({
+    quests: achievements,
+    goTo: goToTarget,
+    questLog: trophyToggle,
+  });
 
-  setupGalaxy({
+  const lens = setupExperienceLens();
+  setupFocusPills({ lens });
+  setupLaunchSequence({
+    sound: (name) => audio.play(name),
+    particles,
+  });
+  const copyEmail = createEmailCopier({ toast, particles });
+  setupCopyEmail(copyEmail);
+  setupQuickJump({
+    actions: {
+      theme: () => document.getElementById('theme-toggle')?.click(),
+      copy: () => copyEmail(document.getElementById('copy-email')),
+      cv: () => document.querySelector('.savefile__btn')?.click(),
+      quests: () => trophyToggle.click(),
+      finale: () => document.getElementById('boss-launch')?.click(),
+    },
+  });
+
+  const galaxy = setupGalaxy({
     sectors: workProjects,
     total: professionalProjectCount,
     onScan(sectorId) {
@@ -514,12 +614,20 @@ function setupGame() {
         card.dataset.scanned = String(
           card.dataset.scanned === 'true' || card.dataset.sector === sectorId
         );
+        card.dataset.active = String(card.dataset.sector === sectorId);
       });
     },
     onProgress(sectorsScanned) {
       achievements.progress('cartographer', sectorsScanned);
     },
+    onJump: jumpToSectorCard,
   });
+  /* The sector count jumps to the map once the map exists. */
+  if (galaxy) {
+    document
+      .querySelector('[data-galaxy-link]')
+      ?.setAttribute('href', '#galaxy');
+  }
 
   setupKonami((on) => {
     sky?.refresh();
@@ -532,6 +640,7 @@ function setupGame() {
   });
 
   return {
+    galaxy,
     onThemeChange() {
       sky?.refresh();
       achievements.unlock('shift-change');
@@ -555,6 +664,7 @@ setupTheme(() => game.onThemeChange());
 setupNav();
 setupMarquee();
 setupWork();
+connectWorkToGalaxy(game.galaxy);
 setupConsent();
 setupBackToTop();
 setupYear();

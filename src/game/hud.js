@@ -23,7 +23,8 @@ export function setupStageTracker(
   onEnter,
   setText = (element, text) => {
     element.textContent = text;
-  }
+  },
+  onCurrent = () => {}
 ) {
   const hud = document.getElementById('hud-stage');
   const index = hud?.querySelector('.hud-stage__index');
@@ -41,6 +42,7 @@ export function setupStageTracker(
       !current || current === hero
         ? ['00', 'Title screen']
         : [current.dataset.stage, current.dataset.stageName];
+    onCurrent(!current || current === hero ? null : current.id);
     if (name.dataset.stage === nextName) return;
     name.dataset.stage = nextName;
     index.textContent = nextIndex;
@@ -208,10 +210,11 @@ export function setupPopover(toggle, panel) {
 
 /**
  * "Next objective" pill: names the first locked quest and takes the visitor
- * there. Hidden while the consent banner is up, and dismissible for the
- * rest of the session.
+ * there. It stays out of a first-time reader's way until they opt into the
+ * game (Press start, or opening the Quest log), is hidden while the consent
+ * banner is up, and is dismissible for the rest of the session.
  */
-export function setupObjective({ quests, goTo }) {
+export function setupObjective({ quests, goTo, questLog }) {
   const pill = document.getElementById('objective');
   const goal = document.getElementById('objective-goal');
   const go = document.getElementById('objective-go');
@@ -227,10 +230,17 @@ export function setupObjective({ quests, goTo }) {
     dismissed = false;
   }
 
+  let opened = false;
+  const playing = () => opened || quests.has('start');
+  questLog?.addEventListener('click', () => {
+    opened = true;
+    render();
+  });
+
   const render = () => {
     const quest = quests.next();
     const consentOpen = consent?.dataset.visible === 'true';
-    pill.hidden = dismissed || !quest || consentOpen;
+    pill.hidden = dismissed || !quest || consentOpen || !playing();
     if (!quest) return;
     const step = quests.progressOf(quest.id);
     goal.textContent = step

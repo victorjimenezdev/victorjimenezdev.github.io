@@ -124,12 +124,38 @@
         <div class="nav-actions">
           <div class="nav-links">
             <a href="#profile">Profile</a>
-            <a href="#work">Work</a>
             <a href="#expertise">Expertise</a>
             <a href="#experience">Experience</a>
+            <a href="#work">Work</a>
             <a href="#agent">AI</a>
+            <a href="#writing">Writing</a>
             <a href="#contact">Contact</a>
           </div>
+
+          <button
+            class="icon-btn quickjump-toggle"
+            id="quickjump-toggle"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="quickjump"
+            aria-keyshortcuts="Meta+K Control+K"
+            hidden
+          >
+            <span class="visually-hidden">Quick jump</span>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"
+              />
+            </svg>
+          </button>
 
           <button
             class="icon-btn hud-trophies"
@@ -242,9 +268,9 @@
              API supplies Esc, light dismiss, and focus return natively. -->
         <div class="nav-panel" id="nav-panel" popover>
           <a href="#profile">Profile</a>
-          <a href="#work">Work</a>
           <a href="#expertise">Expertise</a>
           <a href="#experience">Experience</a>
+          <a href="#work">Work</a>
           <a href="#agent">AI</a>
           <a href="#writing">Writing</a>
           <a href="#contact">Contact</a>
@@ -307,15 +333,19 @@
           <dl class="hero__facts" aria-label="Career experience">
             <div>
               <dt>Professional projects</dt>
-              <dd>60</dd>
+              <dd><a class="hero__fact-link" href="#work">60</a></dd>
             </div>
             <div>
               <dt>Industry sectors</dt>
-              <dd>11</dd>
+              <dd>
+                <a class="hero__fact-link" href="#work" data-galaxy-link>11</a>
+              </dd>
             </div>
             <div>
               <dt>Engineering experience</dt>
-              <dd>13+ years</dd>
+              <dd>
+                <a class="hero__fact-link" href="#experience">13+ years</a>
+              </dd>
             </div>
           </dl>
           <p class="hero__attribution">
@@ -345,71 +375,126 @@
         </div>
         <div class="marquee__viewport">
           <div class="marquee__track" id="marquee-track">
-            <span class="marquee__item">
-              <img src="icons/react.svg" alt="" width="28" height="28" />React
-            </span>
-            <span class="marquee__item">
+            <span
+              class="marquee__item"
+              data-tree-jump="engineering"
+              data-tool="React"
+            >
+              <img
+                src="icons/react.svg"
+                alt=""
+                width="28"
+                height="28"
+              />React</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="engineering"
+              data-tool="Next.js"
+            >
               <img
                 src="icons/nextjs.svg"
                 alt=""
                 width="28"
                 height="28"
                 data-invert
-              />Next.js
-            </span>
-            <span class="marquee__item">
-              <img src="icons/python.svg" alt="" width="28" height="28" />Python
-            </span>
-            <span class="marquee__item">
-              <img src="icons/drupal.svg" alt="" width="28" height="28" />Drupal
-            </span>
-            <span class="marquee__item">
+              />Next.js</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="engineering"
+              data-tool="Python"
+            >
+              <img
+                src="icons/python.svg"
+                alt=""
+                width="28"
+                height="28"
+              />Python</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="platforms"
+              data-tool="Drupal 7-11"
+            >
+              <img
+                src="icons/drupal.svg"
+                alt=""
+                width="28"
+                height="28"
+              />Drupal</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="platforms"
+              data-tool="WordPress"
+            >
               <img
                 src="icons/wordpress.svg"
                 alt=""
                 width="28"
                 height="28"
                 data-invert
-              />WordPress
-            </span>
-            <span class="marquee__item">
+              />WordPress</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="platforms"
+              data-tool="WP Engine"
+            >
               <img
                 src="icons/wpengine.svg"
                 alt=""
                 width="28"
                 height="28"
                 data-invert
-              />WP Engine
-            </span>
-            <span class="marquee__item">
+              />WP Engine</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="platforms"
+              data-tool="Pantheon"
+            >
               <img
                 src="icons/pantheon.svg"
                 alt=""
                 width="28"
                 height="28"
                 data-invert
-              />Pantheon
-            </span>
-            <span class="marquee__item">
-              <img src="acquia.svg" alt="" width="28" height="28" />Acquia
-            </span>
-            <span class="marquee__item">
+              />Pantheon</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="platforms"
+              data-tool="Acquia"
+            >
+              <img src="acquia.svg" alt="" width="28" height="28" />Acquia</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="architecture"
+              data-tool="AWS EC2"
+            >
               <img
                 src="icons/aws.svg"
                 alt=""
                 width="28"
                 height="28"
                 data-invert
-              />AWS
-            </span>
-            <span class="marquee__item">
+              />AWS</span
+            >
+            <span
+              class="marquee__item"
+              data-tree-jump="engineering"
+              data-tool="Node.js"
+            >
               <img
                 src="icons/nodejs.svg"
                 alt=""
                 width="28"
                 height="28"
-              />Node.js
-            </span>
+              />Node.js</span
+            >
           </div>
         </div>
       </section>
@@ -628,6 +713,7 @@
                 <h3 class="panel__title" id="training-heading">
                   Training arcs
                 </h3>
+                <p class="panel__sub">Education</p>
                 <ul class="arcs">
                   <li class="arc">
                     <span class="arc__seal" aria-hidden="true"></span>
@@ -655,6 +741,7 @@
 
               <section class="panel" aria-labelledby="equipment-heading">
                 <h3 class="panel__title" id="equipment-heading">Equipment</h3>
+                <p class="panel__sub">Open source</p>
                 <ul class="slots">
                   <li class="slot" data-tilt>
                     <a
@@ -684,6 +771,7 @@
 
               <div class="panel savefile">
                 <h3 class="panel__title">Save file</h3>
+                <p class="panel__sub">CV download and finale</p>
                 <p>The full CV, as a PDF.</p>
                 <a
                   class="btn btn--primary savefile__btn"
@@ -765,10 +853,20 @@
               </span>
               <h3 class="card__title">Web product engineering</h3>
               <p class="card__body">
-                Frontend and backend development with React, Next.js, PHP,
-                Node.js and Python. Maintainable applications and API-driven
-                interfaces.
+                Frontend and backend development with
+                <strong>React, Next.js, PHP, Node.js and Python</strong>.
+                Maintainable applications and API-driven interfaces.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="engineering"
+                data-tool="React"
+                aria-label="Inspect stack: Web product engineering, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
 
             <article class="card" data-tilt>
@@ -787,9 +885,20 @@
               </span>
               <h3 class="card__title">Performance</h3>
               <p class="card__body">
-                Profiling, caching and cloud delivery with Redis, Varnish and
-                CDNs. I investigate bottlenecks and improve Core Web Vitals.
+                Profiling, caching and cloud delivery with
+                <strong>Redis, Varnish and CDNs</strong>. I investigate
+                bottlenecks and improve Core Web Vitals.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="performance"
+                data-tool="Core Web Vitals"
+                aria-label="Inspect stack: Performance, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
 
             <article class="card" data-tilt>
@@ -809,9 +918,19 @@
               </span>
               <h3 class="card__title">Accessibility</h3>
               <p class="card__body">
-                WCAG AA audits and remediation: semantic structure, correct
-                ARIA, and keyboard paths that actually work.
+                <strong>WCAG AA</strong> audits and remediation: semantic
+                structure, correct ARIA, and keyboard paths that actually work.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="security"
+                data-tool="WCAG"
+                aria-label="Inspect stack: Accessibility, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
 
             <article class="card" data-tilt>
@@ -845,9 +964,20 @@
               </span>
               <h3 class="card__title">Architecture &amp; integrations</h3>
               <p class="card__body">
-                API design and integration with GraphQL and REST. Decoupled
-                interfaces, migrations, payment systems, CRM and authentication.
+                API design and integration with
+                <strong>GraphQL and REST</strong>. Decoupled interfaces,
+                migrations, payment systems, CRM and authentication.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="architecture"
+                data-tool="API integrations"
+                aria-label="Inspect stack: Architecture and integrations, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
 
             <article class="card" data-tilt>
@@ -861,19 +991,32 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 >
-                  <path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z" />
-                  <path d="M9 12l2 2 4-4" />
+                  <path d="M5 15c-1.5 1.3-2 4-2 6 2 0 4.7-.5 6-2" />
+                  <path
+                    d="M9 18l-3-3c1.6-4.8 5.5-10 13-11-1 7.5-6.2 11.4-11 13z"
+                  />
+                  <path d="M14.5 9.5h.01" />
                 </svg>
               </span>
               <h3 class="card__title">CI/CD &amp; release engineering</h3>
               <p class="card__body">
-                Repeatable builds and deployments, static analysis and browser
-                verification. I support cloud releases and investigate
-                regressions.
+                Repeatable builds and deployments,
+                <strong>static analysis and browser verification</strong>. I
+                support cloud releases and investigate regressions.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="delivery"
+                data-tool="CI/CD"
+                aria-label="Inspect stack: CI/CD and release engineering, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
 
-            <article class="card" data-tilt>
+            <article class="card" id="ability-ai" data-tilt>
               <span class="card__icon">
                 <svg
                   aria-hidden="true"
@@ -891,9 +1034,19 @@
               <h3 class="card__title">AI-assisted delivery</h3>
               <p class="card__body">
                 I build automation for requirements analysis, environment setup,
-                browser verification and release monitoring, with review and
-                validation before delivery.
+                browser verification and release monitoring, with
+                <strong>review and validation</strong> before delivery.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="delivery"
+                data-tool="Playwright"
+                aria-label="Inspect stack: AI-assisted delivery, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
             <article class="card" data-tilt>
               <span class="card__icon"
@@ -909,9 +1062,20 @@
               ></span>
               <h3 class="card__title">Security</h3>
               <p class="card__body">
-                Security audits and remediation, OAuth and SSO integrations,
+                Security audits and remediation,
+                <strong>OAuth and SSO</strong> integrations,
                 permission-controlled APIs and review of access boundaries.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="security"
+                data-tool="Security audits"
+                aria-label="Inspect stack: Security, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
             <article class="card" data-tilt>
               <span class="card__icon"
@@ -927,10 +1091,20 @@
               ></span>
               <h3 class="card__title">Technical SEO</h3>
               <p class="card__body">
-                Crawlable pages, search metadata, structured data and
-                performance checks. I connect discoverability with web
-                engineering.
+                Crawlable pages, search metadata,
+                <strong>structured data</strong> and performance checks. I
+                connect discoverability with web engineering.
               </p>
+              <button
+                class="card__inspect"
+                type="button"
+                data-tree-jump="performance"
+                data-tool="Technical SEO"
+                aria-label="Inspect stack: Technical SEO, in the tech trees"
+                hidden
+              >
+                Inspect stack
+              </button>
             </article>
           </div>
         </div>
@@ -953,7 +1127,7 @@
             </h2>
           </div>
           <div class="experience-grid">
-            <article class="experience-card experience-card--current" data-tilt>
+            <article class="experience-card experience-card--current">
               <p class="chapter" aria-hidden="true">
                 <span>Chapter 02</span
                 ><span class="chapter__state">In progress</span>
@@ -970,43 +1144,60 @@
                 I combine hands-on implementation with code reviews, developer
                 mentorship and release verification.
               </p>
-              <ul class="experience-list">
-                <li>
-                  Drupal platforms for financial content, streaming-service
-                  marketing sites and microsites, and hotel booking. WordPress
-                  modules, themes and integrations.
+              <div class="lens" id="experience-lens" hidden>
+                <p class="lens__label" id="experience-lens-label">
+                  Highlight a domain
+                </p>
+                <div
+                  class="lens__chips"
+                  role="group"
+                  aria-labelledby="experience-lens-label"
+                ></div>
+                <p
+                  class="visually-hidden"
+                  id="experience-lens-status"
+                  role="status"
+                  aria-atomic="true"
+                ></p>
+              </div>
+              <ul class="experience-list" data-lens-list>
+                <li data-lens="platforms">
+                  <strong>Drupal platforms</strong> for financial content,
+                  streaming-service marketing sites and microsites, and hotel
+                  booking. WordPress modules, themes and integrations.
                 </li>
-                <li>
-                  Multilingual publishing, URL aliases, revision workflows,
-                  country availability and per-language previews across shared
-                  media CMS platforms.
+                <li data-lens="platforms">
+                  <strong>Multilingual publishing</strong>, URL aliases,
+                  revision workflows, country availability and per-language
+                  previews across shared media CMS platforms.
                 </li>
-                <li>
-                  Bulk republishing, publishing job monitoring and Drush
-                  automation. Drupal upgrades, security remediation and S3/CDN
-                  media and sitemap delivery.
+                <li data-lens="platforms delivery">
+                  <strong>Bulk republishing</strong>, publishing job monitoring
+                  and Drush automation. Drupal upgrades, security remediation
+                  and S3/CDN media and sitemap delivery.
                 </li>
-                <li>
-                  Reusable Drupal components with Twig and Storybook, Marketo
-                  lead-generation forms, multilingual navigation and caching for
-                  a global cloud communications provider.
+                <li data-lens="frontend platforms">
+                  <strong>Reusable Drupal components</strong> with Twig and
+                  Storybook, Marketo lead-generation forms, multilingual
+                  navigation and caching for a global cloud communications
+                  provider.
                 </li>
-                <li>
-                  Decoupled React and Next.js interfaces with GraphQL and REST
-                  APIs.
+                <li data-lens="frontend">
+                  <strong>Decoupled React and Next.js interfaces</strong> with
+                  GraphQL and REST APIs.
                 </li>
-                <li>
-                  Performance profiling, technical SEO, security and
-                  accessibility remediation.
+                <li data-lens="delivery">
+                  <strong>Performance profiling</strong>, technical SEO,
+                  security and accessibility remediation.
                 </li>
-                <li>
-                  CI/CD, static analysis, cloud hosting and workflow automation.
-                  DDEV PHPUnit commands and GitHub Actions checks for a Drupal
-                  demo.
+                <li data-lens="delivery">
+                  <strong>CI/CD</strong>, static analysis, cloud hosting and
+                  workflow automation. DDEV PHPUnit commands and GitHub Actions
+                  checks for a Drupal demo.
                 </li>
               </ul>
             </article>
-            <article class="experience-card" data-tilt>
+            <article class="experience-card">
               <p class="chapter" aria-hidden="true">
                 <span>Chapter 01</span
                 ><span class="chapter__state">Complete</span>
@@ -1023,19 +1214,21 @@
               </p>
               <ul class="experience-list">
                 <li>
-                  Built database-driven applications and led legacy platform
-                  migrations.
+                  <strong>Built database-driven applications</strong> and led
+                  legacy platform migrations.
                 </li>
                 <li>
-                  Developed LATAM telecom bill-payment portals with CyberSource,
-                  Drupal and Angular, plus CRM and analytics integrations.
+                  <strong>Developed LATAM telecom bill-payment portals</strong>
+                  with CyberSource, Drupal and Angular, plus CRM and analytics
+                  integrations.
                 </li>
                 <li>
-                  Automated deployments and supported cloud infrastructure.
+                  <strong>Automated deployments</strong> and supported cloud
+                  infrastructure.
                 </li>
                 <li>
-                  Mentored developers and guided technical planning and code
-                  reviews.
+                  <strong>Mentored developers</strong> and guided technical
+                  planning and code reviews.
                 </li>
               </ul>
             </article>
@@ -1043,18 +1236,50 @@
           <div class="experience-stack">
             <p>Core stack</p>
             <ul class="tags" aria-label="Core technical skills">
-              <li class="tag">React</li>
-              <li class="tag">Next.js</li>
-              <li class="tag">Python</li>
-              <li class="tag">GraphQL</li>
-              <li class="tag">REST APIs</li>
-              <li class="tag">AWS</li>
-              <li class="tag">Docker</li>
-              <li class="tag">Drupal</li>
-              <li class="tag">WordPress</li>
-              <li class="tag">Pantheon</li>
-              <li class="tag">Acquia</li>
-              <li class="tag">WP Engine</li>
+              <li class="tag" data-tree-jump="engineering" data-tool="React">
+                React
+              </li>
+              <li class="tag" data-tree-jump="engineering" data-tool="Next.js">
+                Next.js
+              </li>
+              <li class="tag" data-tree-jump="engineering" data-tool="Python">
+                Python
+              </li>
+              <li class="tag" data-tree-jump="engineering" data-tool="GraphQL">
+                GraphQL
+              </li>
+              <li
+                class="tag"
+                data-tree-jump="engineering"
+                data-tool="REST APIs"
+              >
+                REST APIs
+              </li>
+              <li class="tag" data-tree-jump="architecture" data-tool="AWS EC2">
+                AWS
+              </li>
+              <li class="tag" data-tree-jump="delivery" data-tool="Docker">
+                Docker
+              </li>
+              <li
+                class="tag"
+                data-tree-jump="platforms"
+                data-tool="Drupal 7-11"
+              >
+                Drupal
+              </li>
+              <li class="tag" data-tree-jump="platforms" data-tool="WordPress">
+                WordPress
+              </li>
+              <li class="tag" data-tree-jump="platforms" data-tool="Pantheon">
+                Pantheon
+              </li>
+              <li class="tag" data-tree-jump="platforms" data-tool="Acquia">
+                Acquia
+              </li>
+              <li class="tag" data-tree-jump="platforms" data-tool="WP Engine">
+                WP Engine
+              </li>
             </ul>
             <a
               class="btn btn--ghost"
@@ -1253,9 +1478,19 @@
                 delivery tooling.
               </p>
               <ul class="pill-list">
-                <li class="pill">Engineering automation</li>
-                <li class="pill">Technical writing</li>
-                <li class="pill">Workflow automation</li>
+                <li class="pill" data-pill-target="#ability-ai">
+                  Engineering automation
+                </li>
+                <li class="pill" data-pill-target="#writing-grid">
+                  Technical writing
+                </li>
+                <li
+                  class="pill"
+                  data-pill-target="[data-lens-list]"
+                  data-pill-lens="delivery"
+                >
+                  Workflow automation
+                </li>
               </ul>
               <div class="hero__actions">
                 <a
@@ -1309,6 +1544,23 @@
               <span>Stage 06</span> Launch sequence
             </p>
             <h2 class="section-title">How I work</h2>
+          </div>
+          <div class="process__controls" id="process-controls" hidden>
+            <button
+              class="btn btn--primary btn--small"
+              id="process-next"
+              type="button"
+            >
+              Start the countdown
+            </button>
+            <p
+              class="process__status"
+              id="process-status"
+              role="status"
+              aria-atomic="true"
+            >
+              Step through the four stages, or select any stage.
+            </p>
           </div>
           <ol class="process">
             <li class="process__item">
@@ -1390,25 +1642,47 @@
             </p>
           </div>
           <div class="contact__panel">
-            <a
-              class="contact__link"
-              href="mailto:victorcamilo.jimenezv@gmail.com"
-              data-track="click_contact"
-              data-track-label="email"
-            >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
+            <div class="contact__email">
+              <a
+                class="contact__link"
+                href="mailto:victorcamilo.jimenezv@gmail.com"
+                data-track="click_contact"
+                data-track-label="email"
               >
-                <rect x="3" y="5" width="18" height="14" rx="2" />
-                <path d="m3 7 9 6 9-6" />
-              </svg>
-              victorcamilo.jimenezv@gmail.com
-            </a>
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
+                victorcamilo.jimenezv@gmail.com
+              </a>
+              <button
+                class="btn btn--ghost btn--small copy-email"
+                id="copy-email"
+                type="button"
+                hidden
+              >
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M5 15V6a2 2 0 0 1 2-2h9" />
+                </svg>
+                <span class="copy-email__label">Copy email</span>
+              </button>
+            </div>
             <a
               class="contact__link"
               href="https://www.linkedin.com/in/victor-j-8268a2266/"
@@ -1555,6 +1829,91 @@
       </button>
     </dialog>
 
+    <dialog class="quickjump" id="quickjump" aria-labelledby="quickjump-title">
+      <div class="quickjump__panel">
+        <p class="quickjump__title" id="quickjump-title">Quick jump</p>
+        <label class="visually-hidden" for="quickjump-filter"
+          >Filter sections and actions</label
+        >
+        <input
+          class="quickjump__filter"
+          id="quickjump-filter"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Type a section or action"
+        />
+        <ul class="quickjump__list" id="quickjump-list">
+          <li><a data-qj href="#profile">Player profile</a></li>
+          <li><a data-qj href="#expertise">Core expertise</a></li>
+          <li>
+            <a data-qj href="#experience">Professional experience</a>
+          </li>
+          <li><a data-qj href="#work">Project experience</a></li>
+          <li><a data-qj href="#agent">Automation &amp; AI</a></li>
+          <li><a data-qj href="#process">How I work</a></li>
+          <li><a data-qj href="#writing">Latest writing</a></li>
+          <li><a data-qj href="#contact">Get in touch</a></li>
+          <li>
+            <button
+              type="button"
+              data-qj
+              data-qj-action="theme"
+              data-keywords="dark light mode"
+            >
+              Switch theme
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              data-qj
+              data-qj-action="copy"
+              data-keywords="mail contact"
+            >
+              Copy email address
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              data-qj
+              data-qj-action="cv"
+              data-keywords="resume pdf"
+            >
+              Download CV
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              data-qj
+              data-qj-action="quests"
+              data-keywords="achievements trophies"
+            >
+              Open quest log
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              data-qj
+              data-qj-action="finale"
+              data-keywords="boss game"
+            >
+              Launch final sequence
+            </button>
+          </li>
+        </ul>
+        <p class="quickjump__empty" id="quickjump-empty" hidden>
+          Nothing matches. Try “work” or “CV”.
+        </p>
+        <p class="quickjump__hint">
+          <kbd>Enter</kbd> runs the first match. <kbd>Esc</kbd> closes.
+        </p>
+      </div>
+    </dialog>
+
     <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 
     <div
@@ -1588,17 +1947,40 @@
     </div>
 
     <template id="work-card-template">
-      <article class="work-card" data-tilt>
-        <div class="work-card__art" aria-hidden="true">
+      <article class="work-card work-card--sector">
+        <div class="work-card__art">
           <span class="work-card__kicker"></span>
-          <span class="work-card__planet"></span>
           <span class="work-card__platform"></span>
         </div>
         <div class="work-card__body">
           <p class="work-card__kind"></p>
           <h3 class="work-card__title"></h3>
           <p class="work-card__desc"></p>
+          <span class="work-card__share" aria-hidden="true"
+            ><span class="work-card__share-fill"></span
+          ></span>
+          <p class="work-card__repo" hidden>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="16"
+              height="16"
+            >
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+            Public repository on GitHub
+          </p>
           <ul class="tags"></ul>
+          <button
+            class="btn btn--ghost btn--small work-card__locate"
+            type="button"
+            hidden
+          >
+            Locate on map
+          </button>
         </div>
       </article>
     </template>

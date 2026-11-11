@@ -4156,3 +4156,780 @@
     color: var(--orange);
   }
 }
+
+/* ------------------------------------------- editorial revision states -- */
+/* Calm editorial paper with connected play. Static reading panels drop the
+   glass blur, the always-on conic ring and heavy elevation; animated
+   accents stay on hover, focus, the active selection and the focal
+   widgets (galaxy, tech tree, launch sequence). */
+@layer components {
+  .card,
+  .work-card,
+  .experience-card,
+  .galaxy__scan,
+  .contact__panel,
+  .process__item,
+  .sheet__identity,
+  .techtree,
+  .panel,
+  .hero__facts {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--surface-1);
+    box-shadow: var(--shadow-1);
+  }
+
+  .experience-card--current::before {
+    opacity: 0;
+  }
+
+  .experience-card--current:is(:hover, :focus-within)::before {
+    opacity: 1;
+  }
+
+  .experience-card--current {
+    border-inline-start: 3px solid var(--orange);
+  }
+
+  [data-spotlight='true'] {
+    outline: 2px solid var(--orange);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-spotlight='true'] {
+      animation: spotlight 1.6s var(--ease-out);
+    }
+  }
+
+  @keyframes spotlight {
+    from {
+      outline-offset: 14px;
+      outline-color: transparent;
+    }
+  }
+
+  /* Navigation: the link for the section in view. */
+  .nav-links a[aria-current='location'],
+  .nav-panel a[aria-current='location'] {
+    color: var(--text-1);
+    background: var(--accent-soft);
+    box-shadow: inset 0 -2px 0 var(--orange);
+  }
+
+  /* Seven links share the bar with the HUD buttons: tighter spacing until
+     there is room, and the quick-jump button only on wide screens. */
+  @media (width >= 64rem) and (width < 80rem) {
+    .nav-links a {
+      padding-inline: 0.5rem;
+    }
+
+    .nav-brand__name {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  @media (width < 30rem) {
+    .quickjump-toggle {
+      display: none;
+    }
+  }
+
+  /* Hero proof tiles jump to the evidence. */
+  .hero__fact-link {
+    color: inherit;
+    text-decoration: none;
+    border-radius: 0.3rem;
+  }
+
+  .hero__fact-link::after {
+    content: '→';
+    content: '→' / '';
+    display: inline-block;
+    margin-inline-start: 0.25rem;
+    font-size: 0.45em;
+    color: var(--neon-text);
+    opacity: 0.7;
+    transition:
+      translate var(--dur-fast) var(--ease-out),
+      opacity var(--dur-fast);
+  }
+
+  .hero__fact-link:hover {
+    text-decoration: underline 0.06em var(--orange);
+    text-underline-offset: 0.12em;
+  }
+
+  .hero__fact-link:hover::after {
+    opacity: 1;
+    translate: 0.2rem 0;
+  }
+
+  /* Stack chips that open their tech tree. */
+  .tag.tag--button {
+    min-block-size: 1.75rem;
+  }
+
+  .marquee__item.tag--button,
+  .tag.tag--button {
+    color: var(--text-1);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast),
+      border-color var(--dur-fast);
+  }
+
+  .marquee__item.tag--button:hover,
+  .tag.tag--button:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+    border-color: var(--orange);
+  }
+
+  .tag-slot {
+    display: contents;
+  }
+
+  /* Side panels: a plain-language label above each playful title. */
+  .panel__sub {
+    order: -1;
+    margin-block-end: calc(var(--space-s) * -0.6);
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Tech tree: circuit board ------------------------------------------- */
+  .techtree[data-enhanced='true'] .tree__tools li {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .tree__tool {
+    inline-size: 100%;
+    min-block-size: 2.25rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 0.5rem;
+    background: var(--surface-1);
+    color: var(--text-1);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: start;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast),
+      border-color var(--dur-fast),
+      color var(--dur-fast);
+  }
+
+  .tree__tool:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+    border-color: var(--orange);
+  }
+
+  .tree__tool[aria-pressed='true'] {
+    background: var(--selected);
+    color: var(--on-selected);
+    border-color: var(--selected);
+    box-shadow: inset 0 -2px 0 var(--orange);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tree__tool[data-pulse='true'] {
+      animation: chip-pulse 1.4s var(--ease-out);
+    }
+  }
+
+  @keyframes chip-pulse {
+    0%,
+    60% {
+      box-shadow:
+        inset 0 -2px 0 var(--orange),
+        0 0 0 6px oklch(from var(--orange) l c h / 0.35);
+    }
+  }
+
+  .techtree__progress {
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.06em;
+  }
+
+  .techtree__tab[data-inspected='true']::before {
+    content: '✓';
+    content: '✓' / '';
+    margin-inline-end: 0.3rem;
+    color: var(--neon-text);
+    font-weight: 700;
+  }
+
+  .techtree__tab[aria-selected='true'][data-inspected='true']::before {
+    color: inherit;
+  }
+
+  .techtree__readout {
+    display: grid;
+    gap: 0.25rem;
+    min-block-size: 5.75rem;
+    margin-block-start: var(--space-s);
+    padding: var(--space-s);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-m);
+    background: var(--surface-0);
+  }
+
+  .techtree__readout[data-filled='true'] {
+    border-style: solid;
+    border-color: var(--orange);
+  }
+
+  .techtree__readout-tool {
+    font-family: var(--font-display);
+    font-weight: 650;
+  }
+
+  .techtree__readout-text {
+    color: var(--text-2);
+    font-size: var(--step--1);
+  }
+
+  .techtree__readout-from {
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  .techtree__readout-from:empty {
+    display: none;
+  }
+
+  @media (width >= 48rem) {
+    .techtree[data-enhanced='true'] .techtree__stage {
+      aspect-ratio: auto;
+      min-block-size: 0;
+      padding-block: var(--space-s);
+    }
+
+    .techtree[data-enhanced='true'] .techtree__trees,
+    .techtree[data-enhanced='true'] .tree {
+      position: relative;
+      inset: auto;
+    }
+
+    .techtree[data-enhanced='true'] .tree:not([hidden]) {
+      display: grid;
+      grid-template-columns: 8.5rem minmax(0, 1fr);
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .techtree[data-enhanced='true'] .tree__name {
+      position: relative;
+      z-index: 1;
+      inset: auto;
+      translate: none;
+      inline-size: auto;
+      aspect-ratio: auto;
+      padding: var(--space-s) var(--space-xs);
+      border-radius: var(--radius-m);
+      background:
+        radial-gradient(
+          circle at 30% 20%,
+          oklch(from var(--orange) l c h / 0.3),
+          transparent 70%
+        ),
+        var(--surface-1);
+      box-shadow: 0 0 0 4px oklch(from var(--orange) l c h / 0.14);
+      font-size: var(--step-0);
+    }
+
+    .techtree[data-enhanced='true'] .tree__tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(8.75rem, 1fr));
+      gap: 0.7rem 1.4rem;
+    }
+
+    .techtree[data-enhanced='true'] .tree__tools li {
+      position: relative;
+      z-index: 1;
+      inset: auto;
+      translate: none;
+      max-inline-size: none;
+      text-align: start;
+    }
+
+    .techtree__links path {
+      fill: none;
+      stroke: oklch(from var(--orange) l c h / 0.75);
+      stroke-width: 1.5px;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 0;
+    }
+
+    .techtree__links circle {
+      fill: var(--orange);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .techtree__links path {
+        animation: power-line 600ms var(--ease-out) both;
+        animation-delay: calc(var(--i) * 30ms);
+      }
+    }
+  }
+
+  /* Ability bento: four columns, three full rows, no orphans. */
+  @media (width >= 40rem) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64rem) {
+    .bento {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .bento
+      > .card:is(:nth-child(1), :nth-child(6), :nth-child(7), :nth-child(8)) {
+      grid-column: span 2;
+    }
+  }
+
+  .card__body strong {
+    color: var(--text-1);
+    font-weight: 650;
+  }
+
+  .card__inspect {
+    align-self: end;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-block-size: 2.25rem;
+    margin-block-start: var(--space-2xs);
+    padding: 0.25rem 0.1rem;
+    border: 0;
+    background: none;
+    color: var(--text-1);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: underline 1px var(--orange);
+    text-underline-offset: 0.3em;
+    cursor: pointer;
+  }
+
+  .card__inspect::after {
+    content: '→';
+    content: '→' / '';
+    transition: translate var(--dur-fast) var(--ease-out);
+  }
+
+  .card__inspect:hover::after {
+    translate: 0.2rem 0;
+  }
+
+  .card {
+    grid-template-rows: auto auto 1fr auto;
+  }
+
+  /* Experience: lead-ins and the domain lens. */
+  .experience-list strong {
+    color: var(--text-1);
+    font-weight: 650;
+  }
+
+  .lens {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-block: var(--space-s) var(--space-2xs);
+  }
+
+  .lens__label {
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .lens__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-2xs);
+  }
+
+  .lens-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-block-size: 2.25rem;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background: var(--surface-1);
+    color: var(--text-1);
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .lens-chip:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+    border-color: var(--orange);
+  }
+
+  .lens-chip[aria-pressed='true'] {
+    background: var(--selected);
+    color: var(--on-selected);
+    border-color: var(--selected);
+    box-shadow: inset 0 -2px 0 var(--orange);
+  }
+
+  .lens-chip__count {
+    padding: 0 0.35rem;
+    border-radius: 0.3rem;
+    background: color-mix(in srgb, currentColor 12%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  .experience-list li {
+    transition:
+      opacity var(--dur-mid),
+      background-color var(--dur-mid);
+  }
+
+  [data-lens-active='true'] li[data-dim='false'] {
+    border-radius: 0.4rem;
+    background: var(--wash);
+    box-shadow: -0.5rem 0 0 var(--wash);
+  }
+
+  /* Dimmed, never hidden; 0.74 keeps body text above 4.5:1. */
+  [data-lens-active='true'] li[data-dim='true'] {
+    opacity: 0.74;
+  }
+
+  /* Galaxy: tour button and card jump. */
+  .galaxy__next {
+    justify-self: start;
+  }
+
+  .galaxy__jump {
+    justify-self: start;
+    margin-block-start: var(--space-2xs);
+  }
+
+  .galaxy__scan-body {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  /* Compact sector cards: a slim header with the count, a share bar, and
+     no repeated banner art. */
+  .work-card__art {
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-2xs);
+    min-block-size: 0;
+    padding: var(--space-xs) var(--space-m);
+    background: var(--surface-0);
+  }
+
+  .work-card__art :is(.work-card__kicker, .work-card__platform) {
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+  }
+
+  .work-card__share {
+    display: block;
+    block-size: 0.4rem;
+    margin-block: var(--space-3xs);
+    border-radius: var(--radius-pill);
+    background: var(--surface-3);
+    overflow: hidden;
+  }
+
+  .work-card__share-fill {
+    display: block;
+    block-size: 100%;
+    inline-size: calc(var(--share, 0) * 100%);
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      var(--orange),
+      color-mix(in srgb, var(--orange) 70%, var(--navy))
+    );
+  }
+
+  .work-card__repo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-self: start;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--text-1);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 600;
+  }
+
+  .work-card__repo svg {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .work-card[data-project-type='professional'] {
+    cursor: pointer;
+  }
+
+  .work-card[data-project-type='professional'] .tags {
+    opacity: 0.85;
+  }
+
+  .work-card__locate {
+    justify-self: start;
+    margin-block-start: var(--space-2xs);
+  }
+
+  .work-card[data-active='true'] {
+    border-color: var(--orange);
+    box-shadow:
+      0 0 0 1px var(--orange),
+      var(--shadow-2);
+  }
+
+  .work-card:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* Featured project focus pills. */
+  .pill-slot {
+    display: contents;
+  }
+
+  .pill--button {
+    color: var(--text-1);
+    cursor: pointer;
+  }
+
+  .pill--button:hover {
+    background: var(--wash);
+    color: var(--wash-ink);
+    border-color: var(--orange);
+  }
+
+  /* Writing series order. */
+  .post-card__series {
+    justify-self: start;
+    padding: 0.15rem 0.55rem;
+    border-radius: 0.35rem;
+    background: var(--selected);
+    color: var(--on-selected);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Launch sequence stepper. */
+  .process__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs) var(--space-s);
+    margin-block-end: var(--space-m);
+  }
+
+  .process__status {
+    color: var(--text-2);
+    font-size: var(--step--1);
+  }
+
+  .process__trigger {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+    text-decoration: underline 1px transparent;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color var(--dur-fast);
+  }
+
+  .process__trigger:hover {
+    text-decoration-color: var(--orange);
+  }
+
+  .process__item {
+    transition:
+      border-color var(--dur-mid),
+      box-shadow var(--dur-mid);
+  }
+
+  .process__item[data-state='active'] {
+    border-color: var(--orange);
+    box-shadow:
+      0 0 0 1px var(--orange),
+      var(--shadow-2);
+  }
+
+  .process__item[data-state='done'] .process__count {
+    background: var(--orange);
+    color: var(--navy-deep);
+  }
+
+  @media (width >= 62rem) {
+    .process[data-interactive='true']::after {
+      animation: none;
+      transform: scaleX(var(--fuel, 0));
+      transition: transform 600ms var(--ease-out);
+    }
+
+    .process__item[data-state='active']::before,
+    .process__item[data-state='done']::before {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+  }
+
+  /* Contact: email with a copy button. */
+  .contact__email {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+  }
+
+  .copy-email {
+    justify-self: start;
+  }
+
+  .copy-email svg {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  /* Quick jump dialog. */
+  .quickjump {
+    inline-size: min(100% - 2rem, 32rem);
+    max-block-size: min(100% - 4rem, 36rem);
+    margin: 12vh auto auto;
+    padding: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-l);
+    background: var(--surface-1);
+    color: var(--text-1);
+    box-shadow: var(--shadow-3);
+  }
+
+  .quickjump::backdrop {
+    background: oklch(from var(--navy-deep) l c h / 0.45);
+  }
+
+  .quickjump__panel {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+  }
+
+  .quickjump__title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 650;
+  }
+
+  .quickjump__filter {
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-m);
+    background: var(--surface-0);
+    color: var(--text-1);
+    font: inherit;
+  }
+
+  .quickjump__filter::placeholder {
+    color: var(--text-2);
+    opacity: 1;
+  }
+
+  .quickjump__list {
+    display: grid;
+    gap: 0.15rem;
+    max-block-size: 50vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .quickjump__list :is(a, button) {
+    display: block;
+    inline-size: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 0;
+    border-radius: var(--radius-s);
+    background: none;
+    color: var(--text-1);
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .quickjump__list :is(a, button):is(:hover, :focus-visible) {
+    background: var(--wash);
+    color: var(--wash-ink);
+  }
+
+  .quickjump__list button::after {
+    content: ' · action';
+    content: ' · action' / '';
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  .quickjump__empty,
+  .quickjump__hint {
+    color: var(--text-2);
+    font-size: var(--step--1);
+  }
+
+  .quickjump__hint kbd {
+    padding: 0.05rem 0.35rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+}
