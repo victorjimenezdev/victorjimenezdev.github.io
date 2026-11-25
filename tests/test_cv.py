@@ -42,6 +42,7 @@ class CVTests(unittest.TestCase):
             "13+ years",
             "UNAD",
             "Universidad del Valle",
+            "EC English School, Brighton, UK",
         ):
             self.assertIn(text, self.text)
         self.assertEqual(self.text.count("Rootstack"), 1)
