@@ -204,6 +204,65 @@ class CVTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 module.phone_link("missing", "phone")
 
+    def test_accessibility_metadata_outlines_and_link_affordances(self) -> None:
+        catalog = self.pdf.trailer["/Root"].get_object()
+        self.assertEqual(str(catalog.get("/Lang")), "en")
+        viewer_prefs = catalog.get("/ViewerPreferences")
+        self.assertIsNotNone(viewer_prefs)
+        self.assertTrue(bool(viewer_prefs.get_object().get("/DisplayDocTitle")))
+        self.assertTrue(bool(self.pdf.metadata.creator))
+
+        def flatten_outline(items: list) -> list[str]:
+            titles: list[str] = []
+            for item in items:
+                if isinstance(item, list):
+                    titles.extend(flatten_outline(item))
+                else:
+                    titles.append(str(item.title))
+            return titles
+
+        outline_titles = flatten_outline(self.pdf.outline)
+        for heading in (
+            "Professional profile",
+            "Technical skills",
+            "Professional experience",
+            "Earlier experience",
+            "Selected personal projects",
+            "Education & languages",
+        ):
+            self.assertIn(heading, outline_titles)
+
+        link_annots = [
+            annotation.get_object()
+            for page in self.pdf.pages
+            for annotation in page.get("/Annots", [])
+            if str(annotation.get_object().get("/Subtype")) == "/Link"
+        ]
+        self.assertGreaterEqual(len(link_annots), 9)
+        for annot in link_annots:
+            contents = str(annot.get("/Contents", "")).strip()
+            self.assertTrue(contents, f"Missing /Contents on link annotation: {annot}")
+
+        spec = importlib.util.spec_from_file_location(
+            "generate_cv_a11y", ROOT / "scripts/generate_cv.py"
+        )
+        if spec is None or spec.loader is None:
+            self.fail("CV generator could not be loaded")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        rendered_link = module.link("Portfolio", "https://victorjimenezdev.github.io/")
+        self.assertIn("<u ", rendered_link)
+        self.assertIn(module.LINK_HEX, rendered_link)
+        self.assertNotEqual(module.LINK, module.BRAND)
+        self.assertNotEqual(module.LINK, module.INK)
+
+        self.assertIn("victorjimenezdev.github.io", self.text)
+        for project in self.career["projects"]:
+            display_url = project["url"].removeprefix("https://").rstrip("/")
+            self.assertIn(display_url, self.text)
+        self.assertIn("Page 1 of 2", self.pdf.pages[0].extract_text())
+        self.assertIn("Page 2 of 2", self.pdf.pages[1].extract_text())
+
 
 if __name__ == "__main__":
     unittest.main()
